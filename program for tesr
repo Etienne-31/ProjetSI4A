@@ -1,0 +1,17 @@
+int main() {
+  int x = 10;
+  const int y = 20;
+  
+  
+  print(y);
+
+  if (x < y) {
+   print(x);
+  } else {
+    print(x);
+  }
+
+  while (x < 15) {
+   print(x);
+  }
+}
