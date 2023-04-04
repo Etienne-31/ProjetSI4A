@@ -6,12 +6,12 @@
 
 
 // On initialise une table
-/*symbol_table *init_symbol_table() {
+symbol_table *init_symbol_table() {
     symbol_table *table = (symbol_table*) malloc(sizeof(symbol_table));
     table->first_entry = NULL;
     table->last_entry = NULL;
     return table;
-}*/
+}
 
 // ajouter une entree a la table 
 void add_symbol(symbol_table *table, char *name, int address) {

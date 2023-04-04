@@ -161,8 +161,8 @@ void yyerror(const char *s) {
 
 int main(void) {
    printf("Ecrire le programme a tester : \n");
-   /*symbol_table *table = init_symbol_table();
-   printf("Address of x: %d\n", lookup_symbol(table, "x"));
+   symbol_table *table = init_symbol_table();
+   /*printf("Address of x: %d\n", lookup_symbol(table, "x"));
    print_symbol_table(table);
    free_symbol_table(table);
    printf("voici ma table apres avoir effacer\n");
