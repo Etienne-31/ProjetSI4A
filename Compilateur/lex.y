@@ -144,8 +144,8 @@ Declaration_int:
 
 
 Selection_statement:
-   tIF tLPAR Conditions tRPAR tLBRACE Statement_list tRBRACE Else_statement
-   |tIF tLPAR Conditions tRPAR tLBRACE Statement_list tRBRACE;
+   tIF tLPAR Conditions tRPAR tLBRACE {increase_depth();} Statement_list tRBRACE { delete_same_scope_symbols(table); } Else_statement
+   |tIF tLPAR Conditions tRPAR tLBRACE {increase_depth();} Statement_list tRBRACE { delete_same_scope_symbols(table); };
    
    
 Else_statement:

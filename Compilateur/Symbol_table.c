@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "Symbol_table.h"
 
 int address = 0;
+int depth = 0;
 
 // On initialise une table
 symbol_table *init_symbol_table() {
@@ -20,6 +22,7 @@ int add_temp_var(symbol_table *table){
     entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
     entry->name = strdup("");
     entry->address = address++;
+    entry->depth = depth;
     entry->next = NULL;
 
 // on ajoute l'entrée
@@ -36,9 +39,88 @@ int add_temp_var(symbol_table *table){
 
 // free la variable temporaire 
 
+void delete_last_symbol(symbol_table *table){
+    symbol_table_entry *start = table->first_entry;
+    symbol_table_entry *next = NULL;
+    symbol_table_entry *prev = NULL;
+    bool moreOneElement = false;
 
+    if(start != NULL){
+
+        while(start != NULL){
+        next = start->next;
+        if (next == NULL)
+        {
+            free(start->name);
+            free(start);
+            address = address--;
+            start = next;
+        }
+        else
+        {
+            prev = start;
+            start = next;  
+        }     
+    }
+    }
+    table->last_entry = prev;
+    return;
+}
+
+int increase_depth(){
+    depth = depth++;
+    return depth;
+}
 
 //free les symboles du meme scope 
+
+void delete_same_scope_symbols(symbol_table *table){
+    symbol_table_entry *start = table->first_entry;
+    symbol_table_entry *next = NULL;
+    symbol_table_entry *prev = NULL;
+    bool moreOneElement = false;
+    bool allDone = false;
+    int initialDepth;
+    int actualDepth;
+
+    if(start != NULL){  
+        while (!allDone)
+        {   
+            start = table->last_entry;
+            initialDepth = start->depth;
+                while(start != NULL){
+
+                    next = start->next;
+
+                    if (next == NULL)
+                    {
+                        free(start->name);
+                        free(start); 
+                        address = address--;
+                        start = next;
+                    }
+                    else
+                    {
+                        prev = start;
+                        start = next;  
+                    }     
+                }
+
+            table->last_entry = prev;
+
+            if(prev != NULL){
+                actualDepth = prev->depth;
+                if(actualDepth < initialDepth){
+                    allDone = true;
+                    depth = depth--;           
+                }
+            }
+            else{
+                allDone = true;
+            }
+        }
+    }   
+}
 
 
 
@@ -60,13 +142,15 @@ void add_symbol(symbol_table *table, char *name) {
     entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
     entry->name = strdup(name);
     entry->address = address++;
+    entry->depth = depth;
     entry->next = NULL;
 
     // on ajoute l'entrée
     if (table->first_entry == NULL) {
         table->first_entry = entry;
         table->last_entry = entry;
-    } else {
+    }
+    else {
         table->last_entry->next = entry;
         table->last_entry = entry;
     }

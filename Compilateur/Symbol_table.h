@@ -12,6 +12,7 @@ typedef struct symbol_table_entry {
 char *name;
 int address;
 struct symbol_table_entry *next;
+int depth;
 } symbol_table_entry;
 
 // Define a structure for the symbol table
@@ -36,4 +37,10 @@ void free_table(symbol_table *table);
 
 //affiche la table
 void print_table(symbol_table *table);
+
+void delete_last_symbol(symbol_table *table);
+
+void delete_same_scope_symbols(symbol_table *table);
+
+int increase_depth();
 #endif
