@@ -1,3 +1,9 @@
+//POURQUOI qegmentation fault quand on free la table apres la regle du main
+//est ce qu'il faut mettre les regle de parametre pour le main 
+//est ce qu'on ecrit juste avec des prints sur un fichier les instructions asm
+//comment on attributs differentes adresses a deux variables sur la meme ligne 
+
+
 int main() {
   int x = 10;
   const int y = 20;
@@ -13,5 +19,33 @@ int main() {
 
   while (x < 15) {
    print(x);
+  }
+}
+
+int main() {
+  int x, z;
+  int y= 5;
+
+  
+  print(x);
+
+  if (x < y) {
+   print(x);
+  } else {
+    print(y);
+  }
+}
+
+int main() {
+  int x;
+  int y= 5;
+
+  
+  print(r);
+
+  if (x < y) {
+   print(x);
+  } else {
+    print(y);
   }
 }

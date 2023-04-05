@@ -3,7 +3,7 @@
 #include <string.h>
 #include "Symbol_table.h"
 
-
+int address = 0;
 
 // On initialise une table
 symbol_table *init_symbol_table() {
@@ -14,7 +14,7 @@ symbol_table *init_symbol_table() {
 }
 
 // ajouter une entree a la table 
-void add_symbol(symbol_table *table, char *name, int address) {
+void add_symbol(symbol_table *table, char *name) {
     // on verifie s'il existe deja 
     symbol_table_entry *entry = table->first_entry;
     while (entry != NULL) {
@@ -28,7 +28,7 @@ void add_symbol(symbol_table *table, char *name, int address) {
     // on creer une nouvelle entrée 
     entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
     entry->name = strdup(name);
-    entry->address = address;
+    entry->address = address++;
     entry->next = NULL;
 
     // on ajoute l'entrée
@@ -75,7 +75,7 @@ void print_table(symbol_table *table) {
         entry = entry->next;
     }
 }
-
+#if 0
 // main pour tester les fonctions valide
 int main() {
     symbol_table *table = init_symbol_table();
@@ -94,4 +94,7 @@ int main() {
     
     // Free the memory used by the symbol table
     free_table(table);
+
+    print_table(table);
 }
+#endif

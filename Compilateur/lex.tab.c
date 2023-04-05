@@ -145,6 +145,7 @@
 
 void yyerror(const char *s);
 int yylex(void);
+symbol_table *table;
 
 
 
@@ -168,9 +169,8 @@ int yylex(void);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 11 "lex.y"
-{ int nb;
-        char* var; }
+#line 13 "lex.y"
+{ int nb; char* var; }
 /* Line 193 of yacc.c.  */
 #line 176 "lex.tab.c"
 	YYSTYPE;
@@ -495,13 +495,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    23,    23,    27,    28,    32,    36,    37,    40,    42,
-      43,    47,    48,    52,    53,    57,    58,    59,    60,    61,
-      65,    66,    67,    71,    72,    73,    77,    78,    79,    83,
-      84,    85,    89,    90,    91,    95,    96,   100,   101,   102,
-     103,   104,   105,   108,   110,   113,   114,   117,   118,   121,
-     122,   125,   126,   127,   128,   132,   133,   137,   141,   145,
-     146,   150,   154
+       0,    27,    27,    31,    32,    36,    42,    43,    46,    48,
+      49,    53,    54,    58,    59,    63,    64,    65,    66,    67,
+      71,    72,    73,    77,    78,    79,    83,    84,    85,    89,
+      90,    91,    95,    96,    97,   101,   102,   106,   107,   108,
+     109,   110,   111,   114,   116,   119,   120,   123,   124,   127,
+     128,   131,   134,   137,   140,   145,   146,   150,   154,   158,
+     159,   163,   167
 };
 #endif
 
@@ -1487,14 +1487,45 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 27:
-#line 78 "lex.y"
-    {printf("Symbole added");;}
+        case 5:
+#line 36 "lex.y"
+    {
+      free_table(table);
+      print_table(table);;}
+    break;
+
+  case 27:
+#line 84 "lex.y"
+    {get_adress(table,(yyvsp[(1) - (1)].var));;}
+    break;
+
+  case 51:
+#line 131 "lex.y"
+    {add_symbol(table,(yyvsp[(1) - (1)].var));
+          print_table(table);;}
+    break;
+
+  case 52:
+#line 134 "lex.y"
+    {add_symbol(table,(yyvsp[(1) - (3)].var));
+                             print_table(table);;}
+    break;
+
+  case 53:
+#line 137 "lex.y"
+    {add_symbol(table,(yyvsp[(1) - (5)].var));
+                                                   print_table(table);;}
+    break;
+
+  case 54:
+#line 140 "lex.y"
+    {add_symbol(table,(yyvsp[(1) - (3)].var));
+                                 print_table(table);;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1498 "lex.tab.c"
+#line 1529 "lex.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1708,28 +1739,19 @@ yyreturn:
 }
 
 
-#line 156 "lex.y"
+#line 169 "lex.y"
 
 
 void yyerror(const char *s) {
    fprintf(stderr, "Syntax error: %s\n", s);
 }
-symbol_table *init_symbol_table() {
-    symbol_table *table = (symbol_table*) malloc(sizeof(symbol_table));
-    table->first_entry = NULL;
-    table->last_entry = NULL;
-    return table;
-}
+
 int main(void) {
    printf("Ecrire le programme a tester : \n");
-   /*symbol_table *table = init_symbol_table();
-   printf("Address of x: %d\n", lookup_symbol(table, "x"));
-   print_symbol_table(table);
-   free_symbol_table(table);
-   printf("voici ma table apres avoir effacer\n");
-   print_symbol_table(table);*/
+   table = init_symbol_table();
    //yydebug=1;
    yyparse();
+
    return 0;
 }
 

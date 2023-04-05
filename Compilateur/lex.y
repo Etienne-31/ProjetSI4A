@@ -6,10 +6,11 @@
 
 void yyerror(const char *s);
 int yylex(void);
+symbol_table *table;
 
 %}
-%union { int nb;
-        char* var; }
+
+%union { int nb; char* var; }
 %token tINT tVOID tCONST tIF tELSE tWHILE tMAIN tRETURN tPRINT
 %token tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tASSIGN tAND tOR tNOT
 %token tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA
@@ -18,18 +19,23 @@ int yylex(void);
 %left tADD tSUB tMUL tDIV tEQ tNE
 %nonassoc tLT tGT tLE tGE
 %type <nb> Expression
+%type <nb> Terme
+%type <nb> Facteur
 %start Program
+
 %%
 Program: Function_list;
 
 
 Function_list:
-   Function
+   Function 
    | Function_list Function;
    
    
 Function:
-    Type_specifier tMAIN tLPAR Parameter_list tRPAR tLBRACE Declarations Statement_list tRBRACE;
+    Type_specifier tMAIN tLPAR Parameter_list tRPAR tLBRACE Declarations Statement_list tRBRACE {
+      free_table(table);
+      print_table(table);};
 
         
 Type_specifier:
@@ -49,7 +55,7 @@ Parameter_declaration:
    
    
 Statement_list:
-   Statement
+   Statement 
    | Statement_list Statement;
    
    
@@ -75,7 +81,7 @@ Terme:
 
 Facteur:
         tNB 
-        |tID
+        |tID{get_adress(table,$1);}
         |tLPAR Expression tRPAR
 ;
 
@@ -122,10 +128,17 @@ Declaration_const:
    |tID tASSIGN tNB tCOMMA Declaration_const;     
    
 Declaration_int:
-   tID
-   | tID tASSIGN Expression
-   | tID tASSIGN Expression tCOMMA Declaration_int
-   | tID tCOMMA Declaration_int;   
+   tID   {add_symbol(table,$1);
+          print_table(table);}
+   
+   | tID tASSIGN Expression {add_symbol(table,$1);
+                             print_table(table);}
+
+   | tID tASSIGN Expression tCOMMA Declaration_int {add_symbol(table,$1);
+                                                   print_table(table);}
+
+   | tID tCOMMA Declaration_int {add_symbol(table,$1);
+                                 print_table(table);};   
 
 
 Selection_statement:
@@ -161,13 +174,9 @@ void yyerror(const char *s) {
 
 int main(void) {
    printf("Ecrire le programme a tester : \n");
-   symbol_table *table = init_symbol_table();
-   /*printf("Address of x: %d\n", lookup_symbol(table, "x"));
-   print_symbol_table(table);
-   free_symbol_table(table);
-   printf("voici ma table apres avoir effacer\n");
-   print_symbol_table(table);*/
+   table = init_symbol_table();
    //yydebug=1;
    yyparse();
+
    return 0;
 }
