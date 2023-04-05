@@ -11,6 +11,7 @@
 typedef struct symbol_table_entry {
 char *name;
 int address;
+int scope;
 struct symbol_table_entry *next;
 } symbol_table_entry;
 
@@ -24,7 +25,7 @@ symbol_table_entry *last_entry;
 symbol_table *init_symbol_table();
 
 // ajouter une entree a la table 
-void add_symbol(symbol_table *table, char *name);
+void add_symbol(symbol_table *table, char *name, int scope);
 
 int add_temp_var(symbol_table *table);
 
@@ -36,4 +37,11 @@ void free_table(symbol_table *table);
 
 //affiche la table
 void print_table(symbol_table *table);
+
+// libere la variable temporaire 
+void remove_last_temp_var(symbol_table *table);
+
+//enleve les symboles de chaque scope
+void remove_symbols_by_scope(symbol_table *table, int scope);
+
 #endif

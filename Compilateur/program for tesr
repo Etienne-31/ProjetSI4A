@@ -1,20 +1,17 @@
-//POURQUOI qegmentation fault quand on free la table apres la regle du main
-//est ce qu'il faut mettre les regle de parametre pour le main 
-//est ce qu'on ecrit juste avec des prints sur un fichier les instructions asm
-//comment on attributs differentes adresses a deux variables sur la meme ligne 
-
+// est ce qu'on remove temp var juste apres l'avoir utilisée 
+// est ce que dans tID on assigne l'adresse ou comment on fait pour mettre le contenu de l'adresse
+//que faire quand on a des parentheses $$2??
+//copie ou assign
 
 int main() {
   int x = 10;
-  const int y = 20;
+  int y = 20;
   
   
   print(y);
 
   if (x < y) {
    print(x);
-  } else {
-    print(x);
   }
 
   while (x < 15) {
@@ -23,17 +20,20 @@ int main() {
 }
 
 int main() {
-  int x, z;
-  int y= 5;
+  int x;
+  x=30+40;
+  x=120+x;
 
-  
-  print(x);
 
-  if (x < y) {
-   print(x);
-  } else {
-    print(y);
-  }
+  x=5+3+x;
+  x=3+x;
+
+  int a;
+  a=x;
+  if (x) {
+    int i;
+   print(i);
+  } 
 }
 
 int main() {
@@ -41,7 +41,7 @@ int main() {
   int y= 5;
 
   
-  print(r);
+  print(x);
 
   if (x < y) {
    print(x);

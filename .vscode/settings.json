@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "string.h": "c",
-        "symbol_table.h": "c"
+        "symbol_table.h": "c",
+        "program for tesr": "c"
     }
 }

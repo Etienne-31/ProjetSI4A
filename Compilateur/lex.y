@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Symbol_table.h"
+#include "asm_gestion.h"
 
 void yyerror(const char *s);
 int yylex(void);
 symbol_table *table;
+int scope = 0;
 
 %}
 
@@ -33,10 +35,14 @@ Function_list:
    
    
 Function:
-    Type_specifier tMAIN tLPAR Parameter_list tRPAR tLBRACE Declarations Statement_list tRBRACE {
+    Type_specifier tMAIN tLPAR Parameter_list tRPAR Scope {
       free_table(table);
       print_table(table);};
 
+Scope:
+   tLBRACE Corps tRBRACE;
+Corps:
+   Declarations Statement_list;
         
 Type_specifier:
    tINT
@@ -68,8 +74,8 @@ Statement:
  
  
 Expression:
-        Expression tADD Terme
-        |Expression tSUB Terme
+        Expression tADD Terme {add_asmnb("ADD", $1, $1, $3);}
+        |Expression tSUB Terme {add_asmnb("SUB",$1,$1,$3);}
         |Terme
 ;
 
@@ -80,10 +86,16 @@ Terme:
 ;
 
 Facteur:
-        tNB 
-        |tID{int addr = get_adress(table,$1);
-            int addrtemp = add_temp_var(table);
-            printf("adresse de symbol ajoutée : %d depuis %d\n", addr, addrtemp);}
+        tNB { int addrtemp = add_temp_var(table);
+               // affecter tnb a l'adresse de la variable temp 
+              add_asmnb("ASS",addrtemp,$1,0);
+              remove_last_temp_var(table);
+            }
+        |tID {int addr = get_adress(table,$1);
+             int addrtemp = add_temp_var(table);
+             //affecte le contenu de l'adresse  de Id dans une var temp
+             add_asmnb("ASS",addrtemp,addr,0);
+             }
         |tLPAR Expression tRPAR
 ;
 
@@ -126,30 +138,39 @@ Declaration_statement:
    |tCONST tINT Declaration_const tSEMI;
 
 Declaration_const:
-   tID tASSIGN tNB
-   |tID tASSIGN tNB tCOMMA Declaration_const;     
+   tID tASSIGN tNB  {add_symbol(table,$1,scope);
+                     add_asmvar("ASS",$1,$3,0);
+                     print_table(table);}
+   
+   |tID tASSIGN tNB tCOMMA Declaration_const  {add_symbol(table,$1,scope);
+                                               add_asmvar("ASS",$1,$3,0);
+                                               print_table(table);}
+   ;     
    
 Declaration_int:
-   tID   {add_symbol(table,$1);
+   tID   {add_symbol(table,$1,scope);
           print_table(table);}
    
-   | tID tASSIGN Expression {add_symbol(table,$1);
+   | tID tASSIGN Expression {add_symbol(table,$1,scope);
+                             add_asmvar("ASS",$1,$3,0);
                              print_table(table);}
 
-   | tID tASSIGN Expression tCOMMA Declaration_int {add_symbol(table,$1);
+   | tID tASSIGN Expression tCOMMA Declaration_int {add_symbol(table,$1,scope);
+                                                   add_asmvar("ASS",$1,$3,0);
                                                    print_table(table);}
 
-   | tID tCOMMA Declaration_int {add_symbol(table,$1);
+   | tID tCOMMA Declaration_int {add_symbol(table,$1,scope);
                                  print_table(table);};   
 
 
 Selection_statement:
-   tIF tLPAR Conditions tRPAR tLBRACE Statement_list tRBRACE Else_statement
-   |tIF tLPAR Conditions tRPAR tLBRACE Statement_list tRBRACE;
+   tIF tLPAR Conditions tRPAR tLBRACE {scope++;} Corps tRBRACE {remove_symbols_by_scope(table,scope);
+                                                                  print_table(table);}  Else_statement;
    
    
 Else_statement:
-   tELSE tLBRACE Statement_list tRBRACE;
+   /*empty*/
+   |tELSE tLBRACE Statement_list tRBRACE;
    
    
 Iteration_statement:
@@ -166,7 +187,9 @@ Print_statement:
    
    
 Assignement_statement:
-    tID tASSIGN Expression tSEMI;
+    tID tASSIGN Expression tSEMI  {add_asmvar("ASS",$1,$3,0);
+                                    print_table(table);};
+
 
 %%
 
@@ -175,10 +198,11 @@ void yyerror(const char *s) {
 }
 
 int main(void) {
+   open_output_file("asmcode.asm");
    printf("Ecrire le programme a tester : \n");
    table = init_symbol_table();
    //yydebug=1;
    yyparse();
-
+   close_output_file();
    return 0;
 }

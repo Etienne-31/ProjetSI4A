@@ -7,10 +7,10 @@ lex.yy.c: lex.l lex.tab.h
 	flex lex.l
 
 lex : lex.yy.c lex.tab.c lex.tab.h
-	gcc -o lex lex.tab.c lex.yy.c Symbol_table.c
+	gcc -o lex lex.tab.c lex.yy.c Symbol_table.c asm_gestion.c
 
 clean:
-	rm lex lex.tab.c lex.yy.c lex.tab.h lex.output
+	rm lex lex.tab.c lex.yy.c lex.tab.h lex.output asmcode.asm
 
 test: all
 	echo '<div>aaa<div>bbb</div></div>' | ./lex
