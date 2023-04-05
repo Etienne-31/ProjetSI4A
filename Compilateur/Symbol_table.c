@@ -13,6 +13,37 @@ symbol_table *init_symbol_table() {
     return table;
 }
 
+// ajoute une variable temporaire 
+int add_temp_var(symbol_table *table){
+ // on creer une nouvelle entrée    
+    symbol_table_entry *entry = table->first_entry;
+    entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
+    entry->name = strdup("");
+    entry->address = address++;
+    entry->next = NULL;
+
+// on ajoute l'entrée
+    if (table->first_entry == NULL) {
+        table->first_entry = entry;
+        table->last_entry = entry;
+    } else {
+        table->last_entry->next = entry;
+        table->last_entry = entry;
+    }
+    return(get_adress(table,""));
+}
+
+
+// free la variable temporaire 
+
+
+
+//free les symboles du meme scope 
+
+
+
+
+
 // ajouter une entree a la table 
 void add_symbol(symbol_table *table, char *name) {
     // on verifie s'il existe deja 
@@ -63,7 +94,8 @@ void free_table(symbol_table *table) {
         free(entry);
         entry = next;
     }
-    free(table);
+    table->first_entry = NULL;
+    table->last_entry = NULL;
 }
 
 // affiche la table 

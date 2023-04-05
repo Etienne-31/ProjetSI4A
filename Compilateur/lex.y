@@ -81,7 +81,9 @@ Terme:
 
 Facteur:
         tNB 
-        |tID{get_adress(table,$1);}
+        |tID{int addr = get_adress(table,$1);
+            int addrtemp = add_temp_var(table);
+            printf("adresse de symbol ajoutée : %d depuis %d\n", addr, addrtemp);}
         |tLPAR Expression tRPAR
 ;
 

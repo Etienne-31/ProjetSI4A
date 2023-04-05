@@ -26,6 +26,8 @@ symbol_table *init_symbol_table();
 // ajouter une entree a la table 
 void add_symbol(symbol_table *table, char *name);
 
+int add_temp_var(symbol_table *table);
+
 // On regarde si le symbole est present et on renvoie son adresse 
 int get_adress(symbol_table *table, char *name);
 

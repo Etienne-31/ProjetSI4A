@@ -497,11 +497,11 @@ static const yytype_uint8 yyrline[] =
 {
        0,    27,    27,    31,    32,    36,    42,    43,    46,    48,
       49,    53,    54,    58,    59,    63,    64,    65,    66,    67,
-      71,    72,    73,    77,    78,    79,    83,    84,    85,    89,
-      90,    91,    95,    96,    97,   101,   102,   106,   107,   108,
-     109,   110,   111,   114,   116,   119,   120,   123,   124,   127,
-     128,   131,   134,   137,   140,   145,   146,   150,   154,   158,
-     159,   163,   167
+      71,    72,    73,    77,    78,    79,    83,    84,    87,    91,
+      92,    93,    97,    98,    99,   103,   104,   108,   109,   110,
+     111,   112,   113,   116,   118,   121,   122,   125,   126,   129,
+     130,   133,   136,   139,   142,   147,   148,   152,   156,   160,
+     161,   165,   169
 };
 #endif
 
@@ -1496,36 +1496,38 @@ yyreduce:
 
   case 27:
 #line 84 "lex.y"
-    {get_adress(table,(yyvsp[(1) - (1)].var));;}
+    {int addr = get_adress(table,(yyvsp[(1) - (1)].var));
+            int addrtemp = add_temp_var(table);
+            printf("adresse de symbol ajoutée : %d depuis %d\n", addr, addrtemp);;}
     break;
 
   case 51:
-#line 131 "lex.y"
+#line 133 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (1)].var));
           print_table(table);;}
     break;
 
   case 52:
-#line 134 "lex.y"
+#line 136 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (3)].var));
                              print_table(table);;}
     break;
 
   case 53:
-#line 137 "lex.y"
+#line 139 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (5)].var));
                                                    print_table(table);;}
     break;
 
   case 54:
-#line 140 "lex.y"
+#line 142 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (3)].var));
                                  print_table(table);;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1529 "lex.tab.c"
+#line 1531 "lex.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1739,7 +1741,7 @@ yyreturn:
 }
 
 
-#line 169 "lex.y"
+#line 171 "lex.y"
 
 
 void yyerror(const char *s) {
