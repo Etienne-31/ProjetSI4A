@@ -2,6 +2,8 @@
     "files.associations": {
         "string.h": "c",
         "symbol_table.h": "c",
-        "program for tesr": "c"
-    }
+        "program for tesr": "c",
+        "asm_gestion.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

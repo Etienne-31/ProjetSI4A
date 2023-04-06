@@ -20,10 +20,9 @@ int main() {
 }
 
 int main() {
-  int x;
-  x=30+40;
-  x=120+x;
-
+  int x ;
+  x=5+3+x;
+}
 
   x=5+3+x;
   x=3+x;
@@ -48,4 +47,11 @@ int main() {
   } else {
     print(y);
   }
+}
+
+int main() {
+  int x;
+  x=30+40;
+  x=120+x;
+
 }

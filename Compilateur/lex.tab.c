@@ -148,6 +148,7 @@ void yyerror(const char *s);
 int yylex(void);
 symbol_table *table;
 int scope = 0;
+FILE* output_file;
 
 
 
@@ -171,10 +172,10 @@ int scope = 0;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 15 "lex.y"
+#line 16 "lex.y"
 { int nb; char* var; }
 /* Line 193 of yacc.c.  */
-#line 178 "lex.tab.c"
+#line 179 "lex.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -187,7 +188,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 191 "lex.tab.c"
+#line 192 "lex.tab.c"
 
 #ifdef short
 # undef short
@@ -497,13 +498,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    29,    29,    33,    34,    38,    43,    45,    48,    49,
-      52,    54,    55,    59,    60,    64,    65,    69,    70,    71,
-      72,    73,    77,    78,    79,    83,    84,    85,    89,    94,
-      99,   103,   104,   105,   109,   110,   111,   115,   116,   120,
-     121,   122,   123,   124,   125,   128,   130,   133,   134,   137,
-     138,   141,   145,   151,   154,   158,   162,   167,   167,   167,
-     171,   173,   177,   181,   182,   186,   190
+       0,    30,    30,    34,    35,    39,    45,    47,    50,    51,
+      54,    56,    57,    61,    62,    66,    67,    71,    72,    73,
+      74,    75,    79,    80,    81,    85,    86,    87,    91,    96,
+     101,   105,   106,   107,   111,   112,   113,   117,   118,   122,
+     123,   124,   125,   126,   127,   130,   132,   135,   136,   139,
+     140,   143,   147,   153,   157,   161,   165,   170,   170,   170,
+     174,   176,   180,   184,   185,   189,   193
 };
 #endif
 
@@ -1495,100 +1496,92 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 38 "lex.y"
+#line 39 "lex.y"
     {
       free_table(table);
-      print_table(table);;}
-    break;
-
-  case 22:
-#line 77 "lex.y"
-    {add_asmnb("ADD", (yyvsp[(1) - (3)].nb), (yyvsp[(1) - (3)].nb), (yyvsp[(3) - (3)].nb));;}
-    break;
-
-  case 23:
-#line 78 "lex.y"
-    {add_asmnb("SUB",(yyvsp[(1) - (3)].nb),(yyvsp[(1) - (3)].nb),(yyvsp[(3) - (3)].nb));;}
+      print_table(table);
+      print_asm_table();;}
     break;
 
   case 28:
-#line 89 "lex.y"
+#line 91 "lex.y"
     { int addrtemp = add_temp_var(table);
                // affecter tnb a l'adresse de la variable temp 
-              add_asmnb("ASS",addrtemp,(yyvsp[(1) - (1)].nb),0);
+              add_asm("AFC",addrtemp,(yyvsp[(1) - (1)].nb));
               remove_last_temp_var(table);
             ;}
     break;
 
   case 29:
-#line 94 "lex.y"
+#line 96 "lex.y"
     {int addr = get_adress(table,(yyvsp[(1) - (1)].var));
              int addrtemp = add_temp_var(table);
              //affecte le contenu de l'adresse  de Id dans une var temp
-             add_asmnb("ASS",addrtemp,addr,0);
+             add_asm("ASS",addrtemp,addr);
              ;}
     break;
 
   case 51:
-#line 141 "lex.y"
+#line 143 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (3)].var),scope);
-                     add_asmvar("ASS",(yyvsp[(1) - (3)].var),(yyvsp[(3) - (3)].nb),0);
+                     //int index = add_asm("AFC",index,$3);
                      print_table(table);;}
     break;
 
   case 52:
-#line 145 "lex.y"
+#line 147 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (5)].var),scope);
-                                               add_asmvar("ASS",(yyvsp[(1) - (5)].var),(yyvsp[(3) - (5)].nb),0);
+                                               //int index = add_asm("AFC",index,$3);
                                                print_table(table);;}
     break;
 
   case 53:
-#line 151 "lex.y"
+#line 153 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (1)].var),scope);
+         add_asm("AFC",(yyvsp[(1) - (1)].var),0);
           print_table(table);;}
     break;
 
   case 54:
-#line 154 "lex.y"
+#line 157 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (3)].var),scope);
-                             add_asmvar("ASS",(yyvsp[(1) - (3)].var),(yyvsp[(3) - (3)].nb),0);
+                             //int index = add_asm("COP",index,$3);
                              print_table(table);;}
     break;
 
   case 55:
-#line 158 "lex.y"
+#line 161 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (5)].var),scope);
-                                                   add_asmvar("ASS",(yyvsp[(1) - (5)].var),(yyvsp[(3) - (5)].nb),0);
+                                                   //int index = add_asm("COP",index,$3);
                                                    print_table(table);;}
     break;
 
   case 56:
-#line 162 "lex.y"
+#line 165 "lex.y"
     {add_symbol(table,(yyvsp[(1) - (3)].var),scope);
                                  print_table(table);;}
     break;
 
   case 57:
-#line 167 "lex.y"
+#line 170 "lex.y"
     {scope++;;}
     break;
 
   case 58:
-#line 167 "lex.y"
+#line 170 "lex.y"
     {remove_symbols_by_scope(table,scope);
                                                                   print_table(table);;}
     break;
 
   case 66:
-#line 190 "lex.y"
-    {add_asmvar("ASS",(yyvsp[(1) - (4)].var),(yyvsp[(3) - (4)].nb),0);
+#line 193 "lex.y"
+    {//int index = add_asm("COP",index,$3);
                                     print_table(table);;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1592 "lex.tab.c"
+#line 1585 "lex.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1802,7 +1795,7 @@ yyreturn:
 }
 
 
-#line 194 "lex.y"
+#line 197 "lex.y"
 
 
 void yyerror(const char *s) {
@@ -1810,12 +1803,17 @@ void yyerror(const char *s) {
 }
 
 int main(void) {
-   open_output_file("asmcode.asm");
+   
    printf("Ecrire le programme a tester : \n");
    table = init_symbol_table();
+   init_asm_table();
+   
+
    //yydebug=1;
    yyparse();
-   close_output_file();
+   //open_output_file("asmcodev1");
+   //close_output_file();
+   
    return 0;
 }
 
