@@ -25,7 +25,7 @@ symbol_table_entry *last_entry;
 symbol_table *init_symbol_table();
 
 // ajouter une entree a la table 
-void add_symbol(symbol_table *table, char *name, int scope);
+int add_symbol(symbol_table *table, char *name, int scope);
 
 int add_temp_var(symbol_table *table);
 

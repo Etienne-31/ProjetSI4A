@@ -110,7 +110,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 16 "lex.y"
+#line 17 "lex.y"
 { int nb; char* var; }
 /* Line 1529 of yacc.c.  */
 #line 117 "lex.tab.h"

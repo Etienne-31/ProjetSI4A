@@ -122,12 +122,33 @@ void modif_asm_inst(int index, char* operation, int nb_operandes, ...) {
 
     va_list valist;
     va_start(valist, nb_operandes);
+    next_operande* new_head = NULL;
+    next_operande* tail = NULL;
     for (int i = 0; i < nb_operandes; i++) {
         int operande = va_arg(valist, int);
-        add_operande(ins, operande);
+        printf("Nouvelle valeur de l'opérande %d: %d\n", i+1, operande);
+        next_operande* new_op = malloc(sizeof(next_operande));
+        new_op->operande = operande;
+        new_op->next = NULL;
+        if (new_head == NULL) {
+            // Nouvel opérande devient la tête de la liste
+            new_head = new_op;
+            tail = new_op;
+        } else {
+            // Ajouter le nouvel opérande à la fin de la liste
+            tail->next = new_op;
+            tail = new_op;
+        }
+        printf("Valeur de l'opérande ajouté: %d\n", new_op->operande);
+        printf("Pointeur de l'opérande ajouté: %p\n", (void*)new_op);
     }
+    ins->operandes = new_head;
+    printf("fin de la modif \n");
     va_end(valist);
 }
+
+
+
 void print_asm_table() {
     printf("Table des instructions ASM:\n");
     for (int i = 0; i < next_index; i++) {
@@ -135,8 +156,10 @@ void print_asm_table() {
         printf("%d: %s ", i, ins->operation);
         next_operande* current = ins->operandes;
         for (int j = 0; j < ins->nb_operandes; j++) {
-            printf("%d ", current->operande);
-            current = current->next;
+            if (current != NULL) {
+                printf("%d ", current->operande);
+                current = current->next;
+            }
         }
         printf("\n");
     }
@@ -160,22 +183,22 @@ void write_asm_file(FILE* output_file) {
 int main() {
    init_asm_table();
     
-    int index1 = add_asm("ADD", 3, 1, 2, 3);
-    int index2 = add_asm("JMF", 2, 4, 5);
+    int index2 = add_asm("ADD", 3, 1, 2, 3);
+    int index1 = add_asm("JMF", 2, 4, 5);
     int index3 = add_asm("PRI", 1, 6);
     int index4 = add_asm("PRI", 1, 6);
-        int index7 = add_asm("PRI", 1, 6);
-
+    int index7 = add_asm("PRI", 1, 6);
     //print_asm_table();
-   modif_asm_inst(index1,"ADD",78,88,90);
-   //modif_asm_inst(index2,"JMF",78,88);
+    //print_asm_table();
+   //modif_asm_inst(index2,"ADD",3,78,88,90);
+   modif_asm_inst(index2,"ADD",3,10,9,7);
   
-   open_output_file("asm28");
-   close_output_file();
-    //print_asm_table();
+   //open_output_file("asm28");
+   //close_output_file();
+    print_asm_table();
    }
-#endif
 
+#endif
 /*
 // Fonction pour écrire une instruction ASM
 void add_asminstructvar(char* op, char* param1, int param2, int param3) {

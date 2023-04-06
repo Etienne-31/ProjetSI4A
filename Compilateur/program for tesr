@@ -20,8 +20,13 @@ int main() {
 }
 
 int main() {
-  int x ;
-  x=5+3+x;
+  int x = 10+23 ;
+  int y;
+  y=5+4;
+  if (x){
+    int k;
+    print(k);
+  }
 }
 
   x=5+3+x;

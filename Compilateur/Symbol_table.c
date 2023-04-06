@@ -101,7 +101,7 @@ void remove_symbols_by_scope(symbol_table *table, int scope) {
 
 
 // ajouter une entree a la table 
-void add_symbol(symbol_table *table, char *name, int scope) {
+int add_symbol(symbol_table *table, char *name, int scope) {
     // on verifie s'il existe deja 
     symbol_table_entry *entry = table->first_entry;
     while (entry != NULL) {
@@ -127,6 +127,7 @@ void add_symbol(symbol_table *table, char *name, int scope) {
         table->last_entry->next = entry;
         table->last_entry = entry;
     }
+    return entry->address;
 }
 
 // On regarde si le symbole est present et on renvoie son adresse 
@@ -171,15 +172,16 @@ int main() {
     symbol_table *table = init_symbol_table();
     // Add some symbols to the table
     add_symbol(table, "x", 1);
-    add_symbol(table, "y", 2);
+   
     add_symbol(table, "z", 1);
     int addr1 = add_temp_var(table);
-    
+    int addr2 =  add_symbol(table, "y", 2);
     // Look up some symbols in the table
     printf("Address of x: %d\n", get_adress(table, "x"));
     printf("Address of y: %d\n", get_adress(table, "y"));
     printf("Address of z: %d\n", get_adress(table, "z"));
     printf("adresse de la var temp 1 est : %d\n ", addr1);
+     printf("adresse de la var y est : %d\n ", addr2);
     // Print the contents of the symbol table
     print_table(table);
     

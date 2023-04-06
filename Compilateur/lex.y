@@ -10,6 +10,7 @@ int yylex(void);
 symbol_table *table;
 int scope = 0;
 FILE* output_file;
+int index_global;
 
 %}
 
@@ -22,6 +23,7 @@ FILE* output_file;
 %left tADD tSUB tMUL tDIV tEQ tNE
 %nonassoc tLT tGT tLE tGE
 %type <nb> Expression
+%type <nb> Conditions
 %type <nb> Terme
 %type <nb> Facteur
 %start Program
@@ -76,27 +78,27 @@ Statement:
  
  
 Expression:
-        Expression tADD Terme //{add_asm("ADD", $1, $1, $3);}
-        |Expression tSUB Terme //{add_asm("SUB",$1,$1,$3);}
+        Expression tADD Terme {add_asm("ADD",3, $1, $1, $3);}
+        |Expression tSUB Terme {add_asm("SUB",3,$1,$1,$3);}
         |Terme
 ;
 
 Terme:
-        Terme tMUL Facteur  //{add_asm("MUL", $1, $1, $3);}
-        |Terme tDIV Facteur  //{add_asm("DIV", $1, $1, $3);}
+        Terme tMUL Facteur  {add_asm("MUL",3, $1, $1, $3);}
+        |Terme tDIV Facteur {add_asm("DIV",3, $1, $1, $3);}
         |Facteur
 ;
 
 Facteur:
         tNB { int addrtemp = add_temp_var(table);
                // affecter tnb a l'adresse de la variable temp 
-              add_asm("AFC",addrtemp,$1);
+              add_asm("AFC",2,addrtemp,$1);
               remove_last_temp_var(table);
             }
         |tID {int addr = get_adress(table,$1);
              int addrtemp = add_temp_var(table);
              //affecte le contenu de l'adresse  de Id dans une var temp
-             add_asm("ASS",addrtemp,addr);
+             add_asm("ASS",2,addrtemp,addr);
              }
         |tLPAR Expression tRPAR
 ;
@@ -140,8 +142,8 @@ Declaration_statement:
    |tCONST tINT Declaration_const tSEMI;
 
 Declaration_const:
-   tID tASSIGN tNB  {add_symbol(table,$1,scope);
-                     //int index = add_asm("AFC",index,$3);
+   tID tASSIGN tNB  {int index = add_symbol(table,$1,scope);
+                     add_asm("AFC",2,index,$3);
                      print_table(table);}
    
    |tID tASSIGN tNB tCOMMA Declaration_const  {add_symbol(table,$1,scope);
@@ -150,25 +152,29 @@ Declaration_const:
    ;     
    
 Declaration_int:
-   tID   {add_symbol(table,$1,scope);
-         add_asm("AFC",$1,0);
+   tID   {int addr = add_symbol(table,$1,scope);
+         add_asm("AFC",2,addr,0);
           print_table(table);}
    
-   | tID tASSIGN Expression {add_symbol(table,$1,scope);
-                             //int index = add_asm("COP",index,$3);
+   | tID tASSIGN Expression {int addr = add_symbol(table,$1,scope);
+                             int index = add_asm("COP",2,index,$3);
                              print_table(table);}
 
-   | tID tASSIGN Expression tCOMMA Declaration_int {add_symbol(table,$1,scope);
-                                                   //int index = add_asm("COP",index,$3);
-                                                   print_table(table);}
+   | tID tASSIGN Expression tCOMMA Declaration_int {int addr = add_symbol(table,$1,scope);
+                                                    int index = add_asm("COP",2,index,$3);
+                                                    print_table(table);}
 
-   | tID tCOMMA Declaration_int {add_symbol(table,$1,scope);
+   | tID tCOMMA Declaration_int {int addr = add_symbol(table,$1,scope);
+                                 add_asm("AFC",2,addr,0);
                                  print_table(table);};   
 
 
 Selection_statement:
-   tIF tLPAR Conditions tRPAR tLBRACE {scope++;} Corps tRBRACE {remove_symbols_by_scope(table,scope);
-                                                                  print_table(table);}  Else_statement;
+   tIF tLPAR Conditions tRPAR tLBRACE {scope++;
+                                        index_global = add_asm("JMF",2,$3,0);} Corps tRBRACE {
+                                                                           modif_asm_inst(index_global,"JMF",2,$3,93);
+                                                                           remove_symbols_by_scope(table,scope);
+                                                                           print_table(table);}  Else_statement;
    
    
 Else_statement:
@@ -209,8 +215,8 @@ int main(void) {
 
    //yydebug=1;
    yyparse();
-   //open_output_file("asmcodev1");
-   //close_output_file();
+   open_output_file("asmcodev1");
+   close_output_file();
    
    return 0;
 }
