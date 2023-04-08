@@ -40,13 +40,12 @@ Function_list:
    
    
 Function:
-    Type_specifier tMAIN tLPAR Parameter_list tRPAR Scope {
+    Type_specifier tMAIN tLPAR Parameter_list tRPAR  tLBRACE Corps tRBRACE {
       free_table(table);
       print_table(table);
       print_asm_table();};
 
-Scope:
-   tLBRACE Corps tRBRACE;
+  
 Corps:
    Declarations Statement_list;
         
@@ -82,30 +81,39 @@ Statement:
 Expression:
         Expression tADD Terme {int temp = add_temp_var(table);
                               add_asm("ADD", 3, temp, $1, $3);
-                              $$ = temp;}
-        |Expression tSUB Terme {add_asm("SUB",3,$1,$1,$3);}
+                              $$ = temp;
+                              remove_last_temp_var(table);}
+        |Expression tSUB Terme {int temp = add_temp_var(table);
+                              add_asm("SUB", 3, temp, $1, $3);
+                              $$ = temp;
+                              remove_last_temp_var(table);}
         |Terme {$$=$1;}
 ;
 
 Terme:
-        Terme tMUL Facteur  {add_asm("MUL",3, $1, $1, $3);}
-        |Terme tDIV Facteur {add_asm("DIV",3, $1, $1, $3);}
+        Terme tMUL Facteur  {int temp = add_temp_var(table);
+                              add_asm("MUL", 3, temp, $1, $3);
+                              $$ = temp;
+                              remove_last_temp_var(table);}
+        |Terme tDIV Facteur {int temp = add_temp_var(table);
+                              add_asm("DIV", 3, temp, $1, $3);
+                              $$ = temp;
+                              remove_last_temp_var(table);}
         |Facteur{$$=$1;}
 ;
 
 Facteur:
         tNB { int addrtemp = add_temp_var(table);
-               // affecter tnb a l'adresse de la variable temp 
+              // affecter tnb a l'adresse de la variable temp 
               add_asm("AFC",2,addrtemp,$1);
               $$=addrtemp;
               remove_last_temp_var(table);
-              
             }
         |tID {int addr = get_adress(table,$1);
-             int addrtemp = add_temp_var(table);
+             //int addrtemp = add_temp_var(table);
              //affecte le contenu de l'adresse  de Id dans une var temp
-             add_asm("ASS",2,addrtemp,addr);
-             $$=addrtemp;
+             //add_asm("ASS",2,addrtemp,addr);
+             $$=addr;
              }
         |tLPAR Expression tRPAR {$$=$2;}
 ;
@@ -117,13 +125,30 @@ Conditions:
    ;
    
 Condition:
-   tLPAR Expression tLT Expression tRPAR {add_asm("INF",3,$2,$2,$4);}
-   | tLPAR Expression tGT Expression tRPAR {add_asm("SUP",3,$2,$2,$4);}
-   | tLPAR Expression tEQ Expression tRPAR {add_asm("EQU",3,$2,$2,$4);}
+   tLPAR Expression tLT Expression tRPAR {int addr = add_temp_var(table);
+                                          add_asm("INF",3,addr,$2,$4);
+                                          $$=addr;
+                                          remove_last_temp_var(table);}
+   | tLPAR Expression tGT Expression tRPAR {int addr = add_temp_var(table);
+                                             add_asm("SUP",3,addr,$2,$4);
+                                             $$=addr;
+                                             remove_last_temp_var(table);}
+   | tLPAR Expression tEQ Expression tRPAR {int addr = add_temp_var(table);
+                                             add_asm("EQU",3,addr,$2,$4);
+                                             $$=addr;
+                                             remove_last_temp_var(table);}
    | Expression tLT Expression {int addr = add_temp_var(table);
-                                 add_asm("INF",3,addr,$1,$3);$$=addr;}
-   | Expression tGT Expression {add_asm("SUP",3,$1,$1,$3);$$=$1;}
-   | Expression tEQ Expression {add_asm("EQU",3,$1,$1,$3);}
+                                 add_asm("INF",3,addr,$1,$3);
+                                 $$=addr;
+                                 remove_last_temp_var(table);}
+   | Expression tGT Expression {int addr = add_temp_var(table);
+                                 add_asm("SUP",3,addr,$1,$3);
+                                 $$=addr;
+                                 remove_last_temp_var(table);}
+   | Expression tEQ Expression {int addr = add_temp_var(table);
+                                 add_asm("EQU",3,addr,$1,$3);
+                                 $$=addr;
+                                 remove_last_temp_var(table);}
    | Expression{$$=$1;}
    ;
    
@@ -155,38 +180,34 @@ Declaration_const:
    ;     
    
 Declaration_int:
-   tID   {int addr = add_symbol(table,$1,scope);
-         add_asm("AFC",2,addr,0);
-         $$=addr;
+   tID   {add_symbol(table,$1,scope);
           print_table(table);}
    
    | tID tASSIGN Expression {int addr = add_symbol(table,$1,scope);
-                             int index = add_asm("COP",2,addr,$3);
+                             add_asm("COP",2,addr,$3);
                              print_table(table);}
 
    | tID tASSIGN Expression tCOMMA Declaration_int {int addr = add_symbol(table,$1,scope);
-                                                    int index = add_asm("COP",2,index,$3);
+                                                    add_asm("COP",2,index,$3);
                                                     print_table(table);}
 
-   | tID tCOMMA Declaration_int {int addr = add_symbol(table,$1,scope);
-                                 add_asm("AFC",2,addr,0);
+   | tID tCOMMA Declaration_int {add_symbol(table,$1,scope);
                                  print_table(table);};   
 
 
 Selection_statement:
    tIF tLPAR Conditions tRPAR tLBRACE {scope++;
-                                        index_global = add_asm("JMF",2,$3,0);} Corps tRBRACE {
-                                                                           modif_asm_inst(index_global,"JMF",2,$3,get_last_index()+1);
-                                                                           remove_symbols_by_scope(table,scope);
-                                                                           index_global =0;
-                                                                           print_table(table);}  Else_statement;
+                                       index_global = add_asm("JMF",2,$3,0);} Corps tRBRACE { modif_asm_inst(index_global,"JMF",2,$3,get_last_index()+1);
+                                                                                                remove_symbols_by_scope(table,scope);
+                                                                                                index_global =0;
+                                                                                                print_table(table);}  Else_statement;
    
 Else_statement:
    /*empty*/
    |tELSE {index_global = add_asm("JMP",1,0);} tLBRACE{scope++;} Statement_list tRBRACE{modif_asm_inst(index_global,"JMP",1,get_last_index());
-                                                                                 remove_symbols_by_scope(table,scope);
-                                                                                 index_global =0;
-                                                                                 print_table(table);};
+                                                                                       remove_symbols_by_scope(table,scope);
+                                                                                       index_global =0;
+                                                                                       print_table(table);};
          
    
 Iteration_statement:
@@ -207,7 +228,8 @@ Print_statement:
    
    
 Assignement_statement:
-    tID tASSIGN Expression tSEMI  {add_asm("COP",2,$1,$3);
+    tID tASSIGN Expression tSEMI  {int addr = get_adress(table,$1);
+                                    add_asm("COP",2,addr,$3);
                                     print_table(table);};
 
 
@@ -226,7 +248,7 @@ int main(void) {
 
    //yydebug=1;
    yyparse();
-   open_output_file("asmcodev1");
+   open_output_file("ASMCODE.asm");
    close_output_file();
    
    return 0;

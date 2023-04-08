@@ -1,0 +1,14 @@
+AFC 0 10 
+AFC 1 23 
+ADD 2 0 1 
+COP 3 2 
+AFC 5 5 
+AFC 6 4 
+ADD 7 5 6 
+COP 4 7 
+INF 8 3 4 
+JMF 8 12 
+PRI 9 
+JMP 14 
+AFC 10 3 
+COP 3 10 
