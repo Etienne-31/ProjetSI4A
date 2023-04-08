@@ -2,6 +2,9 @@
 // est ce que dans tID on assigne l'adresse ou comment on fait pour mettre le contenu de l'adresse
 //que faire quand on a des parentheses $$2??
 //copie ou assign
+//pourquoi dans le if le $3 recupere une valeur random
+//comment recup l'adresse de la fin de bloc if
+
 
 int main() {
   int x = 10;
@@ -13,19 +16,27 @@ int main() {
   if (x < y) {
    print(x);
   }
-
+int main(){
+  int x; 
+  x=78;
   while (x < 15) {
-   print(x);
+   x=45;
+   x=190;
+
   }
+  x=897;
 }
 
 int main() {
   int x = 10+23 ;
   int y;
   y=5+4;
-  if (x){
+  if (x<y){
     int k;
     print(k);
+  }
+  else {
+    x=3;
   }
 }
 

@@ -178,7 +178,9 @@ void write_asm_file(FILE* output_file) {
         fprintf(output_file, "\n");
     }
 }
-
+int get_last_index() {
+    return next_index;
+}
 #if 0
 int main() {
    init_asm_table();
@@ -192,6 +194,8 @@ int main() {
     //print_asm_table();
    //modif_asm_inst(index2,"ADD",3,78,88,90);
    modif_asm_inst(index2,"ADD",3,10,9,7);
+   int addr_last = get_last_index();
+   printf("l'index last est : %d\n", addr_last );
   
    //open_output_file("asm28");
    //close_output_file();

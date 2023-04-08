@@ -43,5 +43,5 @@ void remove_last_temp_var(symbol_table *table);
 
 //enleve les symboles de chaque scope
 void remove_symbols_by_scope(symbol_table *table, int scope);
-
+int get_last_index();
 #endif

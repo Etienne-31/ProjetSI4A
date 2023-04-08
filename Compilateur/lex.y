@@ -24,6 +24,8 @@ int index_global;
 %nonassoc tLT tGT tLE tGE
 %type <nb> Expression
 %type <nb> Conditions
+%type <nb> Condition
+%type <nb> Declaration_int
 %type <nb> Terme
 %type <nb> Facteur
 %start Program
@@ -78,29 +80,34 @@ Statement:
  
  
 Expression:
-        Expression tADD Terme {add_asm("ADD",3, $1, $1, $3);}
+        Expression tADD Terme {int temp = add_temp_var(table);
+                              add_asm("ADD", 3, temp, $1, $3);
+                              $$ = temp;}
         |Expression tSUB Terme {add_asm("SUB",3,$1,$1,$3);}
-        |Terme
+        |Terme {$$=$1;}
 ;
 
 Terme:
         Terme tMUL Facteur  {add_asm("MUL",3, $1, $1, $3);}
         |Terme tDIV Facteur {add_asm("DIV",3, $1, $1, $3);}
-        |Facteur
+        |Facteur{$$=$1;}
 ;
 
 Facteur:
         tNB { int addrtemp = add_temp_var(table);
                // affecter tnb a l'adresse de la variable temp 
               add_asm("AFC",2,addrtemp,$1);
+              $$=addrtemp;
               remove_last_temp_var(table);
+              
             }
         |tID {int addr = get_adress(table,$1);
              int addrtemp = add_temp_var(table);
              //affecte le contenu de l'adresse  de Id dans une var temp
              add_asm("ASS",2,addrtemp,addr);
+             $$=addrtemp;
              }
-        |tLPAR Expression tRPAR
+        |tLPAR Expression tRPAR {$$=$2;}
 ;
 
 Conditions:
@@ -110,24 +117,20 @@ Conditions:
    ;
    
 Condition:
-   tLPAR Expression Cop Expression tRPAR
-   | Expression Cop Expression
-   |Expression
+   tLPAR Expression tLT Expression tRPAR {add_asm("INF",3,$2,$2,$4);}
+   | tLPAR Expression tGT Expression tRPAR {add_asm("SUP",3,$2,$2,$4);}
+   | tLPAR Expression tEQ Expression tRPAR {add_asm("EQU",3,$2,$2,$4);}
+   | Expression tLT Expression {int addr = add_temp_var(table);
+                                 add_asm("INF",3,addr,$1,$3);$$=addr;}
+   | Expression tGT Expression {add_asm("SUP",3,$1,$1,$3);$$=$1;}
+   | Expression tEQ Expression {add_asm("EQU",3,$1,$1,$3);}
+   | Expression{$$=$1;}
    ;
    
 Separator:
    tAND
    |tOR;
    
-   
-Cop:
-   tGT
-   |tLT
-   |tGE
-   |tEQ
-   |tNE
-   |tLE
-   ;
 
 Declarations:
    /*empty*/
@@ -146,18 +149,19 @@ Declaration_const:
                      add_asm("AFC",2,index,$3);
                      print_table(table);}
    
-   |tID tASSIGN tNB tCOMMA Declaration_const  {add_symbol(table,$1,scope);
-                                               //int index = add_asm("AFC",index,$3);
+   |tID tASSIGN tNB tCOMMA Declaration_const  {int index = add_symbol(table,$1,scope);
+                                               add_asm("AFC",index,$3);
                                                print_table(table);}
    ;     
    
 Declaration_int:
    tID   {int addr = add_symbol(table,$1,scope);
          add_asm("AFC",2,addr,0);
+         $$=addr;
           print_table(table);}
    
    | tID tASSIGN Expression {int addr = add_symbol(table,$1,scope);
-                             int index = add_asm("COP",2,index,$3);
+                             int index = add_asm("COP",2,addr,$3);
                              print_table(table);}
 
    | tID tASSIGN Expression tCOMMA Declaration_int {int addr = add_symbol(table,$1,scope);
@@ -172,18 +176,25 @@ Declaration_int:
 Selection_statement:
    tIF tLPAR Conditions tRPAR tLBRACE {scope++;
                                         index_global = add_asm("JMF",2,$3,0);} Corps tRBRACE {
-                                                                           modif_asm_inst(index_global,"JMF",2,$3,93);
+                                                                           modif_asm_inst(index_global,"JMF",2,$3,get_last_index()+1);
                                                                            remove_symbols_by_scope(table,scope);
+                                                                           index_global =0;
                                                                            print_table(table);}  Else_statement;
-   
    
 Else_statement:
    /*empty*/
-   |tELSE tLBRACE Statement_list tRBRACE;
-   
+   |tELSE {index_global = add_asm("JMP",1,0);} tLBRACE{scope++;} Statement_list tRBRACE{modif_asm_inst(index_global,"JMP",1,get_last_index());
+                                                                                 remove_symbols_by_scope(table,scope);
+                                                                                 index_global =0;
+                                                                                 print_table(table);};
+         
    
 Iteration_statement:
-   tWHILE tLPAR Conditions tRPAR tLBRACE Statement_list tRBRACE;
+   tWHILE tLPAR Conditions{index_global = add_asm("JMF",2,$3,0);} tRPAR tLBRACE{scope++;} Statement_list {add_asm("JMP",1,index_global);
+                                                                                                            modif_asm_inst(index_global,"JMF",2,$3,get_last_index());
+                                                                                                            } tRBRACE{remove_symbols_by_scope(table,scope);
+                                                                                                                        index_global =0;
+                                                                                                                        print_table(table);};
    
    
 Return_statement:
@@ -192,11 +203,11 @@ Return_statement:
    
    
 Print_statement:
-   tPRINT tLPAR Expression tRPAR tSEMI;
+   tPRINT tLPAR Expression tRPAR tSEMI {add_asm("PRI",1,$3);};
    
    
 Assignement_statement:
-    tID tASSIGN Expression tSEMI  {//int index = add_asm("COP",index,$3);
+    tID tASSIGN Expression tSEMI  {add_asm("COP",2,$1,$3);
                                     print_table(table);};
 
 
