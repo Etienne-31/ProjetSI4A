@@ -181,7 +181,7 @@ int indexret;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 #line 24 "lex.y"
-{ int nb; char* var; struct {int a1; int a2;}index_while;}
+{ int nb; char* var; struct {int index_condition; int index_exit;}index_while;}
 /* Line 193 of yacc.c.  */
 #line 187 "lex.tab.c"
 	YYSTYPE;
@@ -1830,14 +1830,14 @@ yyreduce:
   case 67:
 #line 335 "lex.y"
     {
-      (yyvsp[(1) - (2)].index_while).a1 = get_last_index();
+      (yyvsp[(1) - (2)].index_while).index_condition = get_last_index();
    ;}
     break;
 
   case 68:
 #line 338 "lex.y"
     {
-      (yyvsp[(1) - (4)].index_while).a2 = add_asm("JMF",2,(yyvsp[(4) - (4)].nb),0);
+      (yyvsp[(1) - (4)].index_while).index_exit = add_asm("JMF",2,(yyvsp[(4) - (4)].nb),0);
       remove_last_temp_var(table);
    ;}
     break;
@@ -1850,8 +1850,8 @@ yyreduce:
   case 70:
 #line 342 "lex.y"
     {
-      modif_asm_inst((yyvsp[(1) - (9)].index_while).a2,"JMF",2,(yyvsp[(4) - (9)].nb),get_last_index()+1);
-      add_asm("JMP",1,(yyvsp[(1) - (9)].index_while).a1);;}
+      modif_asm_inst((yyvsp[(1) - (9)].index_while).index_exit,"JMF",2,(yyvsp[(4) - (9)].nb),get_last_index()+1);
+      add_asm("JMP",1,(yyvsp[(1) - (9)].index_while).index_condition);;}
     break;
 
   case 71:

@@ -111,7 +111,7 @@
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 #line 24 "lex.y"
-{ int nb; char* var; struct {int a1; int a2;}index_while;}
+{ int nb; char* var; struct {int index_condition; int index_exit;}index_while;}
 /* Line 1529 of yacc.c.  */
 #line 117 "lex.tab.h"
 	YYSTYPE;

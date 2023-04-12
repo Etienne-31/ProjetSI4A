@@ -21,7 +21,7 @@ int indexret;
 
 %}
 
-%union { int nb; char* var; struct {int a1; int a2;}index_while;}
+%union { int nb; char* var; struct {int index_condition; int index_exit;}index_while;}
 %token tINT tVOID tCONST tMAIN tRETURN tPRINT
 %token tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tASSIGN tAND tOR tNOT
 %token tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA
@@ -333,15 +333,15 @@ Else_statement:
 Iteration_statement:
    tWHILE tLPAR 
    {
-      $1.a1 = get_last_index();
+      $1.index_condition = get_last_index();
    }Conditions
    {
-      $1.a2 = add_asm("JMF",2,$4,0);
+      $1.index_exit = add_asm("JMF",2,$4,0);
       remove_last_temp_var(table);
    } tRPAR tLBRACE{scope++;} Statement_list 
    {
-      modif_asm_inst($1.a2,"JMF",2,$4,get_last_index()+1);
-      add_asm("JMP",1,$1.a1);} tRBRACE{
+      modif_asm_inst($1.index_exit,"JMF",2,$4,get_last_index()+1);
+      add_asm("JMP",1,$1.index_condition);} tRBRACE{
       remove_symbols_by_scope(table,scope);
       print_table(table);
    
