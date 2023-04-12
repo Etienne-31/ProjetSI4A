@@ -35,6 +35,8 @@ void write_asm_file(FILE* output_file);
 //retourne l'index de l'instruction ajoutée 
 int add_asm(char *instruction, int num_operands, ...);
 
+int get_last_index();
+
 //modifie l'instruction situé a l'index passé en argument 
 void modif_asm_inst(int index, char *instruction, int num_operands, ...);
 

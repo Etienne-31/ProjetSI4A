@@ -42,33 +42,33 @@
      tINT = 258,
      tVOID = 259,
      tCONST = 260,
-     tIF = 261,
-     tELSE = 262,
-     tWHILE = 263,
-     tMAIN = 264,
-     tRETURN = 265,
-     tPRINT = 266,
-     tADD = 267,
-     tSUB = 268,
-     tMUL = 269,
-     tDIV = 270,
-     tLT = 271,
-     tGT = 272,
-     tNE = 273,
-     tEQ = 274,
-     tGE = 275,
-     tLE = 276,
-     tASSIGN = 277,
-     tAND = 278,
-     tOR = 279,
-     tNOT = 280,
-     tLBRACE = 281,
-     tRBRACE = 282,
-     tLPAR = 283,
-     tRPAR = 284,
-     tSEMI = 285,
-     tCOMMA = 286,
-     tNB = 287,
+     tMAIN = 261,
+     tRETURN = 262,
+     tPRINT = 263,
+     tADD = 264,
+     tSUB = 265,
+     tMUL = 266,
+     tDIV = 267,
+     tLT = 268,
+     tGT = 269,
+     tNE = 270,
+     tEQ = 271,
+     tGE = 272,
+     tLE = 273,
+     tASSIGN = 274,
+     tAND = 275,
+     tOR = 276,
+     tNOT = 277,
+     tLBRACE = 278,
+     tRBRACE = 279,
+     tLPAR = 280,
+     tRPAR = 281,
+     tSEMI = 282,
+     tCOMMA = 283,
+     tNB = 284,
+     tIF = 285,
+     tELSE = 286,
+     tWHILE = 287,
      tID = 288
    };
 #endif
@@ -76,33 +76,33 @@
 #define tINT 258
 #define tVOID 259
 #define tCONST 260
-#define tIF 261
-#define tELSE 262
-#define tWHILE 263
-#define tMAIN 264
-#define tRETURN 265
-#define tPRINT 266
-#define tADD 267
-#define tSUB 268
-#define tMUL 269
-#define tDIV 270
-#define tLT 271
-#define tGT 272
-#define tNE 273
-#define tEQ 274
-#define tGE 275
-#define tLE 276
-#define tASSIGN 277
-#define tAND 278
-#define tOR 279
-#define tNOT 280
-#define tLBRACE 281
-#define tRBRACE 282
-#define tLPAR 283
-#define tRPAR 284
-#define tSEMI 285
-#define tCOMMA 286
-#define tNB 287
+#define tMAIN 261
+#define tRETURN 262
+#define tPRINT 263
+#define tADD 264
+#define tSUB 265
+#define tMUL 266
+#define tDIV 267
+#define tLT 268
+#define tGT 269
+#define tNE 270
+#define tEQ 271
+#define tGE 272
+#define tLE 273
+#define tASSIGN 274
+#define tAND 275
+#define tOR 276
+#define tNOT 277
+#define tLBRACE 278
+#define tRBRACE 279
+#define tLPAR 280
+#define tRPAR 281
+#define tSEMI 282
+#define tCOMMA 283
+#define tNB 284
+#define tIF 285
+#define tELSE 286
+#define tWHILE 287
 #define tID 288
 
 
@@ -110,8 +110,8 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 17 "lex.y"
-{ int nb; char* var; }
+#line 24 "lex.y"
+{ int nb; char* var; struct {int a1; int a2;}index_while;}
 /* Line 1529 of yacc.c.  */
 #line 117 "lex.tab.h"
 	YYSTYPE;

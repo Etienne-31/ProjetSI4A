@@ -1,73 +1,117 @@
-// est ce qu'on remove temp var juste apres l'avoir utilisée 
-// est ce que dans tID on assigne l'adresse ou comment on fait pour mettre le contenu de l'adresse
-//que faire quand on a des parentheses $$2??
+//est ce que le programme marche comme on le veut 
+//traitement des conditions pour if et while
 //copie ou assign
-//pourquoi dans le if le $3 recupere une valeur random
-//comment recup l'adresse de la fin de bloc if
-
 
 int main() {
-  int x = 10;
-  int y = 20;
-  
-  
-  print(y);
-
-  if (x < y) {
-   print(x);
+  int x = 4672;
+  x = 33+49+x;
+  if ((x<23445)){
+      int r;
+      r=3980;
+    }else{
+      
+      x=900000;
+    }
   }
+//test while 
 int main(){
-  int x; 
-  x=78;
-  while (x < 15) {
-   x=45;
-   x=190;
-
+  int x = 0;
+  int y=8888;
+  while(x<y){
+    x=x+34;
   }
-  x=897;
+  x=12;
+   while(x){
+    x=x+444444;
+  }
+  x=5555555;
 }
 
-int main() {
-  int x = 10+23 ;
+//test while imbriqués 
+int main(){
+  int x;
   int y;
-  y=5+4;
-  if (x<y){
-    int k;
-    print(k);
+  while(x==y){
+    x=x+34;
+    while(x<y){
+    x=x+444444;
   }
-  else {
-    x=3;
   }
+  x=12;
+   
+  x=5555555;
 }
 
-  x=5+3+x;
-  x=3+x;
 
-  int a;
-  a=x;
-  if (x) {
-    int i;
-   print(i);
-  } 
-}
+//operations arithmetiques
+int main() {
+  int x = 309;
+  int y;
+  x = 33+49+x;
+  y= x-409409;
+  y = 23903/3930;
+  x = 309039*10192;
+
+  x = 33+49+x;
+  y= x-409409;
+  y = 23903/3930;
+  x = 309039*10192;
+} 
+//if imbriqués ok 
+int main() {
+  int y = 4672;
+  int x = 309;
+  int d = 3930983;
+  x=2876;
+  if (x){
+    x=67627;
+    }else{
+      if(x){
+      int r;
+      r=3980;
+      }
+      x=900000;
+    }
+    x= 555555;
+    
+  }
+
+//if else marche 
+int main() {
+  int x = 4672;
+  x = 33+49+x;
+  if (x){
+      int r;
+      r=3980;
+    }else{
+      
+      x=900000;
+    }
+  }
+
+//test ajout de fonctions
+
+int compute() {
+  int a = 309;
+  int v;
+  a = 33+49+a;
+  v= v-409409;
+  a = 23903/3930;
+  v = 309039*10192;
+} 
 
 int main() {
-  int x;
-  int y= 5;
-
-  
-  print(x);
-
-  if (x < y) {
-   print(x);
-  } else {
-    print(y);
+  int y = 4672;
+  int x = 309;
+  int d = 3930983;
+  compute(x);
+  x = 33+49+x;
+  x=2876;
+  if (x){
+      int r;
+      r=3980;
+    }else{
+      
+      x=900000;
+    }
   }
-}
-
-int main() {
-  int x;
-  x=30+40;
-  x=120+x;
-
-}

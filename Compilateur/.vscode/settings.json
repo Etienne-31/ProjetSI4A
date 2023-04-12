@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "function_table.h": "c"
+        "function_table.h": "c",
+        "program for tesr": "cpp"
     }
 }

@@ -7,7 +7,7 @@ lex.yy.c: lex.l lex.tab.h
 	flex lex.l
 
 lex : lex.yy.c lex.tab.c lex.tab.h
-	gcc -o lex lex.tab.c lex.yy.c Symbol_table.c asm_gestion.c
+	gcc -o lex lex.tab.c lex.yy.c Symbol_table.c asm_gestion.c Function_table.c
 
 clean:
 	rm lex lex.tab.c lex.yy.c lex.tab.h lex.output asmcode.asm

@@ -12,6 +12,6 @@ void init_function_table();
 
 void add_function(char *name, int asm_address);
 
-function_line *find_function(char *name);
+void print_function_table();
 
 int find_function_asm_address(char *name);

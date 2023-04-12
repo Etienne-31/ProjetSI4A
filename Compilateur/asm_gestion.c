@@ -126,7 +126,7 @@ void modif_asm_inst(int index, char* operation, int nb_operandes, ...) {
     next_operande* tail = NULL;
     for (int i = 0; i < nb_operandes; i++) {
         int operande = va_arg(valist, int);
-        printf("Nouvelle valeur de l'opérande %d: %d\n", i+1, operande);
+        //printf("Nouvelle valeur de l'opérande %d: %d\n", i+1, operande);
         next_operande* new_op = malloc(sizeof(next_operande));
         new_op->operande = operande;
         new_op->next = NULL;
@@ -139,11 +139,11 @@ void modif_asm_inst(int index, char* operation, int nb_operandes, ...) {
             tail->next = new_op;
             tail = new_op;
         }
-        printf("Valeur de l'opérande ajouté: %d\n", new_op->operande);
-        printf("Pointeur de l'opérande ajouté: %p\n", (void*)new_op);
+        //printf("Valeur de l'opérande ajouté: %d\n", new_op->operande);
+        //printf("Pointeur de l'opérande ajouté: %p\n", (void*)new_op);
     }
     ins->operandes = new_head;
-    printf("fin de la modif \n");
+    //printf("fin de la modif \n");
     va_end(valist);
 }
 

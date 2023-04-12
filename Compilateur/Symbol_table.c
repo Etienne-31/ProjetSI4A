@@ -30,7 +30,7 @@ int add_temp_var(symbol_table *table){
         table->last_entry->next = entry;
         table->last_entry = entry;
     }
-    return(get_adress(table,""));
+    return(entry->address);
 }
 
 
@@ -60,6 +60,7 @@ void remove_last_temp_var(symbol_table *table) {
                 prev->next = NULL;
                 table->last_entry = prev;
             }
+            address = entry->address;
             free(entry->name);
             free(entry);
             break;
@@ -71,7 +72,6 @@ void remove_last_temp_var(symbol_table *table) {
 
 
 //free les symboles du meme scope 
-
 void remove_symbols_by_scope(symbol_table *table, int scope) {
     symbol_table_entry *entry = table->first_entry;
     symbol_table_entry *prev = NULL;
@@ -97,8 +97,6 @@ void remove_symbols_by_scope(symbol_table *table, int scope) {
         }
     }
 }
-
-
 
 // ajouter une entree a la table 
 int add_symbol(symbol_table *table, char *name, int scope) {
@@ -154,6 +152,7 @@ void free_table(symbol_table *table) {
     }
     table->first_entry = NULL;
     table->last_entry = NULL;
+    address = 0;
 }
 
 // affiche la table 
@@ -166,7 +165,24 @@ void print_table(symbol_table *table) {
     }
 }
 
+int get_last_index_ts(symbol_table *table) {
+    if (table->last_entry == NULL) {
+        fprintf(stderr, "Symbol table is empty\n");
+        exit(1);
+    }
+    return table->last_entry->address;
+}
 #if 0
+int main() {
+    symbol_table *table = init_symbol_table();
+    add_symbol(table,"x",1);
+    int addr1 = add_temp_var(table);
+    printf ("address var temp 1 est : %d\n",addr1);
+    int addr2 = add_temp_var(table);
+    printf ("address var temp 2 est : %d\n",addr2);
+    remove_last_temp_var(table);
+}
+
 // main pour tester les fonctions valide
 int main() {
     symbol_table *table = init_symbol_table();
@@ -174,22 +190,26 @@ int main() {
     add_symbol(table, "x", 1);
    
     add_symbol(table, "z", 1);
-    int addr1 = add_temp_var(table);
+   
     int addr2 =  add_symbol(table, "y", 2);
+     int addr1 = add_temp_var(table);
     // Look up some symbols in the table
     printf("Address of x: %d\n", get_adress(table, "x"));
     printf("Address of y: %d\n", get_adress(table, "y"));
     printf("Address of z: %d\n", get_adress(table, "z"));
     printf("adresse de la var temp 1 est : %d\n ", addr1);
-     printf("adresse de la var y est : %d\n ", addr2);
     // Print the contents of the symbol table
     print_table(table);
-    
-    remove_symbols_by_scope(table,1);
+    int addr_dernier = get_last_index_ts(table);
+    printf("addresse dernier : %d\n",addr_dernier);
+    remove_last_temp_var(table);
     printf("table apres remove scope 1\n");
     print_table(table); 
    
-    remove_last_temp_var(table);
+    printf("table apres remove last temp :\n");
+    print_table(table);
+    int addr3 = add_temp_var(table);
+    printf("adresse de la var temp 2 est : %d\n ", addr3);
     printf("table apres remove var 1\n");
     print_table(table);
 
@@ -200,4 +220,5 @@ int main() {
 
     print_table(table);
 }
+
 #endif

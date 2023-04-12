@@ -69,33 +69,33 @@
      tINT = 258,
      tVOID = 259,
      tCONST = 260,
-     tIF = 261,
-     tELSE = 262,
-     tWHILE = 263,
-     tMAIN = 264,
-     tRETURN = 265,
-     tPRINT = 266,
-     tADD = 267,
-     tSUB = 268,
-     tMUL = 269,
-     tDIV = 270,
-     tLT = 271,
-     tGT = 272,
-     tNE = 273,
-     tEQ = 274,
-     tGE = 275,
-     tLE = 276,
-     tASSIGN = 277,
-     tAND = 278,
-     tOR = 279,
-     tNOT = 280,
-     tLBRACE = 281,
-     tRBRACE = 282,
-     tLPAR = 283,
-     tRPAR = 284,
-     tSEMI = 285,
-     tCOMMA = 286,
-     tNB = 287,
+     tMAIN = 261,
+     tRETURN = 262,
+     tPRINT = 263,
+     tADD = 264,
+     tSUB = 265,
+     tMUL = 266,
+     tDIV = 267,
+     tLT = 268,
+     tGT = 269,
+     tNE = 270,
+     tEQ = 271,
+     tGE = 272,
+     tLE = 273,
+     tASSIGN = 274,
+     tAND = 275,
+     tOR = 276,
+     tNOT = 277,
+     tLBRACE = 278,
+     tRBRACE = 279,
+     tLPAR = 280,
+     tRPAR = 281,
+     tSEMI = 282,
+     tCOMMA = 283,
+     tNB = 284,
+     tIF = 285,
+     tELSE = 286,
+     tWHILE = 287,
      tID = 288
    };
 #endif
@@ -103,33 +103,33 @@
 #define tINT 258
 #define tVOID 259
 #define tCONST 260
-#define tIF 261
-#define tELSE 262
-#define tWHILE 263
-#define tMAIN 264
-#define tRETURN 265
-#define tPRINT 266
-#define tADD 267
-#define tSUB 268
-#define tMUL 269
-#define tDIV 270
-#define tLT 271
-#define tGT 272
-#define tNE 273
-#define tEQ 274
-#define tGE 275
-#define tLE 276
-#define tASSIGN 277
-#define tAND 278
-#define tOR 279
-#define tNOT 280
-#define tLBRACE 281
-#define tRBRACE 282
-#define tLPAR 283
-#define tRPAR 284
-#define tSEMI 285
-#define tCOMMA 286
-#define tNB 287
+#define tMAIN 261
+#define tRETURN 262
+#define tPRINT 263
+#define tADD 264
+#define tSUB 265
+#define tMUL 266
+#define tDIV 267
+#define tLT 268
+#define tGT 269
+#define tNE 270
+#define tEQ 271
+#define tGE 272
+#define tLE 273
+#define tASSIGN 274
+#define tAND 275
+#define tOR 276
+#define tNOT 277
+#define tLBRACE 278
+#define tRBRACE 279
+#define tLPAR 280
+#define tRPAR 281
+#define tSEMI 282
+#define tCOMMA 283
+#define tNB 284
+#define tIF 285
+#define tELSE 286
+#define tWHILE 287
 #define tID 288
 
 
@@ -143,6 +143,7 @@
 #include <string.h>
 #include "Symbol_table.h"
 #include "asm_gestion.h"
+#include "Function_table.h"
 
 void yyerror(const char *s);
 int yylex(void);
@@ -150,6 +151,12 @@ symbol_table *table;
 int scope = 0;
 FILE* output_file;
 int index_global;
+//Pour pouvoir imbriquer des ifs et whiles
+int queue[100];
+
+int index_queue = 0;
+int returnaddr;
+int indexret;
 
 
 
@@ -173,10 +180,10 @@ int index_global;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 17 "lex.y"
-{ int nb; char* var; }
+#line 24 "lex.y"
+{ int nb; char* var; struct {int a1; int a2;}index_while;}
 /* Line 193 of yacc.c.  */
-#line 180 "lex.tab.c"
+#line 187 "lex.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -189,7 +196,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 193 "lex.tab.c"
+#line 200 "lex.tab.c"
 
 #ifdef short
 # undef short
@@ -404,16 +411,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   136
+#define YYLAST   171
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  34
+#define YYNNTS  39
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  68
+#define YYNRULES  76
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  132
+#define YYNSTATES  151
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -461,53 +468,58 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     7,    10,    19,    22,    24,    26,
-      27,    29,    33,    36,    38,    40,    43,    45,    47,    49,
-      51,    53,    57,    61,    63,    67,    71,    73,    75,    77,
-      81,    85,    87,    90,    96,   102,   108,   112,   116,   120,
-     122,   124,   126,   127,   129,   131,   134,   138,   143,   147,
-     153,   155,   159,   165,   169,   170,   171,   182,   183,   184,
-     185,   192,   193,   194,   195,   206,   210,   213,   219
+       0,     0,     3,     5,     7,    10,    20,    21,    22,    34,
+      37,    39,    41,    42,    44,    48,    51,    53,    55,    58,
+      60,    62,    64,    66,    68,    74,    76,    80,    84,    88,
+      92,    96,    98,   100,   102,   106,   110,   112,   115,   121,
+     127,   133,   137,   141,   145,   147,   149,   151,   152,   154,
+     156,   159,   163,   168,   172,   178,   180,   184,   190,   194,
+     195,   196,   197,   209,   210,   211,   212,   219,   220,   221,
+     222,   223,   235,   236,   240,   243,   249
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
       35,     0,    -1,    36,    -1,    37,    -1,    36,    37,    -1,
-      39,     9,    28,    40,    29,    26,    38,    27,    -1,    50,
-      42,    -1,     3,    -1,     4,    -1,    -1,    41,    -1,    40,
-      31,    41,    -1,     3,    33,    -1,     4,    -1,    43,    -1,
-      42,    43,    -1,    67,    -1,    55,    -1,    61,    -1,    65,
-      -1,    66,    -1,    44,    12,    45,    -1,    44,    13,    45,
-      -1,    45,    -1,    45,    14,    46,    -1,    45,    15,    46,
-      -1,    46,    -1,    32,    -1,    33,    -1,    28,    44,    29,
-      -1,    47,    49,    48,    -1,    48,    -1,    25,    48,    -1,
-      28,    44,    16,    44,    29,    -1,    28,    44,    17,    44,
-      29,    -1,    28,    44,    19,    44,    29,    -1,    44,    16,
-      44,    -1,    44,    17,    44,    -1,    44,    19,    44,    -1,
-      44,    -1,    23,    -1,    24,    -1,    -1,    51,    -1,    52,
-      -1,    51,    52,    -1,     3,    54,    30,    -1,     5,     3,
-      53,    30,    -1,    33,    22,    32,    -1,    33,    22,    32,
-      31,    53,    -1,    33,    -1,    33,    22,    44,    -1,    33,
-      22,    44,    31,    54,    -1,    33,    31,    54,    -1,    -1,
-      -1,     6,    28,    47,    29,    26,    56,    38,    27,    57,
-      58,    -1,    -1,    -1,    -1,     7,    59,    26,    60,    42,
-      27,    -1,    -1,    -1,    -1,     8,    28,    47,    62,    29,
-      26,    63,    42,    64,    27,    -1,    10,    44,    30,    -1,
-      10,    30,    -1,    11,    28,    44,    29,    30,    -1,    33,
-      22,    44,    30,    -1
+      41,     6,    25,    42,    26,    23,    40,    70,    24,    -1,
+      -1,    -1,    41,    33,    38,    25,    42,    26,    23,    40,
+      70,    39,    24,    -1,    53,    44,    -1,     3,    -1,     4,
+      -1,    -1,    43,    -1,    42,    28,    43,    -1,     3,    33,
+      -1,     4,    -1,    45,    -1,    44,    45,    -1,    72,    -1,
+      58,    -1,    46,    -1,    65,    -1,    71,    -1,    33,    25,
+      47,    26,    27,    -1,    48,    -1,    48,    28,    48,    -1,
+      48,     9,    48,    -1,    48,    10,    48,    -1,    48,    11,
+      48,    -1,    48,    12,    48,    -1,    49,    -1,    29,    -1,
+      33,    -1,    25,    48,    26,    -1,    50,    52,    51,    -1,
+      51,    -1,    22,    51,    -1,    25,    48,    13,    48,    26,
+      -1,    25,    48,    14,    48,    26,    -1,    25,    48,    16,
+      48,    26,    -1,    48,    13,    48,    -1,    48,    14,    48,
+      -1,    48,    16,    48,    -1,    48,    -1,    20,    -1,    21,
+      -1,    -1,    54,    -1,    55,    -1,    54,    55,    -1,     3,
+      57,    27,    -1,     5,     3,    56,    27,    -1,    33,    19,
+      29,    -1,    33,    19,    29,    28,    56,    -1,    33,    -1,
+      33,    19,    48,    -1,    33,    19,    48,    28,    57,    -1,
+      33,    28,    57,    -1,    -1,    -1,    -1,    30,    25,    50,
+      59,    26,    23,    60,    40,    61,    24,    62,    -1,    -1,
+      -1,    -1,    31,    63,    23,    64,    44,    24,    -1,    -1,
+      -1,    -1,    -1,    32,    25,    66,    50,    67,    26,    23,
+      68,    44,    69,    24,    -1,    -1,     7,    48,    27,    -1,
+       7,    27,    -1,     8,    25,    48,    26,    27,    -1,    33,
+      19,    48,    27,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    34,    34,    38,    39,    43,    50,    53,    54,    57,
-      59,    60,    64,    65,    69,    70,    74,    75,    76,    77,
-      78,    82,    86,    90,    94,    98,   102,   106,   112,   118,
-     122,   123,   124,   128,   132,   136,   140,   144,   148,   152,
-     156,   157,   160,   162,   165,   166,   169,   170,   173,   177,
-     183,   186,   190,   194,   199,   200,   199,   205,   207,   207,
-     207,   214,   214,   214,   214,   222,   223,   227,   231
+       0,    43,    43,    47,    48,    52,    61,    65,    60,    74,
+      77,    78,    81,    83,    84,    88,    89,    93,    94,    98,
+      99,   100,   101,   102,   106,   115,   116,   120,   130,   140,
+     149,   157,   161,   168,   176,   180,   181,   182,   186,   195,
+     204,   213,   222,   231,   240,   247,   248,   251,   253,   256,
+     257,   260,   261,   264,   271,   280,   286,   293,   299,   308,
+     312,   313,   307,   320,   323,   325,   322,   335,   338,   341,
+     342,   334,   351,   353,   354,   358,   366
 };
 #endif
 
@@ -516,18 +528,19 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "tINT", "tVOID", "tCONST", "tIF",
-  "tELSE", "tWHILE", "tMAIN", "tRETURN", "tPRINT", "tADD", "tSUB", "tMUL",
-  "tDIV", "tLT", "tGT", "tNE", "tEQ", "tGE", "tLE", "tASSIGN", "tAND",
-  "tOR", "tNOT", "tLBRACE", "tRBRACE", "tLPAR", "tRPAR", "tSEMI", "tCOMMA",
-  "tNB", "tID", "$accept", "Program", "Function_list", "Function", "Corps",
-  "Type_specifier", "Parameter_list", "Parameter_declaration",
-  "Statement_list", "Statement", "Expression", "Terme", "Facteur",
-  "Conditions", "Condition", "Separator", "Declarations",
-  "Declaration_list", "Declaration_statement", "Declaration_const",
-  "Declaration_int", "Selection_statement", "@1", "@2", "Else_statement",
-  "@3", "@4", "Iteration_statement", "@5", "@6", "@7", "Return_statement",
-  "Print_statement", "Assignement_statement", 0
+  "$end", "error", "$undefined", "tINT", "tVOID", "tCONST", "tMAIN",
+  "tRETURN", "tPRINT", "tADD", "tSUB", "tMUL", "tDIV", "tLT", "tGT", "tNE",
+  "tEQ", "tGE", "tLE", "tASSIGN", "tAND", "tOR", "tNOT", "tLBRACE",
+  "tRBRACE", "tLPAR", "tRPAR", "tSEMI", "tCOMMA", "tNB", "tIF", "tELSE",
+  "tWHILE", "tID", "$accept", "Program", "Function_list", "Function", "@1",
+  "@2", "Corps", "Type_specifier", "Parameter_list",
+  "Parameter_declaration", "Statement_list", "Statement", "Function_call",
+  "Arguments", "Expression", "Facteur", "Conditions", "Condition",
+  "Separator", "Declarations", "Declaration_list", "Declaration_statement",
+  "Declaration_const", "Declaration_int", "Selection_statement", "@3",
+  "@4", "@5", "Else_statement", "@6", "@7", "Iteration_statement", "@8",
+  "@9", "@10", "@11", "Return_statement", "Print_statement",
+  "Assignement_statement", 0
 };
 #endif
 
@@ -546,25 +559,27 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    34,    35,    36,    36,    37,    38,    39,    39,    40,
-      40,    40,    41,    41,    42,    42,    43,    43,    43,    43,
-      43,    44,    44,    44,    45,    45,    45,    46,    46,    46,
-      47,    47,    47,    48,    48,    48,    48,    48,    48,    48,
-      49,    49,    50,    50,    51,    51,    52,    52,    53,    53,
-      54,    54,    54,    54,    56,    57,    55,    58,    59,    60,
-      58,    62,    63,    64,    61,    65,    65,    66,    67
+       0,    34,    35,    36,    36,    37,    38,    39,    37,    40,
+      41,    41,    42,    42,    42,    43,    43,    44,    44,    45,
+      45,    45,    45,    45,    46,    47,    47,    48,    48,    48,
+      48,    48,    49,    49,    49,    50,    50,    50,    51,    51,
+      51,    51,    51,    51,    51,    52,    52,    53,    53,    54,
+      54,    55,    55,    56,    56,    57,    57,    57,    57,    59,
+      60,    61,    58,    62,    63,    64,    62,    66,    67,    68,
+      69,    65,    70,    70,    70,    71,    72
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     1,     2,     8,     2,     1,     1,     0,
-       1,     3,     2,     1,     1,     2,     1,     1,     1,     1,
-       1,     3,     3,     1,     3,     3,     1,     1,     1,     3,
-       3,     1,     2,     5,     5,     5,     3,     3,     3,     1,
-       1,     1,     0,     1,     1,     2,     3,     4,     3,     5,
-       1,     3,     5,     3,     0,     0,    10,     0,     0,     0,
-       6,     0,     0,     0,    10,     3,     2,     5,     4
+       0,     2,     1,     1,     2,     9,     0,     0,    11,     2,
+       1,     1,     0,     1,     3,     2,     1,     1,     2,     1,
+       1,     1,     1,     1,     5,     1,     3,     3,     3,     3,
+       3,     1,     1,     1,     3,     3,     1,     2,     5,     5,
+       5,     3,     3,     3,     1,     1,     1,     0,     1,     1,
+       2,     3,     4,     3,     5,     1,     3,     5,     3,     0,
+       0,     0,    11,     0,     0,     0,     6,     0,     0,     0,
+       0,    11,     0,     3,     2,     5,     4
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -572,59 +587,63 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     7,     8,     0,     2,     3,     0,     1,     4,     0,
-       9,     0,    13,     0,    10,    12,     0,     0,    42,    11,
-       0,     0,     0,     0,    43,    44,    50,     0,     0,     5,
-       0,     0,     0,     0,     0,     6,    14,    17,    18,    19,
-      20,    16,    45,     0,     0,    46,     0,     0,     0,     0,
-       0,    66,    27,    28,     0,    23,    26,     0,     0,    15,
-      51,    53,     0,    47,     0,     0,    39,     0,    31,    61,
-       0,     0,     0,    65,     0,     0,     0,     0,     0,    48,
-      32,     0,     0,     0,     0,    40,    41,     0,     0,     0,
-      29,    21,    22,    24,    25,     0,    68,    52,     0,     0,
-       0,     0,    36,    37,    38,    54,    30,     0,    67,    49,
-       0,     0,     0,    42,    62,    33,    34,    35,     0,     0,
-      55,    63,    57,     0,    58,    56,    64,     0,    59,     0,
-       0,    60
+       0,    10,    11,     0,     2,     3,     0,     1,     4,     0,
+       6,    12,     0,     0,    16,     0,    13,    12,    15,     0,
+       0,     0,    47,    14,     0,     0,     0,    72,     0,    48,
+      49,    47,    55,     0,     0,     0,     0,     0,     0,     0,
+       0,     9,    17,    21,    20,    22,    23,    19,    50,    72,
+       0,     0,    51,     0,     0,     0,    74,    32,    33,     0,
+      31,     5,     0,     0,    67,     0,     0,    18,     7,    56,
+      58,     0,    52,     0,     0,     0,     0,     0,    73,     0,
+       0,     0,    44,    59,    36,     0,     0,     0,    25,     0,
+       0,    53,    34,    27,    28,    29,    30,     0,    37,     0,
+       0,     0,     0,    45,    46,     0,     0,    68,    76,     0,
+       0,     8,    57,     0,    75,     0,     0,     0,    41,    42,
+      43,    35,     0,     0,    24,    26,    54,     0,     0,     0,
+      60,     0,    38,    39,    40,    47,    69,    61,     0,     0,
+      70,    63,     0,    64,    62,    71,     0,    65,     0,     0,
+      66
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     3,     4,     5,    22,     6,    13,    14,    35,    36,
-      66,    55,    56,    67,    68,    88,    23,    24,    25,    47,
-      27,    37,   113,   122,   125,   127,   129,    38,    89,   119,
-     123,    39,    40,    41
+      -1,     3,     4,     5,    12,    89,    27,     6,    15,    16,
+      41,    42,    43,    87,    82,    60,    83,    84,   105,    28,
+      29,    30,    54,    33,    44,   106,   135,   139,   144,   146,
+     148,    45,    85,   123,   138,   142,    36,    46,    47
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -95
-static const yytype_int8 yypact[] =
+#define YYPACT_NINF -131
+static const yytype_int16 yypact[] =
 {
-      79,   -95,   -95,     6,    79,   -95,     1,   -95,   -95,   -14,
-      87,   -16,   -95,    45,   -95,   -95,     3,    87,    72,   -95,
-       0,    34,    20,     5,    72,   -95,   -13,    35,    17,   -95,
-      57,    59,    70,    66,    37,     5,   -95,   -95,   -95,   -95,
-     -95,   -95,   -95,    73,     0,   -95,    85,    86,    56,    56,
-      73,   -95,   -95,   -95,    10,    96,   -95,    73,    73,   -95,
-       8,   -95,    88,   -95,    76,    73,    80,    43,   -95,    89,
-      31,    73,    73,   -95,    73,    73,    42,    19,     0,    48,
-     -95,    29,    73,    73,    73,   -95,   -95,    93,    76,    94,
-     -95,    96,    96,   -95,   -95,    95,   -95,   -95,    17,    73,
-      73,    73,   102,   102,   102,   -95,   -95,    98,   -95,   -95,
-      44,    49,    51,    72,   -95,   -95,   -95,   -95,    99,     5,
-     -95,     5,   120,   101,   -95,   -95,   -95,   103,   -95,     5,
-      -3,   -95
+      35,  -131,  -131,     9,    35,  -131,    -3,  -131,  -131,   -12,
+    -131,    97,     1,    -2,  -131,    38,  -131,    97,  -131,    36,
+      97,    45,    92,  -131,    52,    32,    78,    72,    17,    92,
+    -131,    92,   -14,    71,    69,    -6,    83,    79,   106,   110,
+      21,    17,  -131,  -131,  -131,  -131,  -131,  -131,  -131,    72,
+      -9,    32,  -131,   113,    98,    -9,  -131,  -131,  -131,    51,
+    -131,  -131,    -9,   -18,  -131,    -9,    -9,  -131,  -131,    42,
+    -131,   120,  -131,   100,    -9,    -9,    -9,    -9,  -131,   104,
+      47,    -9,   134,   107,  -131,   -18,    76,   103,    46,   109,
+      32,   127,  -131,  -131,  -131,  -131,  -131,   131,  -131,    80,
+      -9,    -9,    -9,  -131,  -131,    47,   111,   107,  -131,   132,
+      -9,  -131,  -131,    69,  -131,    -9,    -9,    -9,   142,   142,
+     142,  -131,   137,   135,  -131,   142,  -131,   108,   112,   130,
+    -131,   139,  -131,  -131,  -131,    92,  -131,  -131,    17,   133,
+      17,   105,   140,  -131,  -131,  -131,   143,  -131,    17,     4,
+    -131
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -95,   -95,   -95,   126,    18,   -95,   -95,   115,   -94,   -35,
-     -31,    46,    47,    84,   -60,   -95,   -95,   -95,   110,    38,
-     -42,   -95,   -95,   -95,   -95,   -95,   -95,   -95,   -95,   -95,
-     -95,   -95,   -95,   -95
+    -131,  -131,  -131,   159,  -131,  -131,   -30,  -131,   148,   147,
+    -130,   -41,  -131,  -131,   -33,  -131,    84,   -70,  -131,  -131,
+    -131,   141,    55,   -45,  -131,  -131,  -131,  -131,  -131,  -131,
+    -131,  -131,  -131,  -131,  -131,  -131,   122,  -131,  -131
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -634,58 +653,68 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      59,    54,    61,    30,    80,    31,     7,    32,    33,    43,
-       9,    30,    60,    31,    10,    32,    33,    15,    44,    70,
-      71,    72,    71,    72,   131,   121,    76,    77,   106,    18,
-      34,    71,    72,    26,    81,   130,    97,    28,    34,    78,
-      73,    71,    72,    71,    72,    99,   100,    29,   101,    96,
-      46,   102,   103,   104,    71,    72,    71,    72,    90,    58,
-      90,    71,    72,    71,    72,    45,    85,    86,   110,   111,
-     112,    95,    87,   115,    16,    20,    17,    21,   116,    98,
-     117,    64,     1,     2,    65,    48,    59,    49,    52,    53,
-      11,    12,    71,    72,    57,    59,    82,    83,    50,    84,
-      51,    50,    52,    53,    65,    52,    53,    62,    52,    53,
-      74,    75,    85,    86,    71,    72,    63,    91,    92,   105,
-      79,    93,    94,   107,   114,   108,   120,   124,   126,   128,
-       8,   118,    19,    69,    42,     0,   109
+      67,    49,    59,     9,    80,    50,    70,    81,   140,     7,
+      98,    57,    37,    11,    51,    58,    55,    69,   149,    55,
+      57,    56,    73,    57,    58,    37,    17,    58,   150,    79,
+      10,    18,    86,    88,    38,   121,    39,    40,     1,     2,
+      65,    93,    94,    95,    96,   112,    66,    38,    99,    39,
+      40,    74,    75,    76,    77,    74,    75,    76,    77,    22,
+      74,    75,    76,    77,    19,    32,    20,   118,   119,   120,
+      90,    24,    81,    20,   110,    31,    57,   125,    78,    35,
+      58,    34,   127,   128,   129,    74,    75,    76,    77,    74,
+      75,    76,    77,   115,   116,    25,   117,    26,    52,    67,
+      13,    14,    53,   108,    62,   137,    92,    61,    67,    74,
+      75,    76,    77,    74,    75,    76,    77,    74,    75,    76,
+      77,    74,    75,    76,    77,    72,    92,   103,   104,   109,
+      97,    63,    71,   111,   132,    64,   143,   122,   133,    74,
+      75,    76,    77,    74,    75,    76,    77,   100,   101,    91,
+     102,    74,    75,    76,    77,   113,   134,   141,   114,   124,
+     130,   131,   136,     8,   145,    21,   147,    23,   126,   107,
+      48,    68
 };
 
-static const yytype_int16 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-      35,    32,    44,     6,    64,     8,     0,    10,    11,    22,
-       9,     6,    43,     8,    28,    10,    11,    33,    31,    50,
-      12,    13,    12,    13,    27,   119,    57,    58,    88,    26,
-      33,    12,    13,    33,    65,   129,    78,     3,    33,    31,
-      30,    12,    13,    12,    13,    16,    17,    27,    19,    30,
-      33,    82,    83,    84,    12,    13,    12,    13,    29,    22,
-      29,    12,    13,    12,    13,    30,    23,    24,    99,   100,
-     101,    29,    29,    29,    29,     3,    31,     5,    29,    31,
-      29,    25,     3,     4,    28,    28,   121,    28,    32,    33,
-       3,     4,    12,    13,    28,   130,    16,    17,    28,    19,
-      30,    28,    32,    33,    28,    32,    33,    22,    32,    33,
-      14,    15,    23,    24,    12,    13,    30,    71,    72,    26,
-      32,    74,    75,    29,    26,    30,    27,     7,    27,    26,
-       4,   113,    17,    49,    24,    -1,    98
+      41,    31,    35,     6,    22,    19,    51,    25,   138,     0,
+      80,    29,     8,    25,    28,    33,    25,    50,   148,    25,
+      29,    27,    55,    29,    33,     8,    25,    33,    24,    62,
+      33,    33,    65,    66,    30,   105,    32,    33,     3,     4,
+      19,    74,    75,    76,    77,    90,    25,    30,    81,    32,
+      33,     9,    10,    11,    12,     9,    10,    11,    12,    23,
+       9,    10,    11,    12,    26,    33,    28,   100,   101,   102,
+      28,    26,    25,    28,    28,    23,    29,   110,    27,     7,
+      33,     3,   115,   116,   117,     9,    10,    11,    12,     9,
+      10,    11,    12,    13,    14,     3,    16,     5,    27,   140,
+       3,     4,    33,    27,    25,   135,    26,    24,   149,     9,
+      10,    11,    12,     9,    10,    11,    12,     9,    10,    11,
+      12,     9,    10,    11,    12,    27,    26,    20,    21,    26,
+      26,    25,    19,    24,    26,    25,    31,    26,    26,     9,
+      10,    11,    12,     9,    10,    11,    12,    13,    14,    29,
+      16,     9,    10,    11,    12,    28,    26,    24,    27,    27,
+      23,    26,    23,     4,    24,    17,    23,    20,   113,    85,
+      29,    49
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     4,    35,    36,    37,    39,     0,    37,     9,
-      28,     3,     4,    40,    41,    33,    29,    31,    26,    41,
-       3,     5,    38,    50,    51,    52,    33,    54,     3,    27,
-       6,     8,    10,    11,    33,    42,    43,    55,    61,    65,
-      66,    67,    52,    22,    31,    30,    33,    53,    28,    28,
-      28,    30,    32,    33,    44,    45,    46,    28,    22,    43,
-      44,    54,    22,    30,    25,    28,    44,    47,    48,    47,
-      44,    12,    13,    30,    14,    15,    44,    44,    31,    32,
-      48,    44,    16,    17,    19,    23,    24,    29,    49,    62,
-      29,    45,    45,    46,    46,    29,    30,    54,    31,    16,
-      17,    19,    44,    44,    44,    26,    48,    29,    30,    53,
-      44,    44,    44,    56,    26,    29,    29,    29,    38,    63,
-      27,    42,    57,    64,     7,    58,    27,    59,    26,    60,
-      42,    27
+       0,     3,     4,    35,    36,    37,    41,     0,    37,     6,
+      33,    25,    38,     3,     4,    42,    43,    25,    33,    26,
+      28,    42,    23,    43,    26,     3,     5,    40,    53,    54,
+      55,    23,    33,    57,     3,     7,    70,     8,    30,    32,
+      33,    44,    45,    46,    58,    65,    71,    72,    55,    40,
+      19,    28,    27,    33,    56,    25,    27,    29,    33,    48,
+      49,    24,    25,    25,    25,    19,    25,    45,    70,    48,
+      57,    19,    27,    48,     9,    10,    11,    12,    27,    48,
+      22,    25,    48,    50,    51,    66,    48,    47,    48,    39,
+      28,    29,    26,    48,    48,    48,    48,    26,    51,    48,
+      13,    14,    16,    20,    21,    52,    59,    50,    27,    26,
+      28,    24,    57,    28,    27,    13,    14,    16,    48,    48,
+      48,    51,    26,    67,    27,    48,    56,    48,    48,    48,
+      23,    26,    26,    26,    26,    60,    23,    40,    68,    61,
+      44,    24,    69,    31,    62,    24,    63,    23,    64,    44,
+      24
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1500,244 +1529,362 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 43 "lex.y"
+#line 53 "lex.y"
     {
       free_table(table);
+      scope=0;
       print_table(table);
-      print_asm_table();;}
+      print_asm_table();
+   ;}
     break;
 
-  case 21:
-#line 82 "lex.y"
-    {int temp = add_temp_var(table);
-                              add_asm("ADD", 3, temp, (yyvsp[(1) - (3)].nb), (yyvsp[(3) - (3)].nb));
-                              (yyval.nb) = temp;
-                              remove_last_temp_var(table);;}
+  case 6:
+#line 61 "lex.y"
+    {
+      int addr =add_asm("NOP",0);
+      add_function((yyvsp[(2) - (2)].var),addr);
+   ;}
     break;
 
-  case 22:
-#line 86 "lex.y"
-    {int temp = add_temp_var(table);
-                              add_asm("SUB", 3, temp, (yyvsp[(1) - (3)].nb), (yyvsp[(3) - (3)].nb));
-                              (yyval.nb) = temp;
-                              remove_last_temp_var(table);;}
+  case 7:
+#line 65 "lex.y"
+    {
+      indexret = add_asm("BX",1,returnaddr);
+   ;}
     break;
 
-  case 23:
-#line 90 "lex.y"
-    {(yyval.nb)=(yyvsp[(1) - (1)].nb);;}
+  case 8:
+#line 68 "lex.y"
+    {
+      print_function_table();
+   ;}
     break;
 
   case 24:
-#line 94 "lex.y"
-    {int temp = add_temp_var(table);
-                              add_asm("MUL", 3, temp, (yyvsp[(1) - (3)].nb), (yyvsp[(3) - (3)].nb));
-                              (yyval.nb) = temp;
-                              remove_last_temp_var(table);;}
-    break;
-
-  case 25:
-#line 98 "lex.y"
-    {int temp = add_temp_var(table);
-                              add_asm("DIV", 3, temp, (yyvsp[(1) - (3)].nb), (yyvsp[(3) - (3)].nb));
-                              (yyval.nb) = temp;
-                              remove_last_temp_var(table);;}
-    break;
-
-  case 26:
-#line 102 "lex.y"
-    {(yyval.nb)=(yyvsp[(1) - (1)].nb);;}
+#line 107 "lex.y"
+    {
+      int addrfunc = find_function_asm_address((yyvsp[(1) - (5)].var));
+      add_asm("BX",1,addrfunc);
+      returnaddr = add_asm("NOP",0);
+      modif_asm_inst(indexret,"BX",1,returnaddr);
+   ;}
     break;
 
   case 27:
-#line 106 "lex.y"
-    { int addrtemp = add_temp_var(table);
-              // affecter tnb a l'adresse de la variable temp 
-              add_asm("AFC",2,addrtemp,(yyvsp[(1) - (1)].nb));
-              (yyval.nb)=addrtemp;
-              remove_last_temp_var(table);
-            ;}
+#line 121 "lex.y"
+    { 
+
+         int addr_last= get_last_index_ts(table);
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         add_asm("ADD",3,addr_next_to_last,addr_next_to_last,addr_last);
+         remove_last_temp_var(table);
+         print_asm_table();
+         
+        ;}
     break;
 
   case 28:
-#line 112 "lex.y"
-    {int addr = get_adress(table,(yyvsp[(1) - (1)].var));
-             //int addrtemp = add_temp_var(table);
-             //affecte le contenu de l'adresse  de Id dans une var temp
-             //add_asm("ASS",2,addrtemp,addr);
-             (yyval.nb)=addr;
-             ;}
+#line 131 "lex.y"
+    { 
+
+         int addr_last= get_last_index_ts(table);
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         add_asm("SUB",3,addr_next_to_last,addr_next_to_last,addr_last);
+         remove_last_temp_var(table);
+         
+        ;}
     break;
 
   case 29:
-#line 118 "lex.y"
-    {(yyval.nb)=(yyvsp[(2) - (3)].nb);;}
+#line 141 "lex.y"
+    { 
+
+         int addr_last= get_last_index_ts(table);
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         add_asm("MUL",3,addr_next_to_last,addr_next_to_last,addr_last);
+         remove_last_temp_var(table);
+
+        ;}
+    break;
+
+  case 30:
+#line 149 "lex.y"
+    { 
+
+         int addr_last= get_last_index_ts(table);
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         add_asm("DIV",3,addr_next_to_last,addr_next_to_last,addr_last);
+         remove_last_temp_var(table);
+         
+        ;}
+    break;
+
+  case 32:
+#line 161 "lex.y"
+    { int addrtemp = add_temp_var(table);
+              //int addr_nb= get_adress($1);
+
+             printf("addr temp NB = %d\n",addrtemp);
+              // affecter tnb a l'adresse de la variable temp 
+              add_asm("AFC",2,addrtemp,(yyvsp[(1) - (1)].nb));
+            ;}
     break;
 
   case 33:
-#line 128 "lex.y"
-    {int addr = add_temp_var(table);
-                                          add_asm("INF",3,addr,(yyvsp[(2) - (5)].nb),(yyvsp[(4) - (5)].nb));
-                                          (yyval.nb)=addr;
-                                          remove_last_temp_var(table);;}
+#line 168 "lex.y"
+    {int addr = get_adress(table,(yyvsp[(1) - (1)].var));
+            printf("address de %s est %d\n", (yyvsp[(1) - (1)].var),addr);
+             int addrtemp = add_temp_var(table);
+             printf("addr temp = %d\n",addrtemp);
+             //affecte le contenu de l'adresse  de Id dans une var temp
+             add_asm("COP",2,addrtemp,addr);
+             (yyval.nb)=addrtemp;
+             ;}
     break;
 
   case 34:
-#line 132 "lex.y"
-    {int addr = add_temp_var(table);
-                                             add_asm("SUP",3,addr,(yyvsp[(2) - (5)].nb),(yyvsp[(4) - (5)].nb));
-                                             (yyval.nb)=addr;
-                                             remove_last_temp_var(table);;}
-    break;
-
-  case 35:
-#line 136 "lex.y"
-    {int addr = add_temp_var(table);
-                                             add_asm("EQU",3,addr,(yyvsp[(2) - (5)].nb),(yyvsp[(4) - (5)].nb));
-                                             (yyval.nb)=addr;
-                                             remove_last_temp_var(table);;}
-    break;
-
-  case 36:
-#line 140 "lex.y"
-    {int addr = add_temp_var(table);
-                                 add_asm("INF",3,addr,(yyvsp[(1) - (3)].nb),(yyvsp[(3) - (3)].nb));
-                                 (yyval.nb)=addr;
-                                 remove_last_temp_var(table);;}
-    break;
-
-  case 37:
-#line 144 "lex.y"
-    {int addr = add_temp_var(table);
-                                 add_asm("SUP",3,addr,(yyvsp[(1) - (3)].nb),(yyvsp[(3) - (3)].nb));
-                                 (yyval.nb)=addr;
-                                 remove_last_temp_var(table);;}
+#line 176 "lex.y"
+    {(yyval.nb)=(yyvsp[(2) - (3)].nb);;}
     break;
 
   case 38:
-#line 148 "lex.y"
-    {int addr = add_temp_var(table);
-                                 add_asm("EQU",3,addr,(yyvsp[(1) - (3)].nb),(yyvsp[(3) - (3)].nb));
-                                 (yyval.nb)=addr;
-                                 remove_last_temp_var(table);;}
+#line 187 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("INF",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
   case 39:
-#line 152 "lex.y"
-    {(yyval.nb)=(yyvsp[(1) - (1)].nb);;}
+#line 196 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("SUP",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
-  case 48:
-#line 173 "lex.y"
-    {int index = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
-                     add_asm("AFC",2,index,(yyvsp[(3) - (3)].nb));
-                     print_table(table);;}
+  case 40:
+#line 205 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("EQU",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
-  case 49:
-#line 177 "lex.y"
-    {int index = add_symbol(table,(yyvsp[(1) - (5)].var),scope);
-                                               add_asm("AFC",index,(yyvsp[(3) - (5)].nb));
-                                               print_table(table);;}
+  case 41:
+#line 214 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("INF",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
-  case 50:
-#line 183 "lex.y"
-    {add_symbol(table,(yyvsp[(1) - (1)].var),scope);
-          print_table(table);;}
+  case 42:
+#line 223 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("SUP",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
-  case 51:
-#line 186 "lex.y"
-    {int addr = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
-                             add_asm("COP",2,addr,(yyvsp[(3) - (3)].nb));
-                             print_table(table);;}
+  case 43:
+#line 232 "lex.y"
+    {    
+         int addr_next_to_last = get_last_index_ts(table)-1;
+         int addr = get_last_index_ts(table);
+         add_asm("EQU",3,addr_next_to_last,addr_next_to_last,addr);
+         remove_last_temp_var(table);
+         (yyval.nb)=addr_next_to_last;
+         print_asm_table();
+      ;}
     break;
 
-  case 52:
-#line 190 "lex.y"
-    {int addr = add_symbol(table,(yyvsp[(1) - (5)].var),scope);
-                                                    add_asm("COP",2,index,(yyvsp[(3) - (5)].nb));
-                                                    print_table(table);;}
+  case 44:
+#line 241 "lex.y"
+    {
+      (yyval.nb)=get_last_index_ts(table);
+   ;}
     break;
 
   case 53:
-#line 194 "lex.y"
-    {add_symbol(table,(yyvsp[(1) - (3)].var),scope);
-                                 print_table(table);;}
+#line 265 "lex.y"
+    {
+      int index = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
+      add_asm("AFC",2,index,(yyvsp[(3) - (3)].nb));
+      print_table(table);
+   ;}
     break;
 
   case 54:
-#line 199 "lex.y"
-    {scope++;
-                                       index_global = add_asm("JMF",2,(yyvsp[(3) - (5)].nb),0);;}
+#line 272 "lex.y"
+    {
+      int index = add_symbol(table,(yyvsp[(1) - (5)].var),scope);
+      add_asm("AFC",index,(yyvsp[(3) - (5)].nb));
+      print_table(table);
+   ;}
     break;
 
   case 55:
-#line 200 "lex.y"
-    { modif_asm_inst(index_global,"JMF",2,(yyvsp[(3) - (8)].nb),get_last_index()+1);
-                                                                                                remove_symbols_by_scope(table,scope);
-                                                                                                index_global =0;
-                                                                                                print_table(table);;}
+#line 281 "lex.y"
+    {
+      add_symbol(table,(yyvsp[(1) - (1)].var),scope);
+      print_table(table);
+   ;}
+    break;
+
+  case 56:
+#line 287 "lex.y"
+    {
+      remove_last_temp_var(table);
+      int addr = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
+      print_table(table);
+   ;}
+    break;
+
+  case 57:
+#line 294 "lex.y"
+    {
+      int addr = add_symbol(table,(yyvsp[(1) - (5)].var),scope);
+      print_table(table);
+   ;}
     break;
 
   case 58:
-#line 207 "lex.y"
-    {index_global = add_asm("JMP",1,0);;}
+#line 300 "lex.y"
+    {
+      add_symbol(table,(yyvsp[(1) - (3)].var),scope);
+      print_table(table);
+   ;}
     break;
 
   case 59:
-#line 207 "lex.y"
-    {scope++;;}
+#line 308 "lex.y"
+    {
+      (yyvsp[(1) - (3)].nb) = add_asm("JMF",2,(yyvsp[(3) - (3)].nb),0);
+      remove_last_temp_var(table);
+
+   ;}
     break;
 
   case 60:
-#line 207 "lex.y"
-    {modif_asm_inst(index_global,"JMP",1,get_last_index());
-                                                                                       remove_symbols_by_scope(table,scope);
-                                                                                       index_global =0;
-                                                                                       print_table(table);;}
+#line 312 "lex.y"
+    {scope++; ;}
     break;
 
   case 61:
-#line 214 "lex.y"
-    {index_global = add_asm("JMF",2,(yyvsp[(3) - (3)].nb),0);;}
+#line 313 "lex.y"
+    { 
+      modif_asm_inst((yyvsp[(1) - (8)].nb),"JMF",2,(yyvsp[(3) - (8)].nb),get_last_index()+1);
+      remove_symbols_by_scope(table,scope);                                                                                             
+      print_table(table);
+
+   ;}
     break;
 
   case 62:
-#line 214 "lex.y"
-    {scope++;;}
-    break;
-
-  case 63:
-#line 214 "lex.y"
-    {add_asm("JMP",1,index_global);
-                                                                                                            modif_asm_inst(index_global,"JMF",2,(yyvsp[(3) - (8)].nb),get_last_index());
-                                                                                                            ;}
+#line 318 "lex.y"
+    {add_asm("NOP",0);;}
     break;
 
   case 64:
-#line 216 "lex.y"
-    {remove_symbols_by_scope(table,scope);
-                                                                                                                        index_global =0;
-                                                                                                                        print_table(table);;}
+#line 323 "lex.y"
+    {
+      (yyvsp[(1) - (1)].nb) = add_asm("JMP",1,0);
+   ;}
+    break;
+
+  case 65:
+#line 325 "lex.y"
+    {scope++;;}
+    break;
+
+  case 66:
+#line 326 "lex.y"
+    {
+      modif_asm_inst((yyvsp[(1) - (6)].nb),"JMP",1,get_last_index());
+      remove_symbols_by_scope(table,scope);
+      print_table(table);
+   ;}
     break;
 
   case 67:
-#line 227 "lex.y"
-    {add_asm("PRI",1,(yyvsp[(3) - (5)].nb));;}
+#line 335 "lex.y"
+    {
+      (yyvsp[(1) - (2)].index_while).a1 = get_last_index();
+   ;}
     break;
 
   case 68:
-#line 231 "lex.y"
-    {int addr = get_adress(table,(yyvsp[(1) - (4)].var));
-                                    add_asm("COP",2,addr,(yyvsp[(3) - (4)].nb));
-                                    print_table(table);;}
+#line 338 "lex.y"
+    {
+      (yyvsp[(1) - (4)].index_while).a2 = add_asm("JMF",2,(yyvsp[(4) - (4)].nb),0);
+      remove_last_temp_var(table);
+   ;}
+    break;
+
+  case 69:
+#line 341 "lex.y"
+    {scope++;;}
+    break;
+
+  case 70:
+#line 342 "lex.y"
+    {
+      modif_asm_inst((yyvsp[(1) - (9)].index_while).a2,"JMF",2,(yyvsp[(4) - (9)].nb),get_last_index()+1);
+      add_asm("JMP",1,(yyvsp[(1) - (9)].index_while).a1);;}
+    break;
+
+  case 71:
+#line 344 "lex.y"
+    {
+      remove_symbols_by_scope(table,scope);
+      print_table(table);
+   
+   ;}
+    break;
+
+  case 75:
+#line 359 "lex.y"
+    {
+      add_asm("PRI",1,(yyvsp[(3) - (5)].nb));
+      remove_last_temp_var(table);
+   ;}
+    break;
+
+  case 76:
+#line 367 "lex.y"
+    {
+      int addr = get_adress(table,(yyvsp[(1) - (4)].var));
+      int addr_last= get_last_index_ts(table);
+      add_asm("COP",2,addr,addr_last);
+      remove_last_temp_var(table);
+      print_table(table);
+   ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1741 "lex.tab.c"
+#line 1888 "lex.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1951,7 +2098,7 @@ yyreturn:
 }
 
 
-#line 236 "lex.y"
+#line 376 "lex.y"
 
 
 void yyerror(const char *s) {
@@ -1963,8 +2110,6 @@ int main(void) {
    printf("Ecrire le programme a tester : \n");
    table = init_symbol_table();
    init_asm_table();
-   
-
    //yydebug=1;
    yyparse();
    open_output_file("ASMCODE.asm");
