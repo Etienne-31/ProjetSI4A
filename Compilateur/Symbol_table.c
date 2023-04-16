@@ -33,6 +33,26 @@ int add_temp_var(symbol_table *table){
     return(entry->address);
 }
 
+//ajoute l'adresse de retour 
+
+int add_return_address(symbol_table *table){
+ // on creer une nouvelle entrée    
+    symbol_table_entry *entry = table->first_entry;
+    entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
+    entry->name = strdup("@");
+    entry->address = address++;
+    entry->next = NULL;
+
+// on ajoute l'entrée
+    if (table->first_entry == NULL) {
+        table->first_entry = entry;
+        table->last_entry = entry;
+    } else {
+        table->last_entry->next = entry;
+        table->last_entry = entry;
+    }
+    return(entry->address);
+}
 
 // free la variable temporaire 
 void remove_last_temp_var(symbol_table *table) {
@@ -87,7 +107,9 @@ void remove_symbols_by_scope(symbol_table *table, int scope) {
                 // L'élément à supprimer est en dernière position
                 table->last_entry = prev;
             }
+            
             symbol_table_entry *tmp = entry;
+            entry->address=address--;
             entry = entry->next;
             free(tmp->name);
             free(tmp);
@@ -97,6 +119,8 @@ void remove_symbols_by_scope(symbol_table *table, int scope) {
         }
     }
 }
+
+
 
 // ajouter une entree a la table 
 int add_symbol(symbol_table *table, char *name, int scope) {
@@ -172,6 +196,7 @@ int get_last_index_ts(symbol_table *table) {
     }
     return table->last_entry->address;
 }
+
 #if 0
 int main() {
     symbol_table *table = init_symbol_table();
@@ -181,6 +206,19 @@ int main() {
     int addr2 = add_temp_var(table);
     printf ("address var temp 2 est : %d\n",addr2);
     remove_last_temp_var(table);
+    add_symbol(table,"d",2);
+    add_symbol(table,"e",2);
+    add_symbol(table,"t",3);
+    add_symbol(table,"y",3);
+    add_symbol(table,"u",4);
+    add_symbol(table,"i",4);
+    print_table(table);
+    remove_symbols_by_scope(table,4);
+    add_symbol(table,"b",1);
+    print_table(table);
+    add_return_address(table);
+    print_table(table);
+
 }
 
 // main pour tester les fonctions valide

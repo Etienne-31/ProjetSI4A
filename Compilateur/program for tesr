@@ -2,17 +2,7 @@
 //traitement des conditions pour if et while
 //copie ou assign
 
-int main() {
-  int x = 4672;
-  x = 33+49+x;
-  if ((x<23445)){
-      int r;
-      r=3980;
-    }else{
-      
-      x=900000;
-    }
-  }
+
 //test while 
 int main(){
   int x = 0;
@@ -33,9 +23,10 @@ int main(){
   int y;
   while(x==y){
     x=x+34;
-    while(x<y){
+    while(x){
     x=x+444444;
   }
+  x=333333;
   }
   x=12;
    
@@ -47,7 +38,7 @@ int main(){
 int main() {
   int x = 309;
   int y;
-  x = 33+49+x;
+  x = 33+49+x+233;
   y= x-409409;
   y = 23903/3930;
   x = 309039*10192;
@@ -65,11 +56,15 @@ int main() {
   x=2876;
   if (x){
     x=67627;
-    }else{
-      if(x){
+    if(x){
       int r;
       r=3980;
+      }else{
+        print(x);
       }
+    print(x);
+    }else{
+      
       x=900000;
     }
     x= 555555;
@@ -90,28 +85,29 @@ int main() {
   }
 
 //test ajout de fonctions
-
-int compute() {
-  int a = 309;
-  int v;
-  a = 33+49+a;
-  v= v-409409;
+int compute2(int a,int c) {
+  int b = 309;
   a = 23903/3930;
-  v = 309039*10192;
+  return a;
 } 
 
-int main() {
+int compute(int a, int b) {
+  int c;
+  c = 33+49+c;
+  return c;
+} 
+
+int main(){
   int y = 4672;
   int x = 309;
   int d = 3930983;
-  compute(x);
+  
   x = 33+49+x;
+  
+  x= compute(32,x);
   x=2876;
-  if (x){
-      int r;
-      r=3980;
-    }else{
-      
-      x=900000;
-    }
+  y = compute2(12,34);
+
   }
+
+//ouvrit fichier lire son contenu decoupe

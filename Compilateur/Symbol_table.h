@@ -35,6 +35,9 @@ int get_adress(symbol_table *table, char *name);
 // libere la memoire utilisée par la table 
 void free_table(symbol_table *table);
 
+//ajoute l'adresse de retour 
+int add_return_address(symbol_table *table);
+
 //affiche la table
 void print_table(symbol_table *table);
 

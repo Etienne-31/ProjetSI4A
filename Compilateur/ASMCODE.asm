@@ -1,0 +1,39 @@
+AFC 1 10 
+AFC 3 12 
+COP 2 3 
+COP 3 2 
+COP 4 1 
+ADD 3 3 4 
+COP 0 3 
+COP 3 0 
+COP 2 3 
+COP 3 2 
+AFC 4 19 
+SUP 3 3 4 
+JMF 3 33 
+COP 3 1 
+AFC 4 10 
+EQU 3 3 4 
+JMF 3 26 
+COP 3 1 
+AFC 4 1 
+SUB 3 3 4 
+COP 1 3 
+COP 3 2 
+AFC 4 1 
+SUB 3 3 4 
+COP 2 3 
+JMP 30 
+COP 3 2 
+AFC 4 2 
+SUB 3 3 4 
+COP 2 3 
+COP 3 2 
+PRI 3 
+JMP 9 
+COP 3 2 
+PRI 3 
+COP 3 0 
+PRI 3 
+COP 3 1 
+PRI 3 
