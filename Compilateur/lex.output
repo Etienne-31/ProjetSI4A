@@ -9,108 +9,108 @@ Grammar
 
     0 $accept: Program $end
 
-    1 Program: Function_list
+    1 @1: /* empty */
 
-    2 Function_list: Function
-    3              | Function_list Function
+    2 Program: @1 Function_list
 
-    4 @1: /* empty */
+    3 Function_list: Function
+    4              | Function_list Function
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
+    5 @2: /* empty */
 
-    6 @2: /* empty */
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 tLBRACE Corps Return_statement tRBRACE
+    7 @3: /* empty */
 
-    8 Corps: Declarations Statement_list
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 tLBRACE Corps Return_statement tRBRACE
 
-    9 Type_specifier: tINT
-   10               | tVOID
+    9 Corps: Declarations Statement_list
 
-   11 Parameter_list: /* empty */
-   12               | Parameter_declaration
-   13               | Parameter_list tCOMMA Parameter_declaration
+   10 Type_specifier: tINT
+   11               | tVOID
 
-   14 Parameter_declaration: tINT tID
-   15                      | tVOID
+   12 Parameter_list: /* empty */
+   13               | Parameter_declaration
+   14               | Parameter_list tCOMMA Parameter_declaration
 
-   16 Statement_list: Statement
-   17               | Statement_list Statement
+   15 Parameter_declaration: tINT tID
+   16                      | tVOID
 
-   18 Statement: Assignement_statement
-   19          | Selection_statement
-   20          | Function_call
-   21          | Iteration_statement
-   22          | Print_statement
+   17 Statement_list: Statement
+   18               | Statement_list Statement
 
-   23 Function_call: tID tLPAR Arguments tRPAR
+   19 Statement: Assignement_statement
+   20          | Selection_statement
+   21          | Function_call
+   22          | Iteration_statement
+   23          | Print_statement
 
-   24 Arguments: /* empty */
-   25          | Expression
-   26          | Expression tCOMMA Arguments
+   24 Function_call: tID tLPAR Arguments tRPAR
 
-   27 Expression: Expression tADD Expression
-   28           | Expression tSUB Expression
-   29           | Expression tMUL Expression
-   30           | Expression tDIV Expression
-   31           | Facteur
+   25 Arguments: /* empty */
+   26          | Expression
+   27          | Expression tCOMMA Arguments
 
-   32 Facteur: tNB
-   33        | tID
-   34        | tLPAR Expression tRPAR
+   28 Expression: Expression tADD Expression
+   29           | Expression tSUB Expression
+   30           | Expression tMUL Expression
+   31           | Expression tDIV Expression
+   32           | Facteur
 
-   35 Conditions: Conditions Separator Condition
-   36           | Condition
-   37           | tNOT Condition
+   33 Facteur: tNB
+   34        | tID
+   35        | tLPAR Expression tRPAR
 
-   38 Condition: tLPAR Expression tLT Expression tRPAR
-   39          | tLPAR Expression tGT Expression tRPAR
-   40          | tLPAR Expression tEQ Expression tRPAR
-   41          | Expression tLT Expression
-   42          | Expression tGT Expression
-   43          | Expression tEQ Expression
-   44          | Expression
+   36 Conditions: Conditions Separator Condition
+   37           | Condition
+   38           | tNOT Condition
 
-   45 Separator: tAND
-   46          | tOR
+   39 Condition: tLPAR Expression tLT Expression tRPAR
+   40          | tLPAR Expression tGT Expression tRPAR
+   41          | tLPAR Expression tEQ Expression tRPAR
+   42          | Expression tLT Expression
+   43          | Expression tGT Expression
+   44          | Expression tEQ Expression
+   45          | Expression
 
-   47 Declarations: /* empty */
-   48             | Declaration_list
+   46 Separator: tAND
+   47          | tOR
 
-   49 Declaration_list: Declaration_statement
-   50                 | Declaration_list Declaration_statement
+   48 Declarations: /* empty */
+   49             | Declaration_list
 
-   51 Declaration_statement: tINT Declaration_int tSEMI
-   52                      | tCONST tINT Declaration_const tSEMI
+   50 Declaration_list: Declaration_statement
+   51                 | Declaration_list Declaration_statement
 
-   53 Declaration_const: tID tASSIGN tNB
-   54                  | tID tASSIGN tNB tCOMMA Declaration_const
+   52 Declaration_statement: tINT Declaration_int tSEMI
+   53                      | tCONST tINT Declaration_const tSEMI
 
-   55 Declaration_int: tID
-   56                | tID tASSIGN Expression
+   54 Declaration_const: tID tASSIGN tNB
+   55                  | tID tASSIGN tNB tCOMMA Declaration_const
 
-   57 @3: /* empty */
+   56 Declaration_int: tID
+   57                | tID tASSIGN Expression
 
-   58 Declaration_int: tID tASSIGN Expression @3 tCOMMA Declaration_int
-   59                | tID tCOMMA Declaration_int
+   58 @4: /* empty */
 
-   60 @4: /* empty */
+   59 Declaration_int: tID tASSIGN Expression @4 tCOMMA Declaration_int
+   60                | tID tCOMMA Declaration_int
 
    61 @5: /* empty */
 
    62 @6: /* empty */
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement
+   63 @7: /* empty */
 
-   64 Else_statement: /* empty */
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement
 
-   65 @7: /* empty */
+   65 Else_statement: /* empty */
 
    66 @8: /* empty */
 
-   67 Else_statement: tELSE @7 tLBRACE @8 Statement_list tRBRACE
+   67 @9: /* empty */
 
-   68 @9: /* empty */
+   68 Else_statement: tELSE @8 tLBRACE @9 Statement_list tRBRACE
 
    69 @10: /* empty */
 
@@ -118,53 +118,55 @@ Grammar
 
    71 @12: /* empty */
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   72 @13: /* empty */
 
-   73 Return_statement: /* empty */
-   74                 | tRETURN Expression tSEMI
-   75                 | tRETURN tSEMI
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-   76 Print_statement: tPRINT tLPAR Expression tRPAR tSEMI
+   74 Return_statement: /* empty */
+   75                 | tRETURN Expression tSEMI
+   76                 | tRETURN tSEMI
 
-   77 Assignement_statement: tID tASSIGN Expression tSEMI
-   78                      | tID tASSIGN Function_call tSEMI
+   77 Print_statement: tPRINT tLPAR Expression tRPAR tSEMI
+
+   78 Assignement_statement: tID tASSIGN Expression tSEMI
+   79                      | tID tASSIGN Function_call tSEMI
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-tINT (258) 9 14 51 52
-tVOID (259) 10 15
-tCONST (260) 52
-tMAIN (261) 5
-tRETURN (262) 74 75
-tPRINT (263) 76
-tADD (264) 27
-tSUB (265) 28
-tMUL (266) 29
-tDIV (267) 30
-tLT (268) 38 41
-tGT (269) 39 42
+tINT (258) 10 15 52 53
+tVOID (259) 11 16
+tCONST (260) 53
+tMAIN (261) 6
+tRETURN (262) 75 76
+tPRINT (263) 77
+tADD (264) 28
+tSUB (265) 29
+tMUL (266) 30
+tDIV (267) 31
+tLT (268) 39 42
+tGT (269) 40 43
 tNE (270)
-tEQ (271) 40 43
+tEQ (271) 41 44
 tGE (272)
 tLE (273)
-tASSIGN (274) 53 54 56 58 77 78
-tAND (275) 45
-tOR (276) 46
-tNOT (277) 37
-tLBRACE (278) 5 7 63 67 72
-tRBRACE (279) 5 7 63 67 72
-tLPAR (280) 5 7 23 34 38 39 40 63 72 76
-tRPAR (281) 5 7 23 34 38 39 40 63 72 76
-tSEMI (282) 51 52 74 75 76 77 78
-tCOMMA (283) 13 26 54 58 59
-tNB (284) 32 53 54
-tIF (285) 63
-tELSE (286) 67
-tWHILE (287) 72
-tID (288) 7 14 23 33 53 54 55 56 58 59 77 78
+tASSIGN (274) 54 55 57 59 78 79
+tAND (275) 46
+tOR (276) 47
+tNOT (277) 38
+tLBRACE (278) 6 8 64 68 73
+tRBRACE (279) 6 8 64 68 73
+tLPAR (280) 6 8 24 35 39 40 41 64 73 77
+tRPAR (281) 6 8 24 35 39 40 41 64 73 77
+tSEMI (282) 52 53 75 76 77 78 79
+tCOMMA (283) 14 27 55 59 60
+tNB (284) 33 54 55
+tIF (285) 64
+tELSE (286) 68
+tWHILE (287) 73
+tID (288) 8 15 24 34 54 55 56 57 59 60 78 79
 
 
 Nonterminals, with rules where they appear
@@ -172,1648 +174,1659 @@ Nonterminals, with rules where they appear
 $accept (34)
     on left: 0
 Program (35)
-    on left: 1, on right: 0
-Function_list (36)
-    on left: 2 3, on right: 1 3
-Function (37)
-    on left: 5 7, on right: 2 3
-@1 (38)
-    on left: 4, on right: 5
+    on left: 2, on right: 0
+@1 (36)
+    on left: 1, on right: 2
+Function_list (37)
+    on left: 3 4, on right: 2 4
+Function (38)
+    on left: 6 8, on right: 3 4
 @2 (39)
-    on left: 6, on right: 7
-Corps (40)
-    on left: 8, on right: 5 7 63
-Type_specifier (41)
-    on left: 9 10, on right: 5 7
-Parameter_list (42)
-    on left: 11 12 13, on right: 5 7 13
-Parameter_declaration (43)
-    on left: 14 15, on right: 12 13
-Statement_list (44)
-    on left: 16 17, on right: 8 17 67 72
-Statement (45)
-    on left: 18 19 20 21 22, on right: 16 17
-Function_call (46)
-    on left: 23, on right: 20 78
-Arguments (47)
-    on left: 24 25 26, on right: 23 26
-Expression (48)
-    on left: 27 28 29 30 31, on right: 25 26 27 28 29 30 34 38 39 40
-    41 42 43 44 56 58 74 76 77
-Facteur (49)
-    on left: 32 33 34, on right: 31
-Conditions (50)
-    on left: 35 36 37, on right: 35 63 72
-Condition (51)
-    on left: 38 39 40 41 42 43 44, on right: 35 36 37
-Separator (52)
-    on left: 45 46, on right: 35
-Declarations (53)
-    on left: 47 48, on right: 8
-Declaration_list (54)
-    on left: 49 50, on right: 48 50
-Declaration_statement (55)
-    on left: 51 52, on right: 49 50
-Declaration_const (56)
-    on left: 53 54, on right: 52 54
-Declaration_int (57)
-    on left: 55 56 58 59, on right: 51 58 59
-@3 (58)
-    on left: 57, on right: 58
-Selection_statement (59)
-    on left: 63, on right: 19
-@4 (60)
-    on left: 60, on right: 63
+    on left: 5, on right: 6
+@3 (40)
+    on left: 7, on right: 8
+Corps (41)
+    on left: 9, on right: 6 8 64
+Type_specifier (42)
+    on left: 10 11, on right: 6 8
+Parameter_list (43)
+    on left: 12 13 14, on right: 6 8 14
+Parameter_declaration (44)
+    on left: 15 16, on right: 13 14
+Statement_list (45)
+    on left: 17 18, on right: 9 18 68 73
+Statement (46)
+    on left: 19 20 21 22 23, on right: 17 18
+Function_call (47)
+    on left: 24, on right: 21 79
+Arguments (48)
+    on left: 25 26 27, on right: 24 27
+Expression (49)
+    on left: 28 29 30 31 32, on right: 26 27 28 29 30 31 35 39 40 41
+    42 43 44 45 57 59 75 77 78
+Facteur (50)
+    on left: 33 34 35, on right: 32
+Conditions (51)
+    on left: 36 37 38, on right: 36 64 73
+Condition (52)
+    on left: 39 40 41 42 43 44 45, on right: 36 37 38
+Separator (53)
+    on left: 46 47, on right: 36
+Declarations (54)
+    on left: 48 49, on right: 9
+Declaration_list (55)
+    on left: 50 51, on right: 49 51
+Declaration_statement (56)
+    on left: 52 53, on right: 50 51
+Declaration_const (57)
+    on left: 54 55, on right: 53 55
+Declaration_int (58)
+    on left: 56 57 59 60, on right: 52 59 60
+@4 (59)
+    on left: 58, on right: 59
+Selection_statement (60)
+    on left: 64, on right: 20
 @5 (61)
-    on left: 61, on right: 63
+    on left: 61, on right: 64
 @6 (62)
-    on left: 62, on right: 63
-Else_statement (63)
-    on left: 64 67, on right: 63
-@7 (64)
-    on left: 65, on right: 67
+    on left: 62, on right: 64
+@7 (63)
+    on left: 63, on right: 64
+Else_statement (64)
+    on left: 65 68, on right: 64
 @8 (65)
-    on left: 66, on right: 67
-Iteration_statement (66)
-    on left: 72, on right: 21
-@9 (67)
-    on left: 68, on right: 72
+    on left: 66, on right: 68
+@9 (66)
+    on left: 67, on right: 68
+Iteration_statement (67)
+    on left: 73, on right: 22
 @10 (68)
-    on left: 69, on right: 72
+    on left: 69, on right: 73
 @11 (69)
-    on left: 70, on right: 72
+    on left: 70, on right: 73
 @12 (70)
-    on left: 71, on right: 72
-Return_statement (71)
-    on left: 73 74 75, on right: 5 7
-Print_statement (72)
-    on left: 76, on right: 22
-Assignement_statement (73)
-    on left: 77 78, on right: 18
+    on left: 71, on right: 73
+@13 (71)
+    on left: 72, on right: 73
+Return_statement (72)
+    on left: 74 75 76, on right: 6 8
+Print_statement (73)
+    on left: 77, on right: 23
+Assignement_statement (74)
+    on left: 78 79, on right: 19
 
 
 state 0
 
     0 $accept: . Program $end
 
-    tINT   shift, and go to state 1
-    tVOID  shift, and go to state 2
+    $default  reduce using rule 1 (@1)
 
-    Program         go to state 3
-    Function_list   go to state 4
-    Function        go to state 5
-    Type_specifier  go to state 6
+    Program  go to state 1
+    @1       go to state 2
 
 
 state 1
 
-    9 Type_specifier: tINT .
+    0 $accept: Program . $end
 
-    $default  reduce using rule 9 (Type_specifier)
+    $end  shift, and go to state 3
 
 
 state 2
 
-   10 Type_specifier: tVOID .
+    2 Program: @1 . Function_list
 
-    $default  reduce using rule 10 (Type_specifier)
+    tINT   shift, and go to state 4
+    tVOID  shift, and go to state 5
+
+    Function_list   go to state 6
+    Function        go to state 7
+    Type_specifier  go to state 8
 
 
 state 3
-
-    0 $accept: Program . $end
-
-    $end  shift, and go to state 7
-
-
-state 4
-
-    1 Program: Function_list .
-    3 Function_list: Function_list . Function
-
-    tINT   shift, and go to state 1
-    tVOID  shift, and go to state 2
-
-    $default  reduce using rule 1 (Program)
-
-    Function        go to state 8
-    Type_specifier  go to state 6
-
-
-state 5
-
-    2 Function_list: Function .
-
-    $default  reduce using rule 2 (Function_list)
-
-
-state 6
-
-    5 Function: Type_specifier . tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
-    7         | Type_specifier . tID tLPAR Parameter_list tRPAR @2 tLBRACE Corps Return_statement tRBRACE
-
-    tMAIN  shift, and go to state 9
-    tID    shift, and go to state 10
-
-
-state 7
 
     0 $accept: Program $end .
 
     $default  accept
 
 
-state 8
+state 4
 
-    3 Function_list: Function_list Function .
+   10 Type_specifier: tINT .
+
+    $default  reduce using rule 10 (Type_specifier)
+
+
+state 5
+
+   11 Type_specifier: tVOID .
+
+    $default  reduce using rule 11 (Type_specifier)
+
+
+state 6
+
+    2 Program: @1 Function_list .
+    4 Function_list: Function_list . Function
+
+    tINT   shift, and go to state 4
+    tVOID  shift, and go to state 5
+
+    $default  reduce using rule 2 (Program)
+
+    Function        go to state 9
+    Type_specifier  go to state 8
+
+
+state 7
+
+    3 Function_list: Function .
 
     $default  reduce using rule 3 (Function_list)
 
 
+state 8
+
+    6 Function: Type_specifier . tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
+    8         | Type_specifier . tID tLPAR Parameter_list tRPAR @3 tLBRACE Corps Return_statement tRBRACE
+
+    tMAIN  shift, and go to state 10
+    tID    shift, and go to state 11
+
+
 state 9
 
-    5 Function: Type_specifier tMAIN . @1 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
+    4 Function_list: Function_list Function .
 
-    $default  reduce using rule 4 (@1)
-
-    @1  go to state 11
+    $default  reduce using rule 4 (Function_list)
 
 
 state 10
 
-    7 Function: Type_specifier tID . tLPAR Parameter_list tRPAR @2 tLBRACE Corps Return_statement tRBRACE
+    6 Function: Type_specifier tMAIN . @2 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
 
-    tLPAR  shift, and go to state 12
+    $default  reduce using rule 5 (@2)
+
+    @2  go to state 12
 
 
 state 11
 
-    5 Function: Type_specifier tMAIN @1 . tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
+    8 Function: Type_specifier tID . tLPAR Parameter_list tRPAR @3 tLBRACE Corps Return_statement tRBRACE
 
     tLPAR  shift, and go to state 13
 
 
 state 12
 
-    7 Function: Type_specifier tID tLPAR . Parameter_list tRPAR @2 tLBRACE Corps Return_statement tRBRACE
+    6 Function: Type_specifier tMAIN @2 . tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
 
-    tINT   shift, and go to state 14
-    tVOID  shift, and go to state 15
-
-    $default  reduce using rule 11 (Parameter_list)
-
-    Parameter_list         go to state 16
-    Parameter_declaration  go to state 17
+    tLPAR  shift, and go to state 14
 
 
 state 13
 
-    5 Function: Type_specifier tMAIN @1 tLPAR . Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
+    8 Function: Type_specifier tID tLPAR . Parameter_list tRPAR @3 tLBRACE Corps Return_statement tRBRACE
 
-    tINT   shift, and go to state 14
-    tVOID  shift, and go to state 15
+    tINT   shift, and go to state 15
+    tVOID  shift, and go to state 16
 
-    $default  reduce using rule 11 (Parameter_list)
+    $default  reduce using rule 12 (Parameter_list)
 
-    Parameter_list         go to state 18
-    Parameter_declaration  go to state 17
+    Parameter_list         go to state 17
+    Parameter_declaration  go to state 18
 
 
 state 14
 
-   14 Parameter_declaration: tINT . tID
+    6 Function: Type_specifier tMAIN @2 tLPAR . Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE
 
-    tID  shift, and go to state 19
+    tINT   shift, and go to state 15
+    tVOID  shift, and go to state 16
+
+    $default  reduce using rule 12 (Parameter_list)
+
+    Parameter_list         go to state 19
+    Parameter_declaration  go to state 18
 
 
 state 15
 
-   15 Parameter_declaration: tVOID .
+   15 Parameter_declaration: tINT . tID
 
-    $default  reduce using rule 15 (Parameter_declaration)
+    tID  shift, and go to state 20
 
 
 state 16
 
-    7 Function: Type_specifier tID tLPAR Parameter_list . tRPAR @2 tLBRACE Corps Return_statement tRBRACE
-   13 Parameter_list: Parameter_list . tCOMMA Parameter_declaration
+   16 Parameter_declaration: tVOID .
 
-    tRPAR   shift, and go to state 20
-    tCOMMA  shift, and go to state 21
+    $default  reduce using rule 16 (Parameter_declaration)
 
 
 state 17
 
-   12 Parameter_list: Parameter_declaration .
+    8 Function: Type_specifier tID tLPAR Parameter_list . tRPAR @3 tLBRACE Corps Return_statement tRBRACE
+   14 Parameter_list: Parameter_list . tCOMMA Parameter_declaration
 
-    $default  reduce using rule 12 (Parameter_list)
+    tRPAR   shift, and go to state 21
+    tCOMMA  shift, and go to state 22
 
 
 state 18
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list . tRPAR tLBRACE Corps Return_statement tRBRACE
-   13 Parameter_list: Parameter_list . tCOMMA Parameter_declaration
+   13 Parameter_list: Parameter_declaration .
 
-    tRPAR   shift, and go to state 22
-    tCOMMA  shift, and go to state 21
+    $default  reduce using rule 13 (Parameter_list)
 
 
 state 19
 
-   14 Parameter_declaration: tINT tID .
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list . tRPAR tLBRACE Corps Return_statement tRBRACE
+   14 Parameter_list: Parameter_list . tCOMMA Parameter_declaration
 
-    $default  reduce using rule 14 (Parameter_declaration)
+    tRPAR   shift, and go to state 23
+    tCOMMA  shift, and go to state 22
 
 
 state 20
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR . @2 tLBRACE Corps Return_statement tRBRACE
+   15 Parameter_declaration: tINT tID .
 
-    $default  reduce using rule 6 (@2)
-
-    @2  go to state 23
+    $default  reduce using rule 15 (Parameter_declaration)
 
 
 state 21
 
-   13 Parameter_list: Parameter_list tCOMMA . Parameter_declaration
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR . @3 tLBRACE Corps Return_statement tRBRACE
 
-    tINT   shift, and go to state 14
-    tVOID  shift, and go to state 15
+    $default  reduce using rule 7 (@3)
 
-    Parameter_declaration  go to state 24
+    @3  go to state 24
 
 
 state 22
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR . tLBRACE Corps Return_statement tRBRACE
+   14 Parameter_list: Parameter_list tCOMMA . Parameter_declaration
 
-    tLBRACE  shift, and go to state 25
+    tINT   shift, and go to state 15
+    tVOID  shift, and go to state 16
+
+    Parameter_declaration  go to state 25
 
 
 state 23
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 . tLBRACE Corps Return_statement tRBRACE
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR . tLBRACE Corps Return_statement tRBRACE
 
     tLBRACE  shift, and go to state 26
 
 
 state 24
 
-   13 Parameter_list: Parameter_list tCOMMA Parameter_declaration .
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 . tLBRACE Corps Return_statement tRBRACE
 
-    $default  reduce using rule 13 (Parameter_list)
+    tLBRACE  shift, and go to state 27
 
 
 state 25
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE . Corps Return_statement tRBRACE
+   14 Parameter_list: Parameter_list tCOMMA Parameter_declaration .
 
-    tINT    shift, and go to state 27
-    tCONST  shift, and go to state 28
-
-    $default  reduce using rule 47 (Declarations)
-
-    Corps                  go to state 29
-    Declarations           go to state 30
-    Declaration_list       go to state 31
-    Declaration_statement  go to state 32
+    $default  reduce using rule 14 (Parameter_list)
 
 
 state 26
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 tLBRACE . Corps Return_statement tRBRACE
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE . Corps Return_statement tRBRACE
 
-    tINT    shift, and go to state 27
-    tCONST  shift, and go to state 28
+    tINT    shift, and go to state 28
+    tCONST  shift, and go to state 29
 
-    $default  reduce using rule 47 (Declarations)
+    $default  reduce using rule 48 (Declarations)
 
-    Corps                  go to state 33
-    Declarations           go to state 30
-    Declaration_list       go to state 31
-    Declaration_statement  go to state 32
+    Corps                  go to state 30
+    Declarations           go to state 31
+    Declaration_list       go to state 32
+    Declaration_statement  go to state 33
 
 
 state 27
 
-   51 Declaration_statement: tINT . Declaration_int tSEMI
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 tLBRACE . Corps Return_statement tRBRACE
 
-    tID  shift, and go to state 34
+    tINT    shift, and go to state 28
+    tCONST  shift, and go to state 29
 
-    Declaration_int  go to state 35
+    $default  reduce using rule 48 (Declarations)
+
+    Corps                  go to state 34
+    Declarations           go to state 31
+    Declaration_list       go to state 32
+    Declaration_statement  go to state 33
 
 
 state 28
 
-   52 Declaration_statement: tCONST . tINT Declaration_const tSEMI
+   52 Declaration_statement: tINT . Declaration_int tSEMI
 
-    tINT  shift, and go to state 36
+    tID  shift, and go to state 35
+
+    Declaration_int  go to state 36
 
 
 state 29
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE Corps . Return_statement tRBRACE
+   53 Declaration_statement: tCONST . tINT Declaration_const tSEMI
 
-    tRETURN  shift, and go to state 37
-
-    $default  reduce using rule 73 (Return_statement)
-
-    Return_statement  go to state 38
+    tINT  shift, and go to state 37
 
 
 state 30
 
-    8 Corps: Declarations . Statement_list
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE Corps . Return_statement tRBRACE
 
-    tPRINT  shift, and go to state 39
-    tIF     shift, and go to state 40
-    tWHILE  shift, and go to state 41
-    tID     shift, and go to state 42
+    tRETURN  shift, and go to state 38
 
-    Statement_list         go to state 43
-    Statement              go to state 44
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    $default  reduce using rule 74 (Return_statement)
+
+    Return_statement  go to state 39
 
 
 state 31
 
-   48 Declarations: Declaration_list .
-   50 Declaration_list: Declaration_list . Declaration_statement
+    9 Corps: Declarations . Statement_list
 
-    tINT    shift, and go to state 27
-    tCONST  shift, and go to state 28
+    tPRINT  shift, and go to state 40
+    tIF     shift, and go to state 41
+    tWHILE  shift, and go to state 42
+    tID     shift, and go to state 43
 
-    $default  reduce using rule 48 (Declarations)
-
-    Declaration_statement  go to state 50
+    Statement_list         go to state 44
+    Statement              go to state 45
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
 
 
 state 32
 
-   49 Declaration_list: Declaration_statement .
+   49 Declarations: Declaration_list .
+   51 Declaration_list: Declaration_list . Declaration_statement
 
-    $default  reduce using rule 49 (Declaration_list)
+    tINT    shift, and go to state 28
+    tCONST  shift, and go to state 29
+
+    $default  reduce using rule 49 (Declarations)
+
+    Declaration_statement  go to state 51
 
 
 state 33
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 tLBRACE Corps . Return_statement tRBRACE
+   50 Declaration_list: Declaration_statement .
 
-    tRETURN  shift, and go to state 37
-
-    $default  reduce using rule 73 (Return_statement)
-
-    Return_statement  go to state 51
+    $default  reduce using rule 50 (Declaration_list)
 
 
 state 34
 
-   55 Declaration_int: tID .
-   56                | tID . tASSIGN Expression
-   58                | tID . tASSIGN Expression @3 tCOMMA Declaration_int
-   59                | tID . tCOMMA Declaration_int
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 tLBRACE Corps . Return_statement tRBRACE
 
-    tASSIGN  shift, and go to state 52
-    tCOMMA   shift, and go to state 53
+    tRETURN  shift, and go to state 38
 
-    $default  reduce using rule 55 (Declaration_int)
+    $default  reduce using rule 74 (Return_statement)
+
+    Return_statement  go to state 52
 
 
 state 35
 
-   51 Declaration_statement: tINT Declaration_int . tSEMI
+   56 Declaration_int: tID .
+   57                | tID . tASSIGN Expression
+   59                | tID . tASSIGN Expression @4 tCOMMA Declaration_int
+   60                | tID . tCOMMA Declaration_int
 
-    tSEMI  shift, and go to state 54
+    tASSIGN  shift, and go to state 53
+    tCOMMA   shift, and go to state 54
+
+    $default  reduce using rule 56 (Declaration_int)
 
 
 state 36
 
-   52 Declaration_statement: tCONST tINT . Declaration_const tSEMI
+   52 Declaration_statement: tINT Declaration_int . tSEMI
 
-    tID  shift, and go to state 55
-
-    Declaration_const  go to state 56
+    tSEMI  shift, and go to state 55
 
 
 state 37
 
-   74 Return_statement: tRETURN . Expression tSEMI
-   75                 | tRETURN . tSEMI
+   53 Declaration_statement: tCONST tINT . Declaration_const tSEMI
 
-    tLPAR  shift, and go to state 57
-    tSEMI  shift, and go to state 58
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tID  shift, and go to state 56
 
-    Expression  go to state 61
-    Facteur     go to state 62
+    Declaration_const  go to state 57
 
 
 state 38
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement . tRBRACE
+   75 Return_statement: tRETURN . Expression tSEMI
+   76                 | tRETURN . tSEMI
 
-    tRBRACE  shift, and go to state 63
+    tLPAR  shift, and go to state 58
+    tSEMI  shift, and go to state 59
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    Expression  go to state 62
+    Facteur     go to state 63
 
 
 state 39
 
-   76 Print_statement: tPRINT . tLPAR Expression tRPAR tSEMI
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement . tRBRACE
 
-    tLPAR  shift, and go to state 64
+    tRBRACE  shift, and go to state 64
 
 
 state 40
 
-   63 Selection_statement: tIF . tLPAR Conditions @4 tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement
+   77 Print_statement: tPRINT . tLPAR Expression tRPAR tSEMI
 
     tLPAR  shift, and go to state 65
 
 
 state 41
 
-   72 Iteration_statement: tWHILE . tLPAR @9 Conditions @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF . tLPAR Conditions @5 tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement
 
     tLPAR  shift, and go to state 66
 
 
 state 42
 
-   23 Function_call: tID . tLPAR Arguments tRPAR
-   77 Assignement_statement: tID . tASSIGN Expression tSEMI
-   78                      | tID . tASSIGN Function_call tSEMI
+   73 Iteration_statement: tWHILE . tLPAR @10 Conditions @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-    tASSIGN  shift, and go to state 67
-    tLPAR    shift, and go to state 68
+    tLPAR  shift, and go to state 67
 
 
 state 43
 
-    8 Corps: Declarations Statement_list .
-   17 Statement_list: Statement_list . Statement
+   24 Function_call: tID . tLPAR Arguments tRPAR
+   78 Assignement_statement: tID . tASSIGN Expression tSEMI
+   79                      | tID . tASSIGN Function_call tSEMI
 
-    tPRINT  shift, and go to state 39
-    tIF     shift, and go to state 40
-    tWHILE  shift, and go to state 41
-    tID     shift, and go to state 42
-
-    $default  reduce using rule 8 (Corps)
-
-    Statement              go to state 69
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    tASSIGN  shift, and go to state 68
+    tLPAR    shift, and go to state 69
 
 
 state 44
 
-   16 Statement_list: Statement .
+    9 Corps: Declarations Statement_list .
+   18 Statement_list: Statement_list . Statement
 
-    $default  reduce using rule 16 (Statement_list)
+    tPRINT  shift, and go to state 40
+    tIF     shift, and go to state 41
+    tWHILE  shift, and go to state 42
+    tID     shift, and go to state 43
+
+    $default  reduce using rule 9 (Corps)
+
+    Statement              go to state 70
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
 
 
 state 45
 
-   20 Statement: Function_call .
+   17 Statement_list: Statement .
 
-    $default  reduce using rule 20 (Statement)
+    $default  reduce using rule 17 (Statement_list)
 
 
 state 46
 
-   19 Statement: Selection_statement .
-
-    $default  reduce using rule 19 (Statement)
-
-
-state 47
-
-   21 Statement: Iteration_statement .
+   21 Statement: Function_call .
 
     $default  reduce using rule 21 (Statement)
 
 
+state 47
+
+   20 Statement: Selection_statement .
+
+    $default  reduce using rule 20 (Statement)
+
+
 state 48
 
-   22 Statement: Print_statement .
+   22 Statement: Iteration_statement .
 
     $default  reduce using rule 22 (Statement)
 
 
 state 49
 
-   18 Statement: Assignement_statement .
+   23 Statement: Print_statement .
 
-    $default  reduce using rule 18 (Statement)
+    $default  reduce using rule 23 (Statement)
 
 
 state 50
 
-   50 Declaration_list: Declaration_list Declaration_statement .
+   19 Statement: Assignement_statement .
 
-    $default  reduce using rule 50 (Declaration_list)
+    $default  reduce using rule 19 (Statement)
 
 
 state 51
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 tLBRACE Corps Return_statement . tRBRACE
+   51 Declaration_list: Declaration_list Declaration_statement .
 
-    tRBRACE  shift, and go to state 70
+    $default  reduce using rule 51 (Declaration_list)
 
 
 state 52
 
-   56 Declaration_int: tID tASSIGN . Expression
-   58                | tID tASSIGN . Expression @3 tCOMMA Declaration_int
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 tLBRACE Corps Return_statement . tRBRACE
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 71
-    Facteur     go to state 62
+    tRBRACE  shift, and go to state 71
 
 
 state 53
 
-   59 Declaration_int: tID tCOMMA . Declaration_int
+   57 Declaration_int: tID tASSIGN . Expression
+   59                | tID tASSIGN . Expression @4 tCOMMA Declaration_int
 
-    tID  shift, and go to state 34
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    Declaration_int  go to state 72
+    Expression  go to state 72
+    Facteur     go to state 63
 
 
 state 54
 
-   51 Declaration_statement: tINT Declaration_int tSEMI .
+   60 Declaration_int: tID tCOMMA . Declaration_int
 
-    $default  reduce using rule 51 (Declaration_statement)
+    tID  shift, and go to state 35
+
+    Declaration_int  go to state 73
 
 
 state 55
 
-   53 Declaration_const: tID . tASSIGN tNB
-   54                  | tID . tASSIGN tNB tCOMMA Declaration_const
+   52 Declaration_statement: tINT Declaration_int tSEMI .
 
-    tASSIGN  shift, and go to state 73
+    $default  reduce using rule 52 (Declaration_statement)
 
 
 state 56
 
-   52 Declaration_statement: tCONST tINT Declaration_const . tSEMI
+   54 Declaration_const: tID . tASSIGN tNB
+   55                  | tID . tASSIGN tNB tCOMMA Declaration_const
 
-    tSEMI  shift, and go to state 74
+    tASSIGN  shift, and go to state 74
 
 
 state 57
 
-   34 Facteur: tLPAR . Expression tRPAR
+   53 Declaration_statement: tCONST tINT Declaration_const . tSEMI
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 75
-    Facteur     go to state 62
+    tSEMI  shift, and go to state 75
 
 
 state 58
 
-   75 Return_statement: tRETURN tSEMI .
+   35 Facteur: tLPAR . Expression tRPAR
 
-    $default  reduce using rule 75 (Return_statement)
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    Expression  go to state 76
+    Facteur     go to state 63
 
 
 state 59
 
-   32 Facteur: tNB .
+   76 Return_statement: tRETURN tSEMI .
 
-    $default  reduce using rule 32 (Facteur)
+    $default  reduce using rule 76 (Return_statement)
 
 
 state 60
 
-   33 Facteur: tID .
+   33 Facteur: tNB .
 
     $default  reduce using rule 33 (Facteur)
 
 
 state 61
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   74 Return_statement: tRETURN Expression . tSEMI
+   34 Facteur: tID .
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
-    tSEMI  shift, and go to state 80
+    $default  reduce using rule 34 (Facteur)
 
 
 state 62
 
-   31 Expression: Facteur .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   75 Return_statement: tRETURN Expression . tSEMI
 
-    $default  reduce using rule 31 (Expression)
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tSEMI  shift, and go to state 81
 
 
 state 63
 
-    5 Function: Type_specifier tMAIN @1 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE .
+   32 Expression: Facteur .
 
-    $default  reduce using rule 5 (Function)
+    $default  reduce using rule 32 (Expression)
 
 
 state 64
 
-   76 Print_statement: tPRINT tLPAR . Expression tRPAR tSEMI
+    6 Function: Type_specifier tMAIN @2 tLPAR Parameter_list tRPAR tLBRACE Corps Return_statement tRBRACE .
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 81
-    Facteur     go to state 62
+    $default  reduce using rule 6 (Function)
 
 
 state 65
 
-   63 Selection_statement: tIF tLPAR . Conditions @4 tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement
+   77 Print_statement: tPRINT tLPAR . Expression tRPAR tSEMI
 
-    tNOT   shift, and go to state 82
-    tLPAR  shift, and go to state 83
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    Expression  go to state 84
-    Facteur     go to state 62
-    Conditions  go to state 85
-    Condition   go to state 86
+    Expression  go to state 82
+    Facteur     go to state 63
 
 
 state 66
 
-   72 Iteration_statement: tWHILE tLPAR . @9 Conditions @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR . Conditions @5 tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement
 
-    $default  reduce using rule 68 (@9)
+    tNOT   shift, and go to state 83
+    tLPAR  shift, and go to state 84
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    @9  go to state 87
+    Expression  go to state 85
+    Facteur     go to state 63
+    Conditions  go to state 86
+    Condition   go to state 87
 
 
 state 67
 
-   77 Assignement_statement: tID tASSIGN . Expression tSEMI
-   78                      | tID tASSIGN . Function_call tSEMI
+   73 Iteration_statement: tWHILE tLPAR . @10 Conditions @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 88
+    $default  reduce using rule 69 (@10)
 
-    Function_call  go to state 89
-    Expression     go to state 90
-    Facteur        go to state 62
+    @10  go to state 88
 
 
 state 68
 
-   23 Function_call: tID tLPAR . Arguments tRPAR
+   78 Assignement_statement: tID tASSIGN . Expression tSEMI
+   79                      | tID tASSIGN . Function_call tSEMI
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 89
 
-    $default  reduce using rule 24 (Arguments)
-
-    Arguments   go to state 91
-    Expression  go to state 92
-    Facteur     go to state 62
+    Function_call  go to state 90
+    Expression     go to state 91
+    Facteur        go to state 63
 
 
 state 69
 
-   17 Statement_list: Statement_list Statement .
+   24 Function_call: tID tLPAR . Arguments tRPAR
 
-    $default  reduce using rule 17 (Statement_list)
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    $default  reduce using rule 25 (Arguments)
+
+    Arguments   go to state 92
+    Expression  go to state 93
+    Facteur     go to state 63
 
 
 state 70
 
-    7 Function: Type_specifier tID tLPAR Parameter_list tRPAR @2 tLBRACE Corps Return_statement tRBRACE .
+   18 Statement_list: Statement_list Statement .
 
-    $default  reduce using rule 7 (Function)
+    $default  reduce using rule 18 (Statement_list)
 
 
 state 71
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   56 Declaration_int: tID tASSIGN Expression .
-   58                | tID tASSIGN Expression . @3 tCOMMA Declaration_int
+    8 Function: Type_specifier tID tLPAR Parameter_list tRPAR @3 tLBRACE Corps Return_statement tRBRACE .
 
-    tADD  shift, and go to state 76
-    tSUB  shift, and go to state 77
-    tMUL  shift, and go to state 78
-    tDIV  shift, and go to state 79
-
-    tCOMMA    reduce using rule 57 (@3)
-    $default  reduce using rule 56 (Declaration_int)
-
-    @3  go to state 93
+    $default  reduce using rule 8 (Function)
 
 
 state 72
 
-   59 Declaration_int: tID tCOMMA Declaration_int .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   57 Declaration_int: tID tASSIGN Expression .
+   59                | tID tASSIGN Expression . @4 tCOMMA Declaration_int
 
-    $default  reduce using rule 59 (Declaration_int)
+    tADD  shift, and go to state 77
+    tSUB  shift, and go to state 78
+    tMUL  shift, and go to state 79
+    tDIV  shift, and go to state 80
+
+    tCOMMA    reduce using rule 58 (@4)
+    $default  reduce using rule 57 (Declaration_int)
+
+    @4  go to state 94
 
 
 state 73
 
-   53 Declaration_const: tID tASSIGN . tNB
-   54                  | tID tASSIGN . tNB tCOMMA Declaration_const
+   60 Declaration_int: tID tCOMMA Declaration_int .
 
-    tNB  shift, and go to state 94
+    $default  reduce using rule 60 (Declaration_int)
 
 
 state 74
 
-   52 Declaration_statement: tCONST tINT Declaration_const tSEMI .
+   54 Declaration_const: tID tASSIGN . tNB
+   55                  | tID tASSIGN . tNB tCOMMA Declaration_const
 
-    $default  reduce using rule 52 (Declaration_statement)
+    tNB  shift, and go to state 95
 
 
 state 75
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   34 Facteur: tLPAR Expression . tRPAR
+   53 Declaration_statement: tCONST tINT Declaration_const tSEMI .
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
-    tRPAR  shift, and go to state 95
+    $default  reduce using rule 53 (Declaration_statement)
 
 
 state 76
 
-   27 Expression: Expression tADD . Expression
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   35 Facteur: tLPAR Expression . tRPAR
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 96
-    Facteur     go to state 62
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tRPAR  shift, and go to state 96
 
 
 state 77
 
-   28 Expression: Expression tSUB . Expression
+   28 Expression: Expression tADD . Expression
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 97
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 78
 
-   29 Expression: Expression tMUL . Expression
+   29 Expression: Expression tSUB . Expression
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 98
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 79
 
-   30 Expression: Expression tDIV . Expression
+   30 Expression: Expression tMUL . Expression
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 99
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 80
 
-   74 Return_statement: tRETURN Expression tSEMI .
+   31 Expression: Expression tDIV . Expression
 
-    $default  reduce using rule 74 (Return_statement)
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    Expression  go to state 100
+    Facteur     go to state 63
 
 
 state 81
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   76 Print_statement: tPRINT tLPAR Expression . tRPAR tSEMI
+   75 Return_statement: tRETURN Expression tSEMI .
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
-    tRPAR  shift, and go to state 100
+    $default  reduce using rule 75 (Return_statement)
 
 
 state 82
 
-   37 Conditions: tNOT . Condition
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   77 Print_statement: tPRINT tLPAR Expression . tRPAR tSEMI
 
-    tLPAR  shift, and go to state 83
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 84
-    Facteur     go to state 62
-    Condition   go to state 101
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tRPAR  shift, and go to state 101
 
 
 state 83
 
-   34 Facteur: tLPAR . Expression tRPAR
-   38 Condition: tLPAR . Expression tLT Expression tRPAR
-   39          | tLPAR . Expression tGT Expression tRPAR
-   40          | tLPAR . Expression tEQ Expression tRPAR
+   38 Conditions: tNOT . Condition
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 84
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    Expression  go to state 102
-    Facteur     go to state 62
+    Expression  go to state 85
+    Facteur     go to state 63
+    Condition   go to state 102
 
 
 state 84
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   41 Condition: Expression . tLT Expression
-   42          | Expression . tGT Expression
-   43          | Expression . tEQ Expression
-   44          | Expression .
+   35 Facteur: tLPAR . Expression tRPAR
+   39 Condition: tLPAR . Expression tLT Expression tRPAR
+   40          | tLPAR . Expression tGT Expression tRPAR
+   41          | tLPAR . Expression tEQ Expression tRPAR
 
-    tADD  shift, and go to state 76
-    tSUB  shift, and go to state 77
-    tMUL  shift, and go to state 78
-    tDIV  shift, and go to state 79
-    tLT   shift, and go to state 103
-    tGT   shift, and go to state 104
-    tEQ   shift, and go to state 105
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    $default  reduce using rule 44 (Condition)
+    Expression  go to state 103
+    Facteur     go to state 63
 
 
 state 85
 
-   35 Conditions: Conditions . Separator Condition
-   63 Selection_statement: tIF tLPAR Conditions . @4 tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   42 Condition: Expression . tLT Expression
+   43          | Expression . tGT Expression
+   44          | Expression . tEQ Expression
+   45          | Expression .
 
-    tAND  shift, and go to state 106
-    tOR   shift, and go to state 107
+    tADD  shift, and go to state 77
+    tSUB  shift, and go to state 78
+    tMUL  shift, and go to state 79
+    tDIV  shift, and go to state 80
+    tLT   shift, and go to state 104
+    tGT   shift, and go to state 105
+    tEQ   shift, and go to state 106
 
-    $default  reduce using rule 60 (@4)
-
-    Separator  go to state 108
-    @4         go to state 109
+    $default  reduce using rule 45 (Condition)
 
 
 state 86
 
-   36 Conditions: Condition .
+   36 Conditions: Conditions . Separator Condition
+   64 Selection_statement: tIF tLPAR Conditions . @5 tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement
 
-    $default  reduce using rule 36 (Conditions)
+    tAND  shift, and go to state 107
+    tOR   shift, and go to state 108
+
+    $default  reduce using rule 61 (@5)
+
+    Separator  go to state 109
+    @5         go to state 110
 
 
 state 87
 
-   72 Iteration_statement: tWHILE tLPAR @9 . Conditions @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   37 Conditions: Condition .
 
-    tNOT   shift, and go to state 82
-    tLPAR  shift, and go to state 83
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 84
-    Facteur     go to state 62
-    Conditions  go to state 110
-    Condition   go to state 86
+    $default  reduce using rule 37 (Conditions)
 
 
 state 88
 
-   23 Function_call: tID . tLPAR Arguments tRPAR
-   33 Facteur: tID .
+   73 Iteration_statement: tWHILE tLPAR @10 . Conditions @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-    tLPAR  shift, and go to state 68
+    tNOT   shift, and go to state 83
+    tLPAR  shift, and go to state 84
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    $default  reduce using rule 33 (Facteur)
+    Expression  go to state 85
+    Facteur     go to state 63
+    Conditions  go to state 111
+    Condition   go to state 87
 
 
 state 89
 
-   78 Assignement_statement: tID tASSIGN Function_call . tSEMI
+   24 Function_call: tID . tLPAR Arguments tRPAR
+   34 Facteur: tID .
 
-    tSEMI  shift, and go to state 111
+    tLPAR  shift, and go to state 69
+
+    $default  reduce using rule 34 (Facteur)
 
 
 state 90
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   77 Assignement_statement: tID tASSIGN Expression . tSEMI
+   79 Assignement_statement: tID tASSIGN Function_call . tSEMI
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
     tSEMI  shift, and go to state 112
 
 
 state 91
 
-   23 Function_call: tID tLPAR Arguments . tRPAR
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   78 Assignement_statement: tID tASSIGN Expression . tSEMI
 
-    tRPAR  shift, and go to state 113
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tSEMI  shift, and go to state 113
 
 
 state 92
 
-   25 Arguments: Expression .
-   26          | Expression . tCOMMA Arguments
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
+   24 Function_call: tID tLPAR Arguments . tRPAR
 
-    tADD    shift, and go to state 76
-    tSUB    shift, and go to state 77
-    tMUL    shift, and go to state 78
-    tDIV    shift, and go to state 79
-    tCOMMA  shift, and go to state 114
-
-    $default  reduce using rule 25 (Arguments)
+    tRPAR  shift, and go to state 114
 
 
 state 93
 
-   58 Declaration_int: tID tASSIGN Expression @3 . tCOMMA Declaration_int
+   26 Arguments: Expression .
+   27          | Expression . tCOMMA Arguments
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
 
+    tADD    shift, and go to state 77
+    tSUB    shift, and go to state 78
+    tMUL    shift, and go to state 79
+    tDIV    shift, and go to state 80
     tCOMMA  shift, and go to state 115
+
+    $default  reduce using rule 26 (Arguments)
 
 
 state 94
 
-   53 Declaration_const: tID tASSIGN tNB .
-   54                  | tID tASSIGN tNB . tCOMMA Declaration_const
+   59 Declaration_int: tID tASSIGN Expression @4 . tCOMMA Declaration_int
 
     tCOMMA  shift, and go to state 116
-
-    $default  reduce using rule 53 (Declaration_const)
 
 
 state 95
 
-   34 Facteur: tLPAR Expression tRPAR .
+   54 Declaration_const: tID tASSIGN tNB .
+   55                  | tID tASSIGN tNB . tCOMMA Declaration_const
 
-    $default  reduce using rule 34 (Facteur)
+    tCOMMA  shift, and go to state 117
+
+    $default  reduce using rule 54 (Declaration_const)
 
 
 state 96
 
-   27 Expression: Expression . tADD Expression
-   27           | Expression tADD Expression .
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
+   35 Facteur: tLPAR Expression tRPAR .
 
-    $default  reduce using rule 27 (Expression)
+    $default  reduce using rule 35 (Facteur)
 
 
 state 97
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   28           | Expression tSUB Expression .
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
+   28 Expression: Expression . tADD Expression
+   28           | Expression tADD Expression .
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
 
     $default  reduce using rule 28 (Expression)
 
 
 state 98
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   29           | Expression tMUL Expression .
-   30           | Expression . tDIV Expression
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   29           | Expression tSUB Expression .
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
 
     $default  reduce using rule 29 (Expression)
 
 
 state 99
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   30           | Expression tDIV Expression .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   30           | Expression tMUL Expression .
+   31           | Expression . tDIV Expression
 
     $default  reduce using rule 30 (Expression)
 
 
 state 100
 
-   76 Print_statement: tPRINT tLPAR Expression tRPAR . tSEMI
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   31           | Expression tDIV Expression .
 
-    tSEMI  shift, and go to state 117
+    $default  reduce using rule 31 (Expression)
 
 
 state 101
 
-   37 Conditions: tNOT Condition .
+   77 Print_statement: tPRINT tLPAR Expression tRPAR . tSEMI
 
-    $default  reduce using rule 37 (Conditions)
+    tSEMI  shift, and go to state 118
 
 
 state 102
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   34 Facteur: tLPAR Expression . tRPAR
-   38 Condition: tLPAR Expression . tLT Expression tRPAR
-   39          | tLPAR Expression . tGT Expression tRPAR
-   40          | tLPAR Expression . tEQ Expression tRPAR
+   38 Conditions: tNOT Condition .
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
-    tLT    shift, and go to state 118
-    tGT    shift, and go to state 119
-    tEQ    shift, and go to state 120
-    tRPAR  shift, and go to state 95
+    $default  reduce using rule 38 (Conditions)
 
 
 state 103
 
-   41 Condition: Expression tLT . Expression
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   35 Facteur: tLPAR Expression . tRPAR
+   39 Condition: tLPAR Expression . tLT Expression tRPAR
+   40          | tLPAR Expression . tGT Expression tRPAR
+   41          | tLPAR Expression . tEQ Expression tRPAR
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 121
-    Facteur     go to state 62
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tLT    shift, and go to state 119
+    tGT    shift, and go to state 120
+    tEQ    shift, and go to state 121
+    tRPAR  shift, and go to state 96
 
 
 state 104
 
-   42 Condition: Expression tGT . Expression
+   42 Condition: Expression tLT . Expression
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 122
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 105
 
-   43 Condition: Expression tEQ . Expression
+   43 Condition: Expression tGT . Expression
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 123
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 106
 
-   45 Separator: tAND .
+   44 Condition: Expression tEQ . Expression
 
-    $default  reduce using rule 45 (Separator)
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    Expression  go to state 124
+    Facteur     go to state 63
 
 
 state 107
 
-   46 Separator: tOR .
+   46 Separator: tAND .
 
     $default  reduce using rule 46 (Separator)
 
 
 state 108
 
-   35 Conditions: Conditions Separator . Condition
+   47 Separator: tOR .
 
-    tLPAR  shift, and go to state 83
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 84
-    Facteur     go to state 62
-    Condition   go to state 124
+    $default  reduce using rule 47 (Separator)
 
 
 state 109
 
-   63 Selection_statement: tIF tLPAR Conditions @4 . tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement
+   36 Conditions: Conditions Separator . Condition
 
-    tRPAR  shift, and go to state 125
+    tLPAR  shift, and go to state 84
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
+
+    Expression  go to state 85
+    Facteur     go to state 63
+    Condition   go to state 125
 
 
 state 110
 
-   35 Conditions: Conditions . Separator Condition
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions . @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 . tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement
 
-    tAND  shift, and go to state 106
-    tOR   shift, and go to state 107
-
-    $default  reduce using rule 69 (@10)
-
-    Separator  go to state 108
-    @10        go to state 126
+    tRPAR  shift, and go to state 126
 
 
 state 111
 
-   78 Assignement_statement: tID tASSIGN Function_call tSEMI .
+   36 Conditions: Conditions . Separator Condition
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions . @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-    $default  reduce using rule 78 (Assignement_statement)
+    tAND  shift, and go to state 107
+    tOR   shift, and go to state 108
+
+    $default  reduce using rule 70 (@11)
+
+    Separator  go to state 109
+    @11        go to state 127
 
 
 state 112
 
-   77 Assignement_statement: tID tASSIGN Expression tSEMI .
+   79 Assignement_statement: tID tASSIGN Function_call tSEMI .
 
-    $default  reduce using rule 77 (Assignement_statement)
+    $default  reduce using rule 79 (Assignement_statement)
 
 
 state 113
 
-   23 Function_call: tID tLPAR Arguments tRPAR .
+   78 Assignement_statement: tID tASSIGN Expression tSEMI .
 
-    $default  reduce using rule 23 (Function_call)
+    $default  reduce using rule 78 (Assignement_statement)
 
 
 state 114
 
-   26 Arguments: Expression tCOMMA . Arguments
+   24 Function_call: tID tLPAR Arguments tRPAR .
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    $default  reduce using rule 24 (Arguments)
-
-    Arguments   go to state 127
-    Expression  go to state 92
-    Facteur     go to state 62
+    $default  reduce using rule 24 (Function_call)
 
 
 state 115
 
-   58 Declaration_int: tID tASSIGN Expression @3 tCOMMA . Declaration_int
+   27 Arguments: Expression tCOMMA . Arguments
 
-    tID  shift, and go to state 34
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    Declaration_int  go to state 128
+    $default  reduce using rule 25 (Arguments)
+
+    Arguments   go to state 128
+    Expression  go to state 93
+    Facteur     go to state 63
 
 
 state 116
 
-   54 Declaration_const: tID tASSIGN tNB tCOMMA . Declaration_const
+   59 Declaration_int: tID tASSIGN Expression @4 tCOMMA . Declaration_int
 
-    tID  shift, and go to state 55
+    tID  shift, and go to state 35
 
-    Declaration_const  go to state 129
+    Declaration_int  go to state 129
 
 
 state 117
 
-   76 Print_statement: tPRINT tLPAR Expression tRPAR tSEMI .
+   55 Declaration_const: tID tASSIGN tNB tCOMMA . Declaration_const
 
-    $default  reduce using rule 76 (Print_statement)
+    tID  shift, and go to state 56
+
+    Declaration_const  go to state 130
 
 
 state 118
 
-   38 Condition: tLPAR Expression tLT . Expression tRPAR
+   77 Print_statement: tPRINT tLPAR Expression tRPAR tSEMI .
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
-
-    Expression  go to state 130
-    Facteur     go to state 62
+    $default  reduce using rule 77 (Print_statement)
 
 
 state 119
 
-   39 Condition: tLPAR Expression tGT . Expression tRPAR
+   39 Condition: tLPAR Expression tLT . Expression tRPAR
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 131
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 120
 
-   40 Condition: tLPAR Expression tEQ . Expression tRPAR
+   40 Condition: tLPAR Expression tGT . Expression tRPAR
 
-    tLPAR  shift, and go to state 57
-    tNB    shift, and go to state 59
-    tID    shift, and go to state 60
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
     Expression  go to state 132
-    Facteur     go to state 62
+    Facteur     go to state 63
 
 
 state 121
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   41 Condition: Expression tLT Expression .
+   41 Condition: tLPAR Expression tEQ . Expression tRPAR
 
-    tADD  shift, and go to state 76
-    tSUB  shift, and go to state 77
-    tMUL  shift, and go to state 78
-    tDIV  shift, and go to state 79
+    tLPAR  shift, and go to state 58
+    tNB    shift, and go to state 60
+    tID    shift, and go to state 61
 
-    $default  reduce using rule 41 (Condition)
+    Expression  go to state 133
+    Facteur     go to state 63
 
 
 state 122
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   42 Condition: Expression tGT Expression .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   42 Condition: Expression tLT Expression .
 
-    tADD  shift, and go to state 76
-    tSUB  shift, and go to state 77
-    tMUL  shift, and go to state 78
-    tDIV  shift, and go to state 79
+    tADD  shift, and go to state 77
+    tSUB  shift, and go to state 78
+    tMUL  shift, and go to state 79
+    tDIV  shift, and go to state 80
 
     $default  reduce using rule 42 (Condition)
 
 
 state 123
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   43 Condition: Expression tEQ Expression .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   43 Condition: Expression tGT Expression .
 
-    tADD  shift, and go to state 76
-    tSUB  shift, and go to state 77
-    tMUL  shift, and go to state 78
-    tDIV  shift, and go to state 79
+    tADD  shift, and go to state 77
+    tSUB  shift, and go to state 78
+    tMUL  shift, and go to state 79
+    tDIV  shift, and go to state 80
 
     $default  reduce using rule 43 (Condition)
 
 
 state 124
 
-   35 Conditions: Conditions Separator Condition .
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   44 Condition: Expression tEQ Expression .
 
-    $default  reduce using rule 35 (Conditions)
+    tADD  shift, and go to state 77
+    tSUB  shift, and go to state 78
+    tMUL  shift, and go to state 79
+    tDIV  shift, and go to state 80
+
+    $default  reduce using rule 44 (Condition)
 
 
 state 125
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR . tLBRACE @5 Corps @6 tRBRACE Else_statement
+   36 Conditions: Conditions Separator Condition .
 
-    tLBRACE  shift, and go to state 133
+    $default  reduce using rule 36 (Conditions)
 
 
 state 126
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 . tRPAR tLBRACE @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR . tLBRACE @6 Corps @7 tRBRACE Else_statement
 
-    tRPAR  shift, and go to state 134
+    tLBRACE  shift, and go to state 134
 
 
 state 127
 
-   26 Arguments: Expression tCOMMA Arguments .
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 . tRPAR tLBRACE @12 Statement_list @13 tRBRACE
 
-    $default  reduce using rule 26 (Arguments)
+    tRPAR  shift, and go to state 135
 
 
 state 128
 
-   58 Declaration_int: tID tASSIGN Expression @3 tCOMMA Declaration_int .
+   27 Arguments: Expression tCOMMA Arguments .
 
-    $default  reduce using rule 58 (Declaration_int)
+    $default  reduce using rule 27 (Arguments)
 
 
 state 129
 
-   54 Declaration_const: tID tASSIGN tNB tCOMMA Declaration_const .
+   59 Declaration_int: tID tASSIGN Expression @4 tCOMMA Declaration_int .
 
-    $default  reduce using rule 54 (Declaration_const)
+    $default  reduce using rule 59 (Declaration_int)
 
 
 state 130
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   38 Condition: tLPAR Expression tLT Expression . tRPAR
+   55 Declaration_const: tID tASSIGN tNB tCOMMA Declaration_const .
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
-    tRPAR  shift, and go to state 135
+    $default  reduce using rule 55 (Declaration_const)
 
 
 state 131
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   39 Condition: tLPAR Expression tGT Expression . tRPAR
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   39 Condition: tLPAR Expression tLT Expression . tRPAR
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
     tRPAR  shift, and go to state 136
 
 
 state 132
 
-   27 Expression: Expression . tADD Expression
-   28           | Expression . tSUB Expression
-   29           | Expression . tMUL Expression
-   30           | Expression . tDIV Expression
-   40 Condition: tLPAR Expression tEQ Expression . tRPAR
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   40 Condition: tLPAR Expression tGT Expression . tRPAR
 
-    tADD   shift, and go to state 76
-    tSUB   shift, and go to state 77
-    tMUL   shift, and go to state 78
-    tDIV   shift, and go to state 79
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
     tRPAR  shift, and go to state 137
 
 
 state 133
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE . @5 Corps @6 tRBRACE Else_statement
+   28 Expression: Expression . tADD Expression
+   29           | Expression . tSUB Expression
+   30           | Expression . tMUL Expression
+   31           | Expression . tDIV Expression
+   41 Condition: tLPAR Expression tEQ Expression . tRPAR
 
-    $default  reduce using rule 61 (@5)
-
-    @5  go to state 138
+    tADD   shift, and go to state 77
+    tSUB   shift, and go to state 78
+    tMUL   shift, and go to state 79
+    tDIV   shift, and go to state 80
+    tRPAR  shift, and go to state 138
 
 
 state 134
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR . tLBRACE @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE . @6 Corps @7 tRBRACE Else_statement
 
-    tLBRACE  shift, and go to state 139
+    $default  reduce using rule 62 (@6)
+
+    @6  go to state 139
 
 
 state 135
 
-   38 Condition: tLPAR Expression tLT Expression tRPAR .
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR . tLBRACE @12 Statement_list @13 tRBRACE
 
-    $default  reduce using rule 38 (Condition)
+    tLBRACE  shift, and go to state 140
 
 
 state 136
 
-   39 Condition: tLPAR Expression tGT Expression tRPAR .
+   39 Condition: tLPAR Expression tLT Expression tRPAR .
 
     $default  reduce using rule 39 (Condition)
 
 
 state 137
 
-   40 Condition: tLPAR Expression tEQ Expression tRPAR .
+   40 Condition: tLPAR Expression tGT Expression tRPAR .
 
     $default  reduce using rule 40 (Condition)
 
 
 state 138
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 . Corps @6 tRBRACE Else_statement
+   41 Condition: tLPAR Expression tEQ Expression tRPAR .
 
-    tINT    shift, and go to state 27
-    tCONST  shift, and go to state 28
-
-    $default  reduce using rule 47 (Declarations)
-
-    Corps                  go to state 140
-    Declarations           go to state 30
-    Declaration_list       go to state 31
-    Declaration_statement  go to state 32
+    $default  reduce using rule 41 (Condition)
 
 
 state 139
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE . @11 Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 . Corps @7 tRBRACE Else_statement
 
-    $default  reduce using rule 70 (@11)
+    tINT    shift, and go to state 28
+    tCONST  shift, and go to state 29
 
-    @11  go to state 141
+    $default  reduce using rule 48 (Declarations)
+
+    Corps                  go to state 141
+    Declarations           go to state 31
+    Declaration_list       go to state 32
+    Declaration_statement  go to state 33
 
 
 state 140
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 Corps . @6 tRBRACE Else_statement
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE . @12 Statement_list @13 tRBRACE
 
-    $default  reduce using rule 62 (@6)
+    $default  reduce using rule 71 (@12)
 
-    @6  go to state 142
+    @12  go to state 142
 
 
 state 141
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE @11 . Statement_list @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 Corps . @7 tRBRACE Else_statement
 
-    tPRINT  shift, and go to state 39
-    tIF     shift, and go to state 40
-    tWHILE  shift, and go to state 41
-    tID     shift, and go to state 42
+    $default  reduce using rule 63 (@7)
 
-    Statement_list         go to state 143
-    Statement              go to state 44
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    @7  go to state 143
 
 
 state 142
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 Corps @6 . tRBRACE Else_statement
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE @12 . Statement_list @13 tRBRACE
 
-    tRBRACE  shift, and go to state 144
+    tPRINT  shift, and go to state 40
+    tIF     shift, and go to state 41
+    tWHILE  shift, and go to state 42
+    tID     shift, and go to state 43
+
+    Statement_list         go to state 144
+    Statement              go to state 45
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
 
 
 state 143
 
-   17 Statement_list: Statement_list . Statement
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE @11 Statement_list . @12 tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 Corps @7 . tRBRACE Else_statement
 
-    tPRINT  shift, and go to state 39
-    tIF     shift, and go to state 40
-    tWHILE  shift, and go to state 41
-    tID     shift, and go to state 42
-
-    $default  reduce using rule 71 (@12)
-
-    Statement              go to state 69
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    @12                    go to state 145
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    tRBRACE  shift, and go to state 145
 
 
 state 144
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 Corps @6 tRBRACE . Else_statement
+   18 Statement_list: Statement_list . Statement
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE @12 Statement_list . @13 tRBRACE
 
-    tELSE  shift, and go to state 146
+    tPRINT  shift, and go to state 40
+    tIF     shift, and go to state 41
+    tWHILE  shift, and go to state 42
+    tID     shift, and go to state 43
 
-    $default  reduce using rule 64 (Else_statement)
+    $default  reduce using rule 72 (@13)
 
-    Else_statement  go to state 147
+    Statement              go to state 70
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    @13                    go to state 146
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
 
 
 state 145
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE @11 Statement_list @12 . tRBRACE
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 Corps @7 tRBRACE . Else_statement
 
-    tRBRACE  shift, and go to state 148
+    tELSE  shift, and go to state 147
+
+    $default  reduce using rule 65 (Else_statement)
+
+    Else_statement  go to state 148
 
 
 state 146
 
-   67 Else_statement: tELSE . @7 tLBRACE @8 Statement_list tRBRACE
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE @12 Statement_list @13 . tRBRACE
 
-    $default  reduce using rule 65 (@7)
-
-    @7  go to state 149
+    tRBRACE  shift, and go to state 149
 
 
 state 147
 
-   63 Selection_statement: tIF tLPAR Conditions @4 tRPAR tLBRACE @5 Corps @6 tRBRACE Else_statement .
+   68 Else_statement: tELSE . @8 tLBRACE @9 Statement_list tRBRACE
 
-    $default  reduce using rule 63 (Selection_statement)
+    $default  reduce using rule 66 (@8)
+
+    @8  go to state 150
 
 
 state 148
 
-   72 Iteration_statement: tWHILE tLPAR @9 Conditions @10 tRPAR tLBRACE @11 Statement_list @12 tRBRACE .
+   64 Selection_statement: tIF tLPAR Conditions @5 tRPAR tLBRACE @6 Corps @7 tRBRACE Else_statement .
 
-    $default  reduce using rule 72 (Iteration_statement)
+    $default  reduce using rule 64 (Selection_statement)
 
 
 state 149
 
-   67 Else_statement: tELSE @7 . tLBRACE @8 Statement_list tRBRACE
+   73 Iteration_statement: tWHILE tLPAR @10 Conditions @11 tRPAR tLBRACE @12 Statement_list @13 tRBRACE .
 
-    tLBRACE  shift, and go to state 150
+    $default  reduce using rule 73 (Iteration_statement)
 
 
 state 150
 
-   67 Else_statement: tELSE @7 tLBRACE . @8 Statement_list tRBRACE
+   68 Else_statement: tELSE @8 . tLBRACE @9 Statement_list tRBRACE
 
-    $default  reduce using rule 66 (@8)
-
-    @8  go to state 151
+    tLBRACE  shift, and go to state 151
 
 
 state 151
 
-   67 Else_statement: tELSE @7 tLBRACE @8 . Statement_list tRBRACE
+   68 Else_statement: tELSE @8 tLBRACE . @9 Statement_list tRBRACE
 
-    tPRINT  shift, and go to state 39
-    tIF     shift, and go to state 40
-    tWHILE  shift, and go to state 41
-    tID     shift, and go to state 42
+    $default  reduce using rule 67 (@9)
 
-    Statement_list         go to state 152
-    Statement              go to state 44
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    @9  go to state 152
 
 
 state 152
 
-   17 Statement_list: Statement_list . Statement
-   67 Else_statement: tELSE @7 tLBRACE @8 Statement_list . tRBRACE
+   68 Else_statement: tELSE @8 tLBRACE @9 . Statement_list tRBRACE
 
-    tPRINT   shift, and go to state 39
-    tRBRACE  shift, and go to state 153
-    tIF      shift, and go to state 40
-    tWHILE   shift, and go to state 41
-    tID      shift, and go to state 42
+    tPRINT  shift, and go to state 40
+    tIF     shift, and go to state 41
+    tWHILE  shift, and go to state 42
+    tID     shift, and go to state 43
 
-    Statement              go to state 69
-    Function_call          go to state 45
-    Selection_statement    go to state 46
-    Iteration_statement    go to state 47
-    Print_statement        go to state 48
-    Assignement_statement  go to state 49
+    Statement_list         go to state 153
+    Statement              go to state 45
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
 
 
 state 153
 
-   67 Else_statement: tELSE @7 tLBRACE @8 Statement_list tRBRACE .
+   18 Statement_list: Statement_list . Statement
+   68 Else_statement: tELSE @8 tLBRACE @9 Statement_list . tRBRACE
 
-    $default  reduce using rule 67 (Else_statement)
+    tPRINT   shift, and go to state 40
+    tRBRACE  shift, and go to state 154
+    tIF      shift, and go to state 41
+    tWHILE   shift, and go to state 42
+    tID      shift, and go to state 43
+
+    Statement              go to state 70
+    Function_call          go to state 46
+    Selection_statement    go to state 47
+    Iteration_statement    go to state 48
+    Print_statement        go to state 49
+    Assignement_statement  go to state 50
+
+
+state 154
+
+   68 Else_statement: tELSE @8 tLBRACE @9 Statement_list tRBRACE .
+
+    $default  reduce using rule 68 (Else_statement)

@@ -2,7 +2,11 @@
 //traitement des conditions pour if et while
 //copie ou assign
 
+int main(){
+  int a;
+  a=13;
 
+}
 //test while 
 int main(){
   int x = 0;
@@ -85,29 +89,151 @@ int main() {
   }
 
 //test ajout de fonctions
-int compute2(int a,int c) {
-  int b = 309;
-  a = 23903/3930;
+
+int compute(int a, int b) {
+  a = a+18;
+  if (a<60){
+    a=390;
+  }else{
+    if (a==70){
+      a=209;
+    }else{
+      a=3333;
+    }
+  }
+
+  return a;
+} 
+int compute2(int a) {
+  int c;
+  c=20;
+  a=90+c+a;
   return a;
 } 
 
-int compute(int a, int b) {
-  int c;
-  c = 33+49+c;
-  return c;
-} 
-
 int main(){
-  int y = 4672;
-  int x = 309;
-  int d = 3930983;
-  
-  x = 33+49+x;
-  
-  x= compute(32,x);
-  x=2876;
-  y = compute2(12,34);
+    int y ;
+    int x ;
+    int z;
+    int b;
+    int e;
+    x= compute(32,x);
+    y = compute2(12);
+    e = compute(53,x);
+    z= compute2(10);
+    b = compute(52,x);
+    print(b); //209
+    print(x);//390
+    print(y);//492
+    print(z);//120
+    print(e);//3333
 
   }
 
-//ouvrit fichier lire son contenu decoupe
+//test des declarations 
+
+int main(){
+  int x;
+  int y = 89;
+  int z,t;
+  int o=988,a;
+  print(a);
+}
+
+//test calcul 
+  int main(){
+    int x; 
+    int y=10,z;
+    z = 12;
+    x=z+y;
+    z=x;
+    while(z>19){
+      if(y==10){
+        y=y-1;
+        z = z-1;
+      }else{
+        z=z-2;
+      }
+      print(z);
+    }
+    print(z);//19
+    print(x);//22
+    print(y);//9
+  }
+//main simple
+int comp(int a, int b){
+  a = a+b;
+  return a;
+}
+
+int compute(int a){
+  int c =2;
+  a= a+c+2;//30
+  a= comp(a,12);//42
+  return a;
+}
+
+int compute2(int a){
+  int c = 10;
+  c=compute(a);//26
+  c = compute(c);//42
+  a=a+c;//52
+  return a;
+}
+int main(){
+  int x,y,z,b,e;
+  y = compute2(10);//52
+  x = compute(20);//3
+  print(y);//52
+  print(x);//36
+}
+
+//test slides cours 
+int f(int a) { 
+  return 2;
+}
+int g() {
+  int a = f(2);
+}
+int h() {
+  int a = g();
+}
+//appel fonction complexe
+
+int compute(int a){
+  int c =2;
+  a= a+c+2;//30
+  return a;
+}
+int comp(int a, int b){
+  int c=2;
+  if (a+c==b+c){
+    if (a<5){
+      a= compute(a);
+    }
+  }else {
+    b = compute(b);
+  }
+  return a;
+}
+
+
+
+int compute2(int a){
+  int c = 10;
+  int d,f;
+  c=compute(a);//26
+  d=comp(2,2);//6
+  print(d);
+  f=comp(3,4);
+  print(f);//3
+  a=a+c;//52
+  return a;
+}
+int main(){
+  int x,y,z,b,e;
+  y = compute2(10);//52
+  x = compute(20);//3
+  print(y);//28
+  print(x);//24
+}

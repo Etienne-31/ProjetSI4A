@@ -18,6 +18,8 @@ int index_queue = 0;
 int addr_main;
 int addr_func;
 int nbparam_call;
+int decalage;
+int index_jmp_main;
 %}
 
 %union { int nb; char* var; struct {int index_condition; int index_exit;}index_while;}
@@ -39,7 +41,9 @@ int nbparam_call;
 %start Program
 
 %%
-Program: Function_list;
+Program: {
+   index_jmp_main = add_asm("JMP",1,0);
+}Function_list;
 
 
 Function_list:
@@ -51,10 +55,13 @@ Function:
     Type_specifier tMAIN 
     {
       addr_main = get_last_index();
+      modif_asm_inst(index_jmp_main,"JMP",1,addr_main);
+
+      /*addr_main = get_last_index();
       for(int i; i>=0;i--){
          modif_asm_inst(queue[index_queue],"JMP",1,addr_main);
          index_queue--;
-      }
+      }*/
     }
     tLPAR Parameter_list tRPAR  tLBRACE Corps Return_statement tRBRACE 
     {
@@ -65,11 +72,13 @@ Function:
    }
 
    | Type_specifier tID tLPAR Parameter_list tRPAR 
-   {
-      queue[index_queue] =add_asm("JMP",1,addr_main);
+   {  
+      /*queue[index_queue] =add_asm("JMP",1,addr_main);
       add_function($2,queue[index_queue],nbparam_decl);
-      index_queue++;
-      addr_ret = add_return_address(table);
+      index_queue++;*/
+      add_function($2, get_last_index(),nbparam_decl);
+      decalage = get_last_index_ts(table);
+      addr_ret = add_return_address(table,nbparam_decl);
 
    }tLBRACE Corps Return_statement tRBRACE 
    {  
@@ -120,9 +129,11 @@ Function_call:
    {
       int addrfunc = find_function_asm_address($1);
       //add_asm("JMP",1,addrfunc);
-      add_asm("CALL",2,addrfunc+1,get_last_index_ts(table));
-      //remove_last_temp_var(table);
       nbparam_call = get_function_params($1);
+      
+      add_asm("CALL",3,addrfunc,get_last_index_ts(table)-nbparam_call,get_last_index());
+      //remove_last_temp_var(table);
+      
 
    };
 

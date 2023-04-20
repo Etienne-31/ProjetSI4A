@@ -12,6 +12,7 @@ typedef struct symbol_table_entry {
 char *name;
 int address;
 int scope;
+int decalage;
 struct symbol_table_entry *next;
 } symbol_table_entry;
 
@@ -36,7 +37,7 @@ int get_adress(symbol_table *table, char *name);
 void free_table(symbol_table *table);
 
 //ajoute l'adresse de retour 
-int add_return_address(symbol_table *table);
+int add_return_address(symbol_table *table,int decalage);
 
 //affiche la table
 void print_table(symbol_table *table);

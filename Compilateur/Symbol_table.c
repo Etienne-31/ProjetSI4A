@@ -35,12 +35,13 @@ int add_temp_var(symbol_table *table){
 
 //ajoute l'adresse de retour 
 
-int add_return_address(symbol_table *table){
+int add_return_address(symbol_table *table, int decalage){
  // on creer une nouvelle entrée    
     symbol_table_entry *entry = table->first_entry;
     entry = (symbol_table_entry*) malloc(sizeof(symbol_table_entry));
     entry->name = strdup("@");
     entry->address = address++;
+    entry ->decalage = decalage;
     entry->next = NULL;
 
 // on ajoute l'entrée
@@ -184,7 +185,7 @@ void print_table(symbol_table *table) {
     printf("Symbol table:\n");
     symbol_table_entry *entry = table->first_entry;
     while (entry != NULL) {
-        printf("%s\t%d\t%d\n", entry->name, entry->address,entry->scope);
+        printf("%s\t%d\t%d\t%d\n", entry->name, entry->address,entry->scope, entry->decalage);
         entry = entry->next;
     }
 }
@@ -216,7 +217,7 @@ int main() {
     remove_symbols_by_scope(table,4);
     add_symbol(table,"b",1);
     print_table(table);
-    add_return_address(table);
+    add_return_address(table,322222);
     print_table(table);
 
 }
