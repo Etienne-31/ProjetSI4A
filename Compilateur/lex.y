@@ -28,12 +28,14 @@ int index_jmp_main;
 %token tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA
 %token <nb> tNB
 %token <nb> tIF
+%token <nb> tLPAR
 %token <nb> tELSE
 %token <index_while> tWHILE
 %token <var> tID
 %left tADD tSUB tMUL tDIV tEQ tNE
 %nonassoc tLT tGT tLE tGE
 %type <nb> Expression
+%type <nb> Else_statement
 %type <nb> Conditions
 %type <nb> Condition
 %type <nb> Declaration_int
@@ -131,7 +133,7 @@ Function_call:
       //add_asm("JMP",1,addrfunc);
       nbparam_call = get_function_params($1);
       
-      add_asm("CALL",3,addrfunc,get_last_index_ts(table)-nbparam_call,get_last_index());
+      add_asm("CALL",2,addrfunc,get_last_index_ts(table)-nbparam_call);
       //remove_last_temp_var(table);
       
 
@@ -325,17 +327,22 @@ Selection_statement:
       $1 = add_asm("JMF",2,$3,0);
       remove_last_temp_var(table);
 
-   } tRPAR tLBRACE {scope++;} Corps 
+   }tRPAR tLBRACE {scope++;} Corps  tRBRACE
    { 
-      modif_asm_inst($1,"JMF",2,$3,get_last_index()+1);
+      modif_asm_inst($1,"JMF",2,$3,get_last_index());
       remove_symbols_by_scope(table,scope);
-      scope--;                    
+      scope--; 
+      $2 = get_last_index();
 
-   } tRBRACE Else_statement;// {add_asm("NOP",0);};
-   
+
+   } Else_statement{if ($11 == 1) { 
+         modif_asm_inst($1,"JMF",2,$3,$2+1);
+      }else {
+         modif_asm_inst($1,"JMF",2,$3,$2);
+      }};
+  
 Else_statement:
-   /*empty*/
-   |tELSE 
+   tELSE 
    {
       $1 = add_asm("JMP",1,0);
    } tLBRACE{scope++;} Statement_list tRBRACE
@@ -343,7 +350,9 @@ Else_statement:
       modif_asm_inst($1,"JMP",1,get_last_index());
       remove_symbols_by_scope(table,scope);
       scope--;
-   };
+      $$=1;
+   }
+   |{$$=0;};
          
    
 Iteration_statement:

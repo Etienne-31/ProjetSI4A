@@ -5,41 +5,29 @@
 #include <stdarg.h>
 #include <string.h>
 int compute(int a){
-  int c =2;
-  a= a+c+2;//30
+  a=a+1;
   return a;
+
 }
 int comp(int a, int b){
   int c=2;
-  if (a+c==b+c){
+  if (a==b){
     if (a<5){
-      a= compute(a);
+      a= compute(a);//6
     }
   }else {
-    a = compute(b);
-    printf("b a comp : %d\n",b);
-    printf("a a comp : %d\n",a);
+    a = compute(b);//8
   }
   return a;
 }
 
-
-
-int compute2(int a){
-  int c = 10;
-  int d,f;
-  c=compute(a);//26
-  d=comp(2,2);
-  printf("d a compute2 : %d\n",d);
-  f=comp(3,4);
-  printf("f a compute2 : %d\n",f);
-  a=a+c;//52
-  return a;
-}
 int main(){
-  int x,y,z,b,e;
-  y = compute2(10);//52
-  x = compute(20);//3
-  printf("y : %d\n",y);//28
-  printf("x : %d\n",x);
+  int y,x,z;
+  y = comp(4,11);//52
+  x = comp(4,4);
+  z = comp(10,10);
+  printf("x est : %d\n",x);//5
+  printf("y est : %d\n",y);
+  printf("z est : %d\n",z);
+
 }

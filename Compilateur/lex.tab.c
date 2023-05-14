@@ -475,7 +475,7 @@ static const yytype_uint16 yyprhs[] =
       86,    90,    94,    98,   100,   102,   104,   108,   112,   114,
      117,   123,   129,   135,   139,   143,   147,   149,   151,   153,
      154,   156,   158,   161,   165,   170,   174,   180,   182,   186,
-     187,   194,   198,   199,   200,   201,   213,   214,   215,   216,
+     187,   194,   198,   199,   200,   201,   213,   214,   215,   222,
      223,   224,   225,   226,   227,   239,   240,   244,   247,   253,
      258
 };
@@ -503,9 +503,9 @@ static const yytype_int8 yyrhs[] =
       33,    19,    29,    -1,    33,    19,    29,    28,    57,    -1,
       33,    -1,    33,    19,    49,    -1,    -1,    33,    19,    49,
       59,    28,    58,    -1,    33,    28,    58,    -1,    -1,    -1,
-      -1,    30,    25,    51,    61,    26,    23,    62,    41,    63,
-      24,    64,    -1,    -1,    -1,    -1,    31,    65,    23,    66,
-      45,    24,    -1,    -1,    -1,    -1,    -1,    32,    25,    68,
+      -1,    30,    25,    51,    61,    26,    23,    62,    41,    24,
+      63,    64,    -1,    -1,    -1,    31,    65,    23,    66,    45,
+      24,    -1,    -1,    -1,    -1,    -1,    -1,    32,    25,    68,
       51,    69,    26,    23,    70,    45,    71,    24,    -1,    -1,
        7,    49,    27,    -1,     7,    27,    -1,     8,    25,    49,
       26,    27,    -1,    33,    19,    49,    27,    -1,    33,    19,
@@ -515,15 +515,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    44,    44,    44,    50,    51,    56,    55,    75,    74,
-      92,    95,    96,    99,   101,   102,   106,   111,   115,   116,
-     120,   121,   122,   123,   124,   128,   140,   142,   143,   147,
-     157,   167,   176,   184,   188,   193,   199,   203,   204,   205,
-     209,   218,   227,   235,   243,   251,   259,   266,   267,   270,
-     272,   275,   276,   279,   280,   283,   289,   297,   302,   309,
-     308,   316,   324,   328,   329,   323,   336,   339,   341,   338,
-     351,   354,   357,   358,   350,   369,   371,   376,   380,   388,
-     395
+       0,    46,    46,    46,    52,    53,    58,    57,    77,    76,
+      94,    97,    98,   101,   103,   104,   108,   113,   117,   118,
+     122,   123,   124,   125,   126,   130,   142,   144,   145,   149,
+     159,   169,   178,   186,   190,   195,   201,   205,   206,   207,
+     211,   220,   229,   237,   245,   253,   261,   268,   269,   272,
+     274,   277,   278,   281,   282,   285,   291,   299,   304,   311,
+     310,   318,   326,   330,   331,   325,   346,   348,   345,   355,
+     360,   363,   366,   367,   359,   378,   380,   385,   389,   397,
+     404
 };
 #endif
 
@@ -569,7 +569,7 @@ static const yytype_uint8 yyr1[] =
       49,    49,    49,    49,    50,    50,    50,    51,    51,    51,
       52,    52,    52,    52,    52,    52,    52,    53,    53,    54,
       54,    55,    55,    56,    56,    57,    57,    58,    58,    59,
-      58,    58,    61,    62,    63,    60,    64,    65,    66,    64,
+      58,    58,    61,    62,    63,    60,    65,    66,    64,    64,
       68,    69,    70,    71,    67,    72,    72,    72,    73,    74,
       74
 };
@@ -583,7 +583,7 @@ static const yytype_uint8 yyr2[] =
        3,     3,     3,     1,     1,     1,     3,     3,     1,     2,
        5,     5,     5,     3,     3,     3,     1,     1,     1,     0,
        1,     1,     2,     3,     4,     3,     5,     1,     3,     0,
-       6,     3,     0,     0,     0,    11,     0,     0,     0,     6,
+       6,     3,     0,     0,     0,    11,     0,     0,     6,     0,
        0,     0,     0,     0,    11,     0,     3,     2,     5,     4,
        4
 };
@@ -607,8 +607,8 @@ static const yytype_uint8 yydefact[] =
        0,    71,    80,    79,    25,    26,     0,     0,    78,     0,
        0,     0,    43,    44,    45,    37,     0,     0,    28,    60,
       56,     0,     0,     0,    63,     0,    40,    41,    42,    49,
-      72,    64,     0,     0,    73,    66,     0,    67,    65,    74,
-       0,    68,     0,     0,    69
+      72,     0,     0,    64,    73,    69,     0,    66,    65,    74,
+       0,    67,     0,     0,    68
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -616,7 +616,7 @@ static const yytype_int16 yydefgoto[] =
 {
       -1,     1,     2,     6,     7,    12,    24,    30,     8,    17,
       18,    44,    45,    46,    92,    85,    63,    86,    87,   109,
-      31,    32,    33,    57,    36,    94,    47,   110,   139,   143,
+      31,    32,    33,    57,    36,    94,    47,   110,   139,   145,
      148,   150,   152,    48,    88,   127,   142,   146,    39,    49,
       50
 };
@@ -640,7 +640,7 @@ static const yytype_int16 yypact[] =
      138,    31,  -138,  -138,  -138,    98,    34,    59,  -138,    98,
       98,    98,   143,   143,   143,  -138,   139,   140,  -138,  -138,
     -138,    95,   104,   108,  -138,   142,  -138,  -138,  -138,   153,
-    -138,  -138,    17,   144,    17,   128,   145,  -138,  -138,  -138,
+    -138,   144,    17,  -138,    17,   128,   145,  -138,  -138,  -138,
      147,  -138,    17,     6,  -138
 };
 
@@ -677,7 +677,7 @@ static const yytype_int16 yytable[] =
      137,    61,    89,    61,   138,    84,    75,    71,    23,    60,
       22,    69,   112,    61,    77,    78,    79,    80,   104,   105,
       95,   106,    77,    78,    79,    80,    28,   114,    29,   147,
-     116,   117,   134,   118,   126,   140,   135,     9,   145,   149,
+     116,   117,   134,   118,   126,   140,   135,     9,   143,   149,
      151,    19,    25,    90,   111,   128,     0,     0,    51,   130,
        0,     0,    52
 };
@@ -723,7 +723,7 @@ static const yytype_uint8 yystos[] =
       61,    51,    27,    27,    26,    28,    28,    28,    27,    13,
       14,    16,    49,    49,    49,    52,    26,    69,    48,    58,
       57,    49,    49,    49,    23,    26,    26,    26,    26,    62,
-      23,    41,    70,    63,    45,    24,    71,    31,    64,    24,
+      23,    41,    70,    24,    45,    63,    71,    31,    64,    24,
       65,    23,    66,    45,    24
 };
 
@@ -1539,14 +1539,14 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 44 "lex.y"
+#line 46 "lex.y"
     {
    index_jmp_main = add_asm("JMP",1,0);
 ;}
     break;
 
   case 6:
-#line 56 "lex.y"
+#line 58 "lex.y"
     {
       addr_main = get_last_index();
       modif_asm_inst(index_jmp_main,"JMP",1,addr_main);
@@ -1560,7 +1560,7 @@ yyreduce:
     break;
 
   case 7:
-#line 67 "lex.y"
+#line 69 "lex.y"
     {
       print_table(table);
       print_asm_table();
@@ -1570,7 +1570,7 @@ yyreduce:
     break;
 
   case 8:
-#line 75 "lex.y"
+#line 77 "lex.y"
     {  
       /*queue[index_queue] =add_asm("JMP",1,addr_main);
       add_function($2,queue[index_queue],nbparam_decl);
@@ -1583,7 +1583,7 @@ yyreduce:
     break;
 
   case 9:
-#line 84 "lex.y"
+#line 86 "lex.y"
     {  
       nbparam_decl=0;
       print_table(table);
@@ -1592,7 +1592,7 @@ yyreduce:
     break;
 
   case 16:
-#line 107 "lex.y"
+#line 109 "lex.y"
     {
       add_symbol(table,(yyvsp[(2) - (2)].var),scope);
       nbparam_decl++;
@@ -1600,13 +1600,13 @@ yyreduce:
     break;
 
   case 25:
-#line 129 "lex.y"
+#line 131 "lex.y"
     {
       int addrfunc = find_function_asm_address((yyvsp[(1) - (4)].var));
       //add_asm("JMP",1,addrfunc);
       nbparam_call = get_function_params((yyvsp[(1) - (4)].var));
       
-      add_asm("CALL",3,addrfunc,get_last_index_ts(table)-nbparam_call,get_last_index());
+      add_asm("CALL",2,addrfunc,get_last_index_ts(table)-nbparam_call);
       //remove_last_temp_var(table);
       
 
@@ -1614,7 +1614,7 @@ yyreduce:
     break;
 
   case 29:
-#line 148 "lex.y"
+#line 150 "lex.y"
     { 
 
          int addr_last= get_last_index_ts(table);
@@ -1627,7 +1627,7 @@ yyreduce:
     break;
 
   case 30:
-#line 158 "lex.y"
+#line 160 "lex.y"
     { 
 
          int addr_last= get_last_index_ts(table);
@@ -1639,7 +1639,7 @@ yyreduce:
     break;
 
   case 31:
-#line 168 "lex.y"
+#line 170 "lex.y"
     { 
 
          int addr_last= get_last_index_ts(table);
@@ -1651,7 +1651,7 @@ yyreduce:
     break;
 
   case 32:
-#line 176 "lex.y"
+#line 178 "lex.y"
     { 
 
          int addr_last= get_last_index_ts(table);
@@ -1663,7 +1663,7 @@ yyreduce:
     break;
 
   case 34:
-#line 188 "lex.y"
+#line 190 "lex.y"
     { int addrtemp = add_temp_var(table);
               //int addr_nb= get_adress($1);
               // affecter tnb a l'adresse de la variable temp 
@@ -1672,7 +1672,7 @@ yyreduce:
     break;
 
   case 35:
-#line 193 "lex.y"
+#line 195 "lex.y"
     {int addr = get_adress(table,(yyvsp[(1) - (1)].var));
              int addrtemp = add_temp_var(table);
              //affecte le contenu de l'adresse  de Id dans une var temp
@@ -1682,12 +1682,12 @@ yyreduce:
     break;
 
   case 36:
-#line 199 "lex.y"
+#line 201 "lex.y"
     {(yyval.nb)=(yyvsp[(2) - (3)].nb);;}
     break;
 
   case 40:
-#line 210 "lex.y"
+#line 212 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1699,7 +1699,7 @@ yyreduce:
     break;
 
   case 41:
-#line 219 "lex.y"
+#line 221 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1711,7 +1711,7 @@ yyreduce:
     break;
 
   case 42:
-#line 228 "lex.y"
+#line 230 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1722,7 +1722,7 @@ yyreduce:
     break;
 
   case 43:
-#line 236 "lex.y"
+#line 238 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1733,7 +1733,7 @@ yyreduce:
     break;
 
   case 44:
-#line 244 "lex.y"
+#line 246 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1744,7 +1744,7 @@ yyreduce:
     break;
 
   case 45:
-#line 252 "lex.y"
+#line 254 "lex.y"
     {    
          int addr_next_to_last = get_last_index_ts(table)-1;
          int addr = get_last_index_ts(table);
@@ -1755,14 +1755,14 @@ yyreduce:
     break;
 
   case 46:
-#line 260 "lex.y"
+#line 262 "lex.y"
     {
       (yyval.nb)=get_last_index_ts(table);
    ;}
     break;
 
   case 55:
-#line 284 "lex.y"
+#line 286 "lex.y"
     {
       int index = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
       add_asm("AFC",2,index,(yyvsp[(3) - (3)].nb));
@@ -1770,7 +1770,7 @@ yyreduce:
     break;
 
   case 56:
-#line 290 "lex.y"
+#line 292 "lex.y"
     {
       int index = add_symbol(table,(yyvsp[(1) - (5)].var),scope);
       add_asm("AFC",index,(yyvsp[(3) - (5)].nb));
@@ -1778,14 +1778,14 @@ yyreduce:
     break;
 
   case 57:
-#line 298 "lex.y"
+#line 300 "lex.y"
     {
       add_symbol(table,(yyvsp[(1) - (1)].var),scope);
    ;}
     break;
 
   case 58:
-#line 303 "lex.y"
+#line 305 "lex.y"
     {
       remove_last_temp_var(table);
       int addr = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
@@ -1793,7 +1793,7 @@ yyreduce:
     break;
 
   case 59:
-#line 309 "lex.y"
+#line 311 "lex.y"
     {
       remove_last_temp_var(table);
       int addr = add_symbol(table,(yyvsp[(1) - (3)].var),scope);
@@ -1801,14 +1801,14 @@ yyreduce:
     break;
 
   case 61:
-#line 317 "lex.y"
+#line 319 "lex.y"
     {
       add_symbol(table,(yyvsp[(1) - (3)].var),scope);
    ;}
     break;
 
   case 62:
-#line 324 "lex.y"
+#line 326 "lex.y"
     {
       (yyvsp[(1) - (3)].nb) = add_asm("JMF",2,(yyvsp[(3) - (3)].nb),0);
       remove_last_temp_var(table);
@@ -1817,50 +1817,67 @@ yyreduce:
     break;
 
   case 63:
-#line 328 "lex.y"
+#line 330 "lex.y"
     {scope++;;}
     break;
 
   case 64:
-#line 329 "lex.y"
+#line 331 "lex.y"
     { 
-      modif_asm_inst((yyvsp[(1) - (8)].nb),"JMF",2,(yyvsp[(3) - (8)].nb),get_last_index()+1);
+      modif_asm_inst((yyvsp[(1) - (9)].nb),"JMF",2,(yyvsp[(3) - (9)].nb),get_last_index());
       remove_symbols_by_scope(table,scope);
-      scope--;                    
+      scope--; 
+      (yyvsp[(2) - (9)].nb) = get_last_index();
+
 
    ;}
     break;
 
-  case 67:
-#line 339 "lex.y"
+  case 65:
+#line 338 "lex.y"
+    {if ((yyvsp[(11) - (11)].nb) == 1) { 
+         modif_asm_inst((yyvsp[(1) - (11)].nb),"JMF",2,(yyvsp[(3) - (11)].nb),(yyvsp[(2) - (11)].nb)+1);
+      }else {
+         modif_asm_inst((yyvsp[(1) - (11)].nb),"JMF",2,(yyvsp[(3) - (11)].nb),(yyvsp[(2) - (11)].nb));
+      };}
+    break;
+
+  case 66:
+#line 346 "lex.y"
     {
       (yyvsp[(1) - (1)].nb) = add_asm("JMP",1,0);
    ;}
     break;
 
-  case 68:
-#line 341 "lex.y"
+  case 67:
+#line 348 "lex.y"
     {scope++;;}
     break;
 
-  case 69:
-#line 342 "lex.y"
+  case 68:
+#line 349 "lex.y"
     {
       modif_asm_inst((yyvsp[(1) - (6)].nb),"JMP",1,get_last_index());
       remove_symbols_by_scope(table,scope);
       scope--;
+      (yyval.nb)=1;
    ;}
     break;
 
+  case 69:
+#line 355 "lex.y"
+    {(yyval.nb)=0;;}
+    break;
+
   case 70:
-#line 351 "lex.y"
+#line 360 "lex.y"
     {
       (yyvsp[(1) - (2)].index_while).index_condition = get_last_index();
    ;}
     break;
 
   case 71:
-#line 354 "lex.y"
+#line 363 "lex.y"
     {
       (yyvsp[(1) - (4)].index_while).index_exit = add_asm("JMF",2,(yyvsp[(4) - (4)].nb),0);
       remove_last_temp_var(table);
@@ -1868,12 +1885,12 @@ yyreduce:
     break;
 
   case 72:
-#line 357 "lex.y"
+#line 366 "lex.y"
     {scope++;;}
     break;
 
   case 73:
-#line 358 "lex.y"
+#line 367 "lex.y"
     {
       add_asm("JMP",1,(yyvsp[(1) - (9)].index_while).index_condition);
       modif_asm_inst((yyvsp[(1) - (9)].index_while).index_exit,"JMF",2,(yyvsp[(4) - (9)].nb),get_last_index());
@@ -1881,7 +1898,7 @@ yyreduce:
     break;
 
   case 74:
-#line 362 "lex.y"
+#line 371 "lex.y"
     {
       remove_symbols_by_scope(table,scope);
       scope--;
@@ -1890,7 +1907,7 @@ yyreduce:
     break;
 
   case 76:
-#line 372 "lex.y"
+#line 381 "lex.y"
     {
       add_asm("BX",2,addr_ret,(yyvsp[(2) - (3)].nb));
       remove_last_temp_var(table);
@@ -1898,7 +1915,7 @@ yyreduce:
     break;
 
   case 78:
-#line 381 "lex.y"
+#line 390 "lex.y"
     {
       add_asm("PRI",1,(yyvsp[(3) - (5)].nb));
       remove_last_temp_var(table);
@@ -1906,7 +1923,7 @@ yyreduce:
     break;
 
   case 79:
-#line 389 "lex.y"
+#line 398 "lex.y"
     {
       int addr = get_adress(table,(yyvsp[(1) - (4)].var));
       int addr_last= get_last_index_ts(table);
@@ -1916,7 +1933,7 @@ yyreduce:
     break;
 
   case 80:
-#line 396 "lex.y"
+#line 405 "lex.y"
     {
       add_temp_var(table);
       int addr = get_adress(table,(yyvsp[(1) - (4)].var));
@@ -1932,7 +1949,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1936 "lex.tab.c"
+#line 1953 "lex.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2146,7 +2163,7 @@ yyreturn:
 }
 
 
-#line 409 "lex.y"
+#line 418 "lex.y"
 
 
 void yyerror(const char *s) {

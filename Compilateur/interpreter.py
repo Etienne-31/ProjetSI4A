@@ -105,7 +105,8 @@ while ip < len(asm):
         ip =ret[indret]
     
     elif opcode == "CALL":
-        addr_ret = int(asm[ip][3])+1
+        #addr_ret = int(asm[ip][3])+1
+        addr_ret = ip+1
         decal_sing = int(asm[ip][2])
         tab[index] = decal_sing+1
         decalage = decalage +tab[index]
@@ -114,7 +115,7 @@ while ip < len(asm):
         indret+= 1
         func_addr = int(asm[ip][1])
         ip = func_addr
-        
+
     elif opcode == "PRI":
         print("print")
         value = mem[int(asm[ip][1])]
