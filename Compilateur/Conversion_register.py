@@ -183,5 +183,8 @@ def transform_instructions(file_path):
 file_path = 'ASMCODE.asm'
 transformed_code = transform_instructions(file_path)
 
+with open(file_path, "w") as f:
+    for line in transformed_code :
+        f.writelines(line+ '\n')
 for line in transformed_code:
-    print(line)
+   print(line)
