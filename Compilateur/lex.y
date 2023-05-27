@@ -25,7 +25,7 @@ int index_jmp_main;
 %union { int nb; char* var; struct {int index_condition; int index_exit;}index_while;}
 %token tINT tVOID tCONST tMAIN tRETURN tPRINT
 %token tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tASSIGN tAND tOR tNOT
-%token tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA
+%token tLBRACE tRBRACE tRPAR tSEMI tCOMMA
 %token <nb> tNB
 %token <nb> tIF
 %token <nb> tLPAR
@@ -38,7 +38,6 @@ int index_jmp_main;
 %type <nb> Else_statement
 %type <nb> Conditions
 %type <nb> Condition
-%type <nb> Declaration_int
 %type <nb> Facteur
 %start Program
 
@@ -204,7 +203,6 @@ Facteur:
 Conditions:
    Conditions Separator Condition
    |Condition
-   |tNOT Condition
    ;
    
 Condition:

@@ -21,7 +21,7 @@ def transform_instructions(file_path):
     transformed_code = []
     used_registers = set()
     ip =0
-    jumps_positions = [0]*5  # Liste pour stocker les positions des instructions de saut (JMF)
+    jumps_positions = [0]*5  # Liste pour stocker les addresses de saut 
     val =0
     for line in asm_code:
         instruction = line.strip().split()
@@ -45,7 +45,8 @@ def transform_instructions(file_path):
         instruction = line.strip().split()
         if len(instruction) == 3 and instruction[0] == 'AFC':
             ip=ip+1
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+2
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -59,12 +60,12 @@ def transform_instructions(file_path):
 
             transformed_code.append(f'x"02{hexa(register)}{hexa(value)}00", --AFC {register} {value}')
             transformed_code.append(f'x"08{hexa(int(instruction[1]))}{hexa(register)}00", --STORE {instruction[1]} {register}')
-            ipn=ipn+2
+            
             #used_registers.add(register)
         elif instruction[0] == 'COP':
             ip=ip+1
-            
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+2
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -74,10 +75,11 @@ def transform_instructions(file_path):
             transformed_code.append(f'x"07{hexa(register)}{hexa(int(instruction[2]))}00", --LOAD {register} {instruction[2]}')
             transformed_code.append(f'x"08{hexa(int(instruction[1]))}{hexa(register)}00", --STORE {instruction[1]} {register}')
             
-            ipn=ipn+2
+            
         elif instruction[0] == 'ADD':
             ip=ip+1
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+4
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -96,10 +98,11 @@ def transform_instructions(file_path):
             used_registers.remove(register2)
             used_registers.remove(register3)
             
-            ipn=ipn+4
+            
         elif instruction[0] == 'SUB':
             ip=ip+1
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+4
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -118,10 +121,11 @@ def transform_instructions(file_path):
             used_registers.remove(register1)
             used_registers.remove(register2)
             used_registers.remove(register3)
-            ipn=ipn+4
+            
         elif instruction[0] =='INF':
             ip=ip+1
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+3
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -139,17 +143,18 @@ def transform_instructions(file_path):
             used_registers.remove(register1)
             used_registers.remove(register2)
             used_registers.remove(register3)
-            ipn=ipn+3
+            
         elif instruction[0] == 'JMF':
-            register = find_free_register(used_registers)
-            transformed_code.append(f'x"0B{hexa(int(instruction[2]))}{hexa(int(instruction[1]))}00", --JMF {instruction[2]}')
             ip=ip+1
             ipn=ipn+1
+            register = find_free_register(used_registers)
+            transformed_code.append(f'x"0B{hexa(int(instruction[2]))}{hexa(int(instruction[1]))}00", --JMF {instruction[2]}')
+            
         
         elif instruction[0] == 'JMP':
             ip=ip+1
             ipn=ipn+1
-            if ip ==  jumps_positions[ind]:
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
@@ -159,21 +164,22 @@ def transform_instructions(file_path):
             
         else:
             ip=ip+1
-            if ip ==  jumps_positions[ind]:
+            ipn=ipn+1
+            while ip ==  jumps_positions[ind]:
                 valeur_saut[nb_pointeur] = ipn
                 #print(valeur_saut[nb_pointeur])
                 nb_pointeur=nb_pointeur+1
                 ind=ind+1
             transformed_code.append(line.strip())
-            ipn=ipn+1
+            
     nb_pointeur = 0
     print(valeur_saut)
     for i, line in enumerate(transformed_code):
         if "--JMF" in line:
-            transformed_code[i] = f'x"0B{valeur_saut[nb_pointeur]}0000", --JMF {valeur_saut[nb_pointeur]} '
+            transformed_code[i] = f'x"0B{hexa(valeur_saut[nb_pointeur])}0000", --JMF {valeur_saut[nb_pointeur]}'
             nb_pointeur=nb_pointeur+1
         elif "--JMP" in line:
-            transformed_code[i] = f'x"0A{valeur_saut[nb_pointeur]}0000", --JMP {valeur_saut[nb_pointeur]} '
+            transformed_code[i] = f'x"0A{hexa(valeur_saut[nb_pointeur])}0000", --JMP {valeur_saut[nb_pointeur]} '
             nb_pointeur=nb_pointeur+1    
     return transformed_code
 

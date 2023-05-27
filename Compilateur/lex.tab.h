@@ -61,12 +61,12 @@
      tNOT = 277,
      tLBRACE = 278,
      tRBRACE = 279,
-     tLPAR = 280,
-     tRPAR = 281,
-     tSEMI = 282,
-     tCOMMA = 283,
-     tNB = 284,
-     tIF = 285,
+     tRPAR = 280,
+     tSEMI = 281,
+     tCOMMA = 282,
+     tNB = 283,
+     tIF = 284,
+     tLPAR = 285,
      tELSE = 286,
      tWHILE = 287,
      tID = 288
@@ -95,12 +95,12 @@
 #define tNOT 277
 #define tLBRACE 278
 #define tRBRACE 279
-#define tLPAR 280
-#define tRPAR 281
-#define tSEMI 282
-#define tCOMMA 283
-#define tNB 284
-#define tIF 285
+#define tRPAR 280
+#define tSEMI 281
+#define tCOMMA 282
+#define tNB 283
+#define tIF 284
+#define tLPAR 285
 #define tELSE 286
 #define tWHILE 287
 #define tID 288
