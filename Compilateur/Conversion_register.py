@@ -188,9 +188,11 @@ def transform_instructions(file_path):
 # Exemple d'utilisation
 file_path = 'ASMCODE.asm'
 transformed_code = transform_instructions(file_path)
-
+# ecrit sur le fichier 
 with open(file_path, "w") as f:
     for line in transformed_code :
         f.writelines(line+ '\n')
+
+#affiche sur le terminal
 for line in transformed_code:
    print(line)
