@@ -11,7 +11,6 @@ ret = [indret]*1024
 
 decalage = 0
 addr_ret = 0
-print(asm)
 
 while ip < len(asm):
     opcode = asm[ip][0]
